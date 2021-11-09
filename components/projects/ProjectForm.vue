@@ -8,18 +8,19 @@
                   </div>
 
                   <div class="col-3">
-                        <input type="text" name="projectNumber" v-model="formObj.projectNumber" 
-                            maxlength="10"  @input="$emit('input', $event.target.formObj)" required
+                        <input type="text" ref="projectNumber" name="projectNumber" v-model="formObj.projectNumber" 
+                            maxlength="10"  @input="$emit('input', formObj)" :disabled="blockedField"
+                            :class="(blockedField)? 'blockedField' : ''" required
                         >
                         <label for="projectNumber">NÚMERO DE PROYECTO</label>
                   </div>
                   <div class="col-9">
-                        <input type="text" name="projectName" v-model="formObj.projectName" @input="$emit('input', $event.target.formObj)">
+                        <input type="text" ref="projectName" name="projectName" v-model="formObj.projectName">
                         <label for="projectName">NOMBRE DEL PROYECTO</label>
                   </div>
 
-                  <div class="col-2">
-                        <b-form-select name="degree" v-model="formObj.degree" @change="$emit('change', $event.target.formObj)">
+                  <div class="col-3">
+                        <b-form-select ref="degree" name="degree" v-model="formObj.degree" >
                             <b-form-select-option value="">Elige un título</b-form-select-option>
                             <b-form-select-option value="Lic">Lic.</b-form-select-option>
                             <b-form-select-option value="Ing">Ing.</b-form-select-option>
@@ -30,13 +31,13 @@
                         </b-form-select>
                         <label for="degree">TÍTULO DEL ENCARGADO</label>
                   </div>
-                  <div class="col-10">
-                        <input type="text" name="manager" v-model="formObj.manager" maxlength="100" @input="$emit('input', $event.target.formObj)">
+                  <div class="col-9">
+                        <input type="text" ref="manager" name="manager" v-model="formObj.manager" maxlength="100">
                         <label for="manager">NOMBRE DEL ENCARGADO DE PROYECTO</label>    
                   </div>
 
-                  <div class="col-4">
-                        <b-form-select name="type" v-model="formObj.type" @input="$emit('change', $event.target.formObj)">
+                  <div class="col-3">
+                        <b-form-select ref="type" name="type" v-model="formObj.type">
                             <b-form-select-option value="">Elige un tipo de proyecto</b-form-select-option>
                             <b-form-select-option value="pro">Proyecto</b-form-select-option>
                             <b-form-select-option value="gb">Gasto Básico</b-form-select-option>
@@ -44,10 +45,10 @@
                         </b-form-select>
                         <label for="type">TIPO DE PROYECTO</label>    
                   </div>
-                  <div class="col-8 text-right">
-                        <button class="btn btn-info"> 
+                  <div class="col-9 text-right">
+                        <button class="actionBtn saveBtn" @click.prevent="validateForm()" :disabled="isSaving"> 
                             <i class="far fa-save"></i>
-                            Guardar Proyecto
+                            GUARDAR PROYECTO
                         </button>
                   </div>
               </div>
@@ -58,21 +59,21 @@
                     <div class="col-12 title"> Totales </div>
                    
                     <div class="col-7">Total autorizado:</div>
-                    <div class="col-5">${{value.totalAuth}}</div>
-                    <div class="col-7">Total autorizado coordinación:</div>
-                    <div class="col-5">${{value.coordAuth}}</div>
-                    <div class="col-7">Total autorizado instituto:</div>
-                    <div class="col-5">${{value.instAuth}}</div>
+                    <div class="col-5">${{moneyFormat(value.totalAuth)}}</div>
+                    <div class="col-7">Total coordinación:</div>
+                    <div class="col-5">${{moneyFormat(value.coordAuth)}}</div>
+                    <div class="col-7">Total instituto:</div>
+                    <div class="col-5">${{moneyFormat(value.instAuth)}}</div>
                     <div class="col-7">Capítulo 1000:</div>
-                    <div class="col-5">${{value.cap1}}</div>
+                    <div class="col-5">${{moneyFormat(value.cap1)}}</div>
                     <div class="col-7">Capítulo 2000:</div>
-                    <div class="col-5">${{value.cap2}}</div>
+                    <div class="col-5">${{moneyFormat(value.cap2)}}</div>
                     <div class="col-7">Capítulo 3000:</div>
-                    <div class="col-5">${{value.cap3}}</div>
+                    <div class="col-5">${{moneyFormat(value.cap3)}}</div>
                     <div class="col-7">Capítulo 4000:</div>
-                    <div class="col-5">${{value.cap4}}</div>
+                    <div class="col-5">${{moneyFormat(value.cap4)}}</div>
                     <div class="col-7">Capítulo 5000:</div>
-                    <div class="col-5">${{value.cap5}}</div>
+                    <div class="col-5">${{moneyFormat(value.cap5)}}</div>
               </div>
           </div>
       </div>
@@ -80,13 +81,14 @@
 </template>
 
 <script>
+import GlobalFunctions from '../../mixins/GlobalFunctions';
+
 export default {
     name: 'ProjectForm',
+    mixins: [ GlobalFunctions ],
     props: [
-        // nombre: String,
-        // myObj: Object
         'value'
-    ],
+    ],    
     data() {
         return {
             formObj: {
@@ -106,77 +108,73 @@ export default {
                 cap5: 0,
                 accounts: []
             },
+            isSaving: false,
+            blockedField: false
         }
     },
-    mounted() {
+    created() {
+        this.blockedField = (this.formObj.projectNumber) ? true : false;
         this.formObj = this.value;
     },
-    computed: {
+    updated() {
+        this.formObj = this.value;
+    },
+    methods: {
+        validateForm() {
+             //test projectNumber 
+            if( !this.formObj.projectNumber ){ this.$refs.projectNumber.focus(); this.$parent.$refs.toast.makeToast('warning', `Favor de capturar el "Numero de proyecto"`); return  }
+            //test projectName
+            if( !this.formObj.projectName ){ this.$refs.projectName.focus(); this.$parent.$refs.toast.makeToast('warning', `Favor de capturar el "Nombre de proyecto"`); return  }
+            //test degree
+            if( !this.formObj.degree ){ this.$refs.degree.focus(); this.$parent.$refs.toast.makeToast('warning', `Favor de elegir el "Título del encargado"`); return  }
+            //test manager
+            if( !this.formObj.manager ){ this.$refs.manager.focus(); this.$parent.$refs.toast.makeToast('warning', `Favor de elegir el "Nombre del encargado"`); return  }
+
+            //if all ok 
+            this.saveProject();
+        },
+
+        //submit project form data
+        async saveProject() {
+            //disable submit button 
+            this.isSaving = true;   
+
+            //make fetch to api 
+            const res = await fetch(`${process.env.apiUrl}/projects/save`,{
+                method: 'post',
+                headers: {
+                    'Content-type' : 'application/json'
+                },
+                body: JSON.stringify(this.formObj)
+            });
+
+            // if api response is ok 
+            if( res.status === 200 ){
+                //convert response to json
+                const resData = await res.json();
+                // console.log(resData);
+                if( resData.action === 'created') {
+                    //disable project number field
+                    this.blockedField = true;
+                    // send success message 
+                    this.$parent.$refs.toast.makeToast('success', `El Proyecto ${this.formObj.projectNumber} se creó exitosamente`);
+
+                    //load created project data
+                    this.$parent.getProjectData( this.formObj.projectNumber );
+
+                } else if( resData.action === 'updated') {
+                    this.$parent.$refs.toast.makeToast('success', `El Proyecto ${this.formObj.projectNumber} se actualizó exitosamente`);
+                }                                
+            } else {
+                this.$parent.$refs.toast.makeToast('error', `Ocurrió un problema, intente nuevamente`);
+            }
+            //enable submit button 
+            this.isSaving = false;
+        },
     }
 }
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
 
-    .block {
-        padding: 0 2em;
-    }
-    .panel{
-        border: none; 
-        border-radius: 10px;
-        background: #0f143c;
-        font-family:'Montserrat', sans-serif;
-    }
-    .title {
-        font-size: 1.2em;
-        font-weight: bold;
-        text-align: center;
-        padding: 1.2em 0 0.5em 0;
-    }
-    /* .projectForm input.text,
-    .projectForm textarea.standard,
-    .projectForm select,
-    .projectForm input.date {  */
-    input, select {
-        background-color:#282a57;
-        border:solid 0px white;
-        font-size: 1em;
-        color:#f3f6f4;
-        -moz-border-radius:5px;
-        -webkit-border-radius:5px;
-        border-radius:5px;
-        padding: 0.5em 1em;
-        width:100%;
-        box-sizing:border-box;
-    }
-    label {
-        font-size: 0.8em;
-        letter-spacing: 3px;
-        color: #b3bada;
-    }
-
-    
-    button {
-        box-shadow: 0px 0px 10px 0px #589eb0;
-        background-color:#16b8b8;
-        border-radius:10px;
-        display:inline-block;
-        cursor:pointer;
-        color:#ffffff;
-        font-family:Arial;
-        font-size:17px;
-        padding: 0.5em;
-        text-decoration:none;
-        text-shadow:0px 1px 0px #00a6ff;
-    }
-    button:hover {
-        background-color:#05949e;
-    }
-    button:active {
-        position:relative;
-        top:1px;
-    }
-
-        
 </style>

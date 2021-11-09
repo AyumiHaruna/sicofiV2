@@ -23,23 +23,32 @@ export default {
             toastElm: {
                 variant: '',
                 msg: ''
-            }
+            },
         }
     },
     methods: {
         makeToast( type, msg ){
 
-            this.toastElm.variant = type;
-            this.toastElm.msg = msg;
-            this.$bvToast.show('msg-toast')
+            // this.toastElm.variant = type;
+            // this.toastElm.msg = msg;
+            // this.$bvToast.show('msg-toast')
 
-            // console.log('something');
-            // this.$bvToast.toast(msg, {
-            //     title: titleMsg,
-            //     variant: type,
-            //     autoHideDelay: 5000,
-            //     appendToast: false
-            // })
+            const Toast = this.$swal.mixin({
+                toast: true,
+                position: 'top',
+                showConfirmButton: false,
+                timer: 4000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
+
+            Toast.fire({
+                type: type,
+                title: msg
+            })
         },
     }
 }
