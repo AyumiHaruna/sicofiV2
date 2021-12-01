@@ -13,6 +13,14 @@ export default {
                 x1 = x1.replace(rgx, '$1' + ',' + '$2');
             }
             return x1 + x2;
-        }
+        },
+
+        showLoader( msg ){
+            this.$swal({  title: msg    });
+            this.$swal.showLoading();
+        },
+        hideLoader(){
+            this.$swal.close();
+        },
     }
 }

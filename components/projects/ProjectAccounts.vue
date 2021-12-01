@@ -89,8 +89,8 @@
                                                 ${{ moneyFormat(part[`month${index2}`]) }}
                                             </td>
                                             <td>
-                                                <button class="update" @click="$parent.showPartForm(account.accountType, account.projectNumber, 'update', part)"><i class="fas fa-edit"></i></button>
-                                                <button class="delete" @click="askForDelete(part.id)"><i class="fas fa-trash-alt"></i></button>
+                                                <button class="update" v-b-tooltip.hover title="Modificar" @click="$parent.showPartForm(account.accountType, account.projectNumber, 'update', part)"><i class="fas fa-edit"></i></button>
+                                                <button class="delete" v-b-tooltip.hover title="Eliminar" @click="askForDelete(part.id)"><i class="fas fa-trash-alt"></i></button>
                                             </td>
                                         </tr>
                                     </table>

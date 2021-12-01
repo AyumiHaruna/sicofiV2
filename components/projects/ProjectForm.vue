@@ -9,8 +9,8 @@
 
                   <div class="col-3">
                         <input type="text" ref="projectNumber" name="projectNumber" v-model="formObj.projectNumber" 
-                            maxlength="10"  @input="$emit('input', formObj)" :disabled="blockedField"
-                            :class="(blockedField)? 'blockedField' : ''" required
+                            maxlength="10"  @input="$emit('input', formObj)" :disabled="projBlock"
+                            :class="(projBlock)? 'blockedField' : ''" required
                         >
                         <label for="projectNumber">NÚMERO DE PROYECTO</label>
                   </div>
@@ -86,9 +86,7 @@ import GlobalFunctions from '../../mixins/GlobalFunctions';
 export default {
     name: 'ProjectForm',
     mixins: [ GlobalFunctions ],
-    props: [
-        'value'
-    ],    
+    props: [ 'value', 'blocked' ],    
     data() {
         return {
             formObj: {
@@ -98,6 +96,7 @@ export default {
                 degree: '',
                 manager: '',
                 year: '',
+                month: '',
                 totalAuth: 0,
                 coordAuth: 0,
                 instAuth: 0,
@@ -109,15 +108,17 @@ export default {
                 accounts: []
             },
             isSaving: false,
-            blockedField: false
+            projBlock: false
         }
     },
-    created() {
-        this.blockedField = (this.formObj.projectNumber) ? true : false;
-        this.formObj = this.value;
+    mounted() {
+        this.formObj = this.value;  
     },
     updated() {
-        this.formObj = this.value;
+        this.formObj = this.value;  
+        if(this.blocked){
+            this.projBlock = true;
+        }     
     },
     methods: {
         validateForm() {
@@ -161,6 +162,7 @@ export default {
 
                     //load created project data
                     this.$parent.getProjectData( this.formObj.projectNumber );
+                    this.projBlock = true;
 
                 } else if( resData.action === 'updated') {
                     this.$parent.$refs.toast.makeToast('success', `El Proyecto ${this.formObj.projectNumber} se actualizó exitosamente`);

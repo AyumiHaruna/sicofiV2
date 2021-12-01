@@ -14,7 +14,8 @@
     "bootstrap-vue": "^2.21.2",
     "core-js": "^3.19.0",
     "nuxt": "^2.15.7",
-    "nuxt-sweetalert2": "^1.0.0"
+    "nuxt-sweetalert2": "^1.0.0",
+    "vue-autosuggest": "^2.2.0"
   },
   "devDependencies": {}
 }

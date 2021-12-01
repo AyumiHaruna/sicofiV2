@@ -65,10 +65,10 @@ export default {
         padding: 1.2em 0 0.5em 0;
     }
 
-    input, select {
+    input, select, textarea, .b-form-datepicker {
         background-color:#282a57 !important;
         border:solid 0px white !important;
-        font-size: 1em;
+        font-size: 1em !important;
         color:#e6e6e6 !important;
         -moz-border-radius:5px;
         -webkit-border-radius:5px;
@@ -76,6 +76,9 @@ export default {
         padding: 0.5em 1em;
         width:100%;
         box-sizing:border-box;
+    }
+    .b-form-datepicker label, .b-icon{
+        color: #e6e6e6;
     }
     .blockedField{
         color: #99ff99 !important;
@@ -111,25 +114,25 @@ export default {
     }
 
     .infoBtn {
-        box-shadow: 0px 0px 10px 0px #00ccff;
-        background-color:#16b8b8;        
+        box-shadow: 0px 0px 5px 0px #00ccff;
+        background-color:#15a8a8;        
         text-shadow:0px 1px 0px #00a6ff;
     }
     .infoBtn:hover {
         background-color:#05949e;
     }
     .closeBtn {
-        box-shadow: 0px 0px 10px 0px #ff0077;
+        box-shadow: 0px 0px 8px 0px #ba0057;
         background-color:#b8164f;
-        text-shadow:0px 1px 0px #ff0037;
+        text-shadow:0px 1px 0px #ba0057;
     }
     .closeBtn:hover {
         background-color:#91133f;
     }
     .saveBtn {
-        box-shadow: 0px 0px 10px 0px #00ff1e;
+        box-shadow: 0px 0px 8px 0px #00c217;
         background-color:#16b81b;
-        text-shadow:0px 1px 0px #00ff00;
+        text-shadow:0px 1px 0px #00c217;
     }
     .saveBtn:hover {
         background-color:#139128;

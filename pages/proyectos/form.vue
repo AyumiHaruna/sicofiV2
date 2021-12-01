@@ -8,7 +8,7 @@
                 </div>
             </div>
 
-            <ProjectForm v-model="projectData" />
+            <ProjectForm v-model="projectData" :blocked="blocked"/>
     
             <ProjectAccounts :accounts="projectData.accounts" />
        
@@ -66,10 +66,11 @@ export default {
                 year: ''
             },
 
-            partFormShown: false
+            partFormShown: false,
+            blocked: false
         }
     },
-    created() {
+    mounted() {
         // set current working year 
         if(process.client){
             this.projectData.year = localStorage.getItem('year');
@@ -85,7 +86,6 @@ export default {
     methods: {
         //get all project data
         async getProjectData( proj ) {
-            // console.log('getting project data ', proj);
             //make fetch to api 
             const res = await fetch(`${process.env.apiUrl}/projects/projectData/${this.projectData.year}/${proj}`);
 
@@ -94,6 +94,7 @@ export default {
                 const resData = await res.json();
                 if( resData.status === 200) {   //if data response is ok
                     // assign resData to component data
+                    this.blocked = true;
                     this.projectData = resData.data[0];
                 } else {    //if data has error
                     this.$refs.toast.makeToast('error', `${resData.message} / redireccionando...`);
