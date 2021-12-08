@@ -202,6 +202,7 @@ export default {
             } else if( this.formType == 'Edición'){
                 fetchUrl = `${process.env.apiUrl}/incomes/update`;
             }
+            let redirectUrl = `/ingresos/sf_print?code=${this.incomeData.sfId}`;
 
             const dataObject = this.incomeData;
             dataObject['partList'] = this.sfPartList;
@@ -222,8 +223,8 @@ export default {
                 
                 this.$refs.toast.makeToast('success', `S.F guardada exitosamente`);
                 setTimeout(function(){
-                    window.open("http://www.pakainfo.com", "_blank");	
-                    window.location.href = '/';                       
+                    window.open(redirectUrl, "_blank");
+                    window.location.href = '/ingresos/sf_list';                       
                 }, 1000);
                 
             } else {

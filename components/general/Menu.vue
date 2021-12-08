@@ -14,12 +14,13 @@
                     <!-- Right aligned nav items -->
                     <b-navbar-nav v-if="isLoged">
                         <b-nav-item-dropdown text="Proyectos" right>
-                            <b-dropdown-item href="/proyectos/lista">Lista de proyectos</b-dropdown-item>
                             <b-dropdown-item href="/proyectos/form">Alta de proyectos</b-dropdown-item>
+                            <b-dropdown-item href="/proyectos/lista">Lista de proyectos</b-dropdown-item>
                         </b-nav-item-dropdown>
 
                         <b-nav-item-dropdown text="Ingresos" right>
-                            <b-dropdown-item href="/ingresos/sf_form">Alta de Solicitud de Fondos</b-dropdown-item>
+                            <b-dropdown-item href="/ingresos/sf_form">Alta de S.F.</b-dropdown-item>
+                            <b-dropdown-item href="/ingresos/sf_list">Lista de S.F.</b-dropdown-item>
                         </b-nav-item-dropdown>
                     </b-navbar-nav>
                     

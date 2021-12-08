@@ -130,11 +130,19 @@ export default {
         background-color:#91133f;
     }
     .saveBtn {
-        box-shadow: 0px 0px 8px 0px #00c217;
-        background-color:#16b81b;
-        text-shadow:0px 1px 0px #00c217;
+        box-shadow: 0px 0px 8px 0px #019e13;
+        background-color:#129b16;
+        text-shadow:0px 1px 0px #01a014;
     }
     .saveBtn:hover {
         background-color:#139128;
+    }
+    .warningBtn {
+        box-shadow: 0px 0px 8px 0px #969e01;
+        background-color:#9b9212;
+        text-shadow:0px 1px 0px #a09b01;
+    }
+    .warningBtn:hover {
+        background-color:#809113;
     }
 </style>

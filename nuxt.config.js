@@ -51,6 +51,6 @@ export default {
 
   // Enviroment variables
   env: {
-    apiUrl: process.env.BASE_URL || 'http://192.168.0.2:8080/sicofi_api/public'
+    apiUrl: process.env.BASE_URL || 'http://192.168.0.4:8080/sicofi_api/public'
   },
 }
