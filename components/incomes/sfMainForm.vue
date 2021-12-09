@@ -162,7 +162,7 @@
 <script>
 import { VueAutosuggest } from 'vue-autosuggest';
 
-import GlobalFunctions from '../../mixins/GlobalFunctions';
+import GlobalFunctions from '@/mixins/GlobalFunctions';
 
 export default {
     name: 'sfMainForm.vue',
@@ -225,7 +225,6 @@ export default {
                 this.$parent.incomeData['account'] !== '' &&
                 this.$parent.incomeData['month'] !== '' ){
 
-
                 // get month parts and autofill
                 const res = await fetch(`${process.env.apiUrl}/projects/monthParts`,{
                     method: 'post',
@@ -239,8 +238,7 @@ export default {
                         account: this.$parent.incomeData['account']
                     })
                 });
-
-                 // if api response is ok 
+                // if api response is ok 
                 if( res.status === 200 ){
                     //convert response to json
                     const resData = await res.json();
@@ -250,6 +248,27 @@ export default {
                     this.$parent.$refs.toast.makeToast('error', `Ocurrió un problema, intente nuevamente`);
                 }
 
+                //look for previous SF for this info
+                const res2 = await fetch(`${process.env.apiUrl}/incomes/prevSF`, {
+                    method: 'post',
+                    headers: {
+                        'Content-type' : 'application/json'
+                    },
+                    body: JSON.stringify({
+                        year: this.year,
+                        month: this.$parent.incomeData['month'],
+                        projectNumber: this.$parent.incomeData['projectNumber'],
+                        account: this.$parent.incomeData['account']
+                    })
+                });
+                // if api response is ok 
+                if( res2.status === 200 ){
+                    //convert response to json
+                    const resData2 = await res2.json();
+                    this.$parent.prevSF = resData2.results;
+                } else {
+                    this.$parent.$refs.toast.makeToast('error', `Ocurrió un problema, intente nuevamente`);
+                }
             }
         },
         async getPeopleList(){

@@ -25,9 +25,9 @@
 </template>
 
 <script>
-import ProjectCard from '../../components/projects/ProjectCard.vue';
+import ProjectCard from '@/components/projects/ProjectCard.vue';
 
-import Toast from '../../components/general/Toast.vue';
+import Toast from '@/components/general/Toast.vue';
 
 export default {
     name: 'projectList',

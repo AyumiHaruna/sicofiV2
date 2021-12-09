@@ -126,30 +126,33 @@ export default {
     text-decoration: underline;
   }
 
-  .sfTable{
+  table.sfTable{
     max-width: 100%;
     word-wrap: break-word; 
     margin-bottom: 0.5em;
+    text-align: center;
   }
-  .sfTable th{
+  table.sfTable th{
     padding: 0.5em 0.5em;
     background-color: #111;
     font-size: 0.6em;
     letter-spacing: 1.3px;
+    border: solid 1px #000;
   }
-   .sfTable tbody tr:nth-child(odd){
+  table.sfTable tbody tr:nth-child(odd){
     background-color: #565656;
   }
-  .sfTable tbody td{
+  table.sfTable tbody td{
     font-size: 0.8em;
-    width: 7.14%
+    width: 7.14%;
+    border: solid 1px #000;
   }
   
-  .sfTable .conceptCell{
+  table.sfTable .conceptCell{
     font-size: 0.7em;
     width: 14.2%
   }
-  .sfTable .btnContainer{
+  table.sfTable .btnContainer{
     padding: 0 1em;
     width: 14.2%
   }

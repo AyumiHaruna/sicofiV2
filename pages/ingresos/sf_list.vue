@@ -18,7 +18,7 @@
 <script>
 import sfListProyect from '@/components/incomes/sfListProyect.vue'
 
-import Toast from '../../components/general/Toast.vue';
+import Toast from '@/components/general/Toast.vue';
 
 export default {
     name: 'sf_list',

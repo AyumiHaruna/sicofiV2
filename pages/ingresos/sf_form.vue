@@ -4,7 +4,7 @@
             
             <div class="row">
                 <div class="col-12 m-4 text-center">
-                    <h3>Fomrulario de Solicitudes de Fondos ({{formType}})</h3>
+                    <h3>Formulario de Solicitudes de Fondos ({{formType}})</h3>
                 </div>
             </div>
 
@@ -23,6 +23,10 @@
                 <div class="col-6 block">
                     <sfPartListForm></sfPartListForm>
                 </div>                
+
+                <div class="col-12">
+                    <prevsfList></prevsfList>
+                </div>
             </div>
 
             <sfUpdPartForm v-show="showForm"></sfUpdPartForm>
@@ -33,19 +37,20 @@
 </template>
 
 <script>
-import sfMainForm from '../../components/incomes/sfMainForm.vue';
-import sfTotalForm from '../../components/incomes/sfTotalForm.vue';
-import sfPartListForm from '../../components/incomes/sfPartListForm.vue';
-import proPartListForm from '../../components/incomes/proPartListForm.vue';
-import sfUpdPartForm from '../../components/incomes/sfUpdPartForm.vue';
+import sfMainForm from '@/components/incomes/sfMainForm.vue';
+import sfTotalForm from '@/components/incomes/sfTotalForm.vue';
+import sfPartListForm from '@/components/incomes/sfPartListForm.vue';
+import proPartListForm from '@/components/incomes/proPartListForm.vue';
+import prevsfList from '@/components/incomes/prevsfList.vue';
+import sfUpdPartForm from '@/components/incomes/sfUpdPartForm.vue';
 
-import Toast from '../../components/general/Toast.vue';
+import Toast from '@/components/general/Toast.vue';
 
-import GlobalFunctions from '../../mixins/GlobalFunctions';
+import GlobalFunctions from '@/mixins/GlobalFunctions';
 
 export default {
     name: 'sf_form',
-    components: {   sfMainForm, sfTotalForm, proPartListForm, sfPartListForm, sfUpdPartForm, Toast   },
+    components: {   sfMainForm, sfTotalForm, proPartListForm, sfPartListForm, prevsfList, sfUpdPartForm, Toast   },
     mixins: [ GlobalFunctions ],
     data() {
         return {
@@ -81,6 +86,7 @@ export default {
             
             proyPartList: [],
             sfPartList: [],
+            prevSF: [],
 
             partForm: {
                 index: '',
@@ -240,6 +246,13 @@ export default {
             })
             return total;
         },
+        prevTotal: function(){
+            let sumTotal = 0
+            this.prevSF.forEach(sf => {
+                sumTotal += parseFloat(sf.requested);
+            });
+            return sumTotal;
+        },
         totalParts: function(){
             let total = 0;
             this.sfPartList.map( (elm) => {
@@ -249,7 +262,9 @@ export default {
             return total;
         },
         substraction: function(){
-            return this.totalBudget - this.totalParts;
+            return (this.totalBudget -  this.prevTotal - this.totalParts);
+            // return this.totalBudget - this.prevTotal
+            console.log( this.totalBudget, this.prevTotal, this.totalParts);
         },
 
         ivaTra(){

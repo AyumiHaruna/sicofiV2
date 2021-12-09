@@ -138,10 +138,7 @@ export default {
 }
 </script>
 
-<style>    
-    .common {
-        
-    }
+<style> 
     .common .logo{
         width: 100%;
     }

@@ -21,6 +21,7 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
+    "~layouts/global.css",
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
@@ -49,8 +50,13 @@ export default {
   build: {
   },
 
+  router: {
+    base: '/sicofi_test/'
+  },
+
   // Enviroment variables
   env: {
     apiUrl: process.env.BASE_URL || 'http://192.168.0.4:8080/sicofi_api/public'
+    // apiUrl: process.env.BASE_URL || 'http://172.26.26.126/sicofi_api/public'
   },
 }

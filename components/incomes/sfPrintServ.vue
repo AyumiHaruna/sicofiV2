@@ -189,9 +189,6 @@ export default {
 </script>
 
 <style>
-  .service {
-      
-  }
   .service .logo{
       width: 100%;
   }

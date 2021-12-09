@@ -10,22 +10,21 @@
                 <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
                 <b-collapse id="nav-collapse" is-nav>
-
                     <!-- Right aligned nav items -->
                     <b-navbar-nav v-if="isLoged">
                         <b-nav-item-dropdown text="Proyectos" right>
-                            <b-dropdown-item href="/proyectos/form">Alta de proyectos</b-dropdown-item>
-                            <b-dropdown-item href="/proyectos/lista">Lista de proyectos</b-dropdown-item>
+                            <b-dropdown-item> <nuxt-link to="/proyectos/form"> Alta de proyectos </nuxt-link>  </b-dropdown-item>
+                            <b-dropdown-item> <nuxt-link to="/proyectos/lista"> Lista de proyectos </nuxt-link>  </b-dropdown-item>
                         </b-nav-item-dropdown>
 
                         <b-nav-item-dropdown text="Ingresos" right>
-                            <b-dropdown-item href="/ingresos/sf_form">Alta de S.F.</b-dropdown-item>
-                            <b-dropdown-item href="/ingresos/sf_list">Lista de S.F.</b-dropdown-item>
+                            <b-dropdown-item> <nuxt-link to="/ingresos/sf_form"> Alta de S.F. </nuxt-link>  </b-dropdown-item>
+                            <b-dropdown-item> <nuxt-link to="/ingresos/sf_list"> Lista de S.F. </nuxt-link>  </b-dropdown-item>
                         </b-nav-item-dropdown>
                     </b-navbar-nav>
                     
                     <b-navbar-nav class="ml-auto" v-if="isLoged">
-                        <b-nav-item href="/cerrar_sesion">Cerrar Sesión</b-nav-item>
+                        <nuxt-link to="/cerrar_sesion"> Cerrar Sesión </nuxt-link>
                     </b-navbar-nav>                    
                 </b-collapse>
             </b-navbar>      

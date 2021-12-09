@@ -30,7 +30,7 @@
 
 <script>
 
-import GlobalFunctions from '../../mixins/GlobalFunctions';
+import GlobalFunctions from '@/mixins/GlobalFunctions';
 
 export default {
     name: 'proPartListForm',

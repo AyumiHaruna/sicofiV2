@@ -10,17 +10,21 @@
                   <div class="col-12 formBody">
                       <div class="row">
                           <div class="col-12">
-                                <input type="text" class="text-right blockedField" :value="`$ ${moneyFormat($parent.totalBudget)}`" readonly />
+                                <input type="text" class="text-right yellow" :value="`$ ${moneyFormat($parent.totalBudget)}`" readonly />
                                 <label for="">TOTAL DE PRESUPUESTADO PARA 
                                     {{ ($parent.incomeData['month'] === '')? '---' : ($store.state.monthList[ $parent.incomeData['month'] - 1 ]).toUpperCase() }} 
                                 </label>
                           </div>
                           <div class="col-12">
-                                <input type="text" class="text-right blockedField" :value="`$ ${moneyFormat($parent.totalParts)}`" readonly />
+                                <input type="text" class="text-right yellow" :value="`$ ${moneyFormat($parent.prevTotal)}`" readonly />
+                                <label for="">CAPTURADO ANTERIORMENTE</label>
+                          </div>
+                          <div class="col-12">
+                                <input type="text" class="text-right green" :value="`$ ${moneyFormat($parent.totalParts)}`" readonly />
                                 <label for="">CAPTURADO EN ESTA S.F.</label>
                           </div>
                           <div class="col-12">
-                                <input type="text" class="text-right blockedField" :value="`$ ${moneyFormat($parent.substraction)}`" readonly />
+                                <input type="text" class="text-right" :class="($parent.substraction >= 0)? 'green' : 'red' " :value="`$ ${moneyFormat($parent.substraction)}`" readonly />
                                 <label for="">POR CAPTURAR</label>
                           </div>
                       </div>
@@ -38,7 +42,7 @@
 </template>
 
 <script>
-import GlobalFunctions from '../../mixins/GlobalFunctions';
+import GlobalFunctions from '@/mixins/GlobalFunctions';
 
 export default {
     name: 'sfTotalForm',
@@ -47,5 +51,13 @@ export default {
 </script>
 
 <style>
-
+    .green{
+        color: #99ff99 !important;
+    }
+    .yellow{
+        color: #fff563 !important;
+    }
+    .red{
+        color: #ff7171 !important;
+    }
 </style>

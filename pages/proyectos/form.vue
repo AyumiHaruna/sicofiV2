@@ -26,11 +26,11 @@
 </template>
 
 <script>
-import ProjectForm from '../../components/projects/ProjectForm.vue';
-import ProjectAccounts from '../../components/projects/ProjectAccounts.vue';
-import PartForm from '../../components/projects/PartForm.vue';
+import ProjectForm from '@/components/projects/ProjectForm.vue';
+import ProjectAccounts from '@/components/projects/ProjectAccounts.vue';
+import PartForm from '@/components/projects/PartForm.vue';
 
-import Toast from '../../components/general/Toast.vue';
+import Toast from '@/components/general/Toast.vue';
 
 export default {
     name: 'project-form',
