@@ -32,7 +32,7 @@
                     <i class="far fa-edit"></i>
                   </button>
 
-                  <button class="plusBtn saveBtn" v-b-tooltip.hover title="Imprimir S.F." alt="Imprimir S.F." @click="openNewPrint(sf.sfId)">
+                  <button class="plusBtn saveBtn" v-b-tooltip.hover title="Imprimir S.F." alt="Imprimir S.F." @click="$router.push(`/ingresos/sf_print?code=${sf.sfId}`)">
                     <i class="fas fa-print"></i>
                   </button> <br>
 
@@ -103,10 +103,6 @@ export default {
       togglePanel( index ){
         this.$set(this.visible, index, !this.visible[index])
       },
-
-      openNewPrint( sfId ){
-        window.open(`/ingresos/sf_print?code=${sfId}`, '_blank');
-      }
     }
 }
 </script>
