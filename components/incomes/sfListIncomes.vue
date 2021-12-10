@@ -105,7 +105,7 @@ export default {
       },
 
       openNewPrint( sfId ){
-        window.open(`/ingresos/sf_print?code="${sfId}"`, '_blank');
+        window.open(`/ingresos/sf_print?code=${sfId}`, '_blank');
       }
     }
 }

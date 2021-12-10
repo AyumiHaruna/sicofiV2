@@ -21,7 +21,7 @@
           <tbody>
             <tr v-for="(part, index) in $parent.sfPartList" :key="index">
               <td>{{part.partNumber}} - {{part.partName}}</td>
-              <td>${{ moneyFormat(part.amount) }}</td>
+              <td>${{ moneyFormat(part.total) }}</td>
               <td class="actionCell">
                   <button class="update" v-b-tooltip.hover title="Modificar" @click="$parent.showPartForm( 'update', part, index )"><i class="fas fa-edit"></i></button>
                   <button class="delete" v-b-tooltip.hover title="Eliminar" @click="askForDelete(index)"><i class="fas fa-trash-alt"></i></button>

@@ -5,7 +5,7 @@
         </div>
 
         <div class="col-12" v-for="sf in $parent.prevSF" :key="sf.sdId">
-            <table class="sfTable">
+            <table class="sfTable" v-if="sf.sfId != $parent.incomeData.sfId">
                 <thead>
                     <th>S.F. #</th>
                     <th>S.F. ID</th>

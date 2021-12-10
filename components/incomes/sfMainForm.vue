@@ -10,7 +10,10 @@
                     <div class="col-12 formBody">
                         <div class="row">
                             <div class="col-9">
-                                <b-form-select ref="projectNumber" v-model="$parent.incomeData['projectNumber']" @change="getMonthParts">
+                                <b-form-select ref="projectNumber" v-model="$parent.incomeData['projectNumber']" 
+                                    @change="getMonthParts" :disabled="$parent.formType !== 'Alta'"
+                                    :class="($parent.formType !== 'Alta')?'blockedField':''"
+                                >
                                     <b-form-select-option value="">- Elige un proyecto -</b-form-select-option>
                                     <b-form-select-option :value="project.projectNumber" v-for="(project, index) in projectsList" :key="index">
                                         {{ project.projectNumber }} - {{ project.projectName}}
@@ -19,7 +22,9 @@
                                 <label for="">PROYECTO</label>
                             </div>
                             <div class="col-3">
-                                <b-form-select ref="account" v-model="$parent.incomeData['account']" @change="getMonthParts">
+                                <b-form-select ref="account" v-model="$parent.incomeData['account']" @change="getMonthParts"
+                                :disabled="$parent.formType !== 'Alta'" :class="($parent.formType !== 'Alta')?'blockedField':''"
+                                >
                                     <b-form-select-option value="">- Elige una cuenta -</b-form-select-option>
                                     <b-form-select-option value="1">Coordinación</b-form-select-option>
                                     <b-form-select-option value="2">Instituto</b-form-select-option>
@@ -32,7 +37,10 @@
                                 <label for="">CONCEPTO</label>
                             </div>
                             <div class="col-3">
-                                <b-form-select ref="month" v-model="$parent.incomeData['month']" @change="getMonthParts">
+                                <b-form-select ref="month" v-model="$parent.incomeData['month']" @change="getMonthParts"
+                                    :disabled="$parent.formType !== 'Alta'"
+                                    :class="($parent.formType !== 'Alta')?'blockedField':''"
+                                >
                                     <b-form-select-option value="">- Elige un mes -</b-form-select-option>
                                     <b-form-select-option :value="(index+1)" v-for="(month, index) in $store.state.monthList" :key="month">{{ month }}</b-form-select-option>
                                 </b-form-select>
@@ -40,11 +48,14 @@
                             </div>
 
                             <div class="col-6">
-                                <b-form-datepicker placeholder="Elige una fecha" locale="es" v-model="$parent.incomeData['elabDate']"></b-form-datepicker>
+                                <input type="date" v-model="$parent.incomeData['elabDate']">
                                 <label for="">FECHA DE ELABORACIÓN</label>
                             </div>
                             <div class="col-3">
-                                <b-form-select v-model="$parent.incomeData['opType']">
+                                <b-form-select v-model="$parent.incomeData['opType']" 
+                                    :disabled="$parent.formType !== 'Alta'"
+                                    :class="($parent.formType !== 'Alta')?'blockedField':''"
+                                >
                                     <b-form-select-option value="">- Eliga el tipo de operación -</b-form-select-option>
                                     <b-form-select-option value="gba">Gasto Básico</b-form-select-option>
                                     <b-form-select-option value="gop">Gastos Operación</b-form-select-option>
@@ -60,21 +71,11 @@
                                 <label for="">FOLIO DE S.F.</label>
                             </div>
 
-                            <div class="col-6">        
-                                <vue-autosuggest
-                                    :suggestions="filteredOptions"
-                                    v-model="query"                    
-
-                                    @focus="showSuggest = toggleSuggest(1)"
-                                    @blur="showSuggest = toggleSuggest(0), changeQueryToUpper()" 
-                                    
-                                    :get-suggestion-value="getSuggestionValue"
-                                    :input-props="{id:'autosuggest__input', placeholder:'Buscar...'}"
-                                >
-                                    <div slot-scope="{suggestion}">
-                                        <div>{{suggestion.item.name}}</div>
-                                    </div>
-                                </vue-autosuggest>
+                            <div class="col-6">  
+                                <input type="text" list="suggestions" v-model="$parent.incomeData.sign" @input="changeToUpper()">
+                                    <datalist id="suggestions">
+                                        <option v-for="(suggest, index) in suggestions" :key="index">{{suggest.name}}</option>
+                                    </datalist>
                                 <label>A FAVOR DE: </label>
                             </div>
 
@@ -160,14 +161,11 @@
 </template>
 
 <script>
-import { VueAutosuggest } from 'vue-autosuggest';
-
 import GlobalFunctions from '@/mixins/GlobalFunctions';
 
 export default {
     name: 'sfMainForm.vue',
     mixins: [ GlobalFunctions ],
-    components: { VueAutosuggest },
 
     data() {
         return {
@@ -175,9 +173,7 @@ export default {
             lastSF: '',
             year: '',
 
-            query: '',
-            suggestions: [{data: []}],
-            showSuggest: false,
+            suggestions: [],
 
             taxPatterns: {
                 pro: [true, true, true],
@@ -188,10 +184,12 @@ export default {
     },
     mounted() {
         this.year = localStorage.getItem('year');
-
         this.getProjectsList( this.year );
-        this.getLastSFId( this.year );
         this.getPeopleList();
+
+        if(this.$parent.formType == 'Alta'){
+            this.getLastSFId( this.year );
+        }
     },
     methods: {
         async getProjectsList( year ) {
@@ -278,29 +276,19 @@ export default {
             if( res.status === 200 ){
                 const resData = await res.json();
                 if( resData.status === 200 ){
-                    this.suggestions[0]['data'] = resData['results'];
-                    this.query = resData['results'][0]['name'];
-                    this.$parent.incomeData['sign'] = this.query;
+                    this.suggestions = resData['results'];
+                    if( resData['results'] > 0){
+                        this.$parent.incomeData['sign'] = resData['results'][0]['name'];
+                    }                    
                 }
             } else {
                 this.$parent.$refs.toast.makeToast('error', `Ocurrió un problema, intente nuevamente`);
             }
         },
-
-        onSelected(item) {
-            this.selected = item.item;
-        },
-        getSuggestionValue(suggestion) {
-            this.query = suggestion.item.name;
-            this.$parent.incomeData['sign'] = this.query;
-            return suggestion.item.name;
-        },
-        toggleSuggest( boolSate ){
-            (document.getElementById("autosuggest-autosuggest__results")).style.opacity = boolSate;
-        },
-        changeQueryToUpper() {
-            this.query = (this.query).toUpperCase();
-            this.$parent.incomeData['sign'] = this.query;
+        
+        changeToUpper() {
+            console.log('changing');
+            this.$parent.incomeData['sign'] = (this.$parent.incomeData['sign']).toUpperCase();
         },
 
         setTax(){
@@ -309,9 +297,13 @@ export default {
     },
     computed: {
         folioSF: function(){
-            this.$parent.incomeData['sfNum'] = this.lastSF + 1;
-            this.$parent.incomeData['sfId'] = `${this.$parent.incomeData['year']}-${this.$parent.incomeData['month']}_SF-${this.$parent.incomeData['projectNumber']}-${this.$parent.incomeData['account']}_${this.$parent.incomeData['opType']}-${(this.lastSF + 1)}`;
-            return `${this.$parent.incomeData['year']}-${this.$parent.incomeData['month']}_SF-${this.$parent.incomeData['projectNumber']}-${this.$parent.incomeData['account']}_${this.$parent.incomeData['opType']}-${(this.lastSF + 1)}`;
+            if(this.$parent.formType == 'Alta'){
+                this.$parent.incomeData['sfNum'] = this.lastSF + 1;
+                this.$parent.incomeData['sfId'] = `${this.$parent.incomeData['year']}-${this.$parent.incomeData['month']}_SF-${this.$parent.incomeData['projectNumber']}-${this.$parent.incomeData['account']}_${this.$parent.incomeData['opType']}-${(this.lastSF + 1)}`;
+                return `${this.$parent.incomeData['year']}-${this.$parent.incomeData['month']}_SF-${this.$parent.incomeData['projectNumber']}-${this.$parent.incomeData['account']}_${this.$parent.incomeData['opType']}-${(this.lastSF + 1)}`;
+            } else {
+                return this.$parent.incomeData['sfId']    ;
+            }
         },
 
         filteredOptions() {
@@ -328,24 +320,6 @@ export default {
 </script>
 
 <style>
-.autosuggest__results-container{
-    position: fixed;
-    z-index: 9;
-    border: solid 1px #6666ff;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
-    background: #0f143c;
-    width: 35%;
-    padding: 0.2em 1em;
-    height: auto;
-    max-height: 8em;
-    overflow: auto; 
-    opacity: 0;
-}
-.autosuggest__results-container li{
-    list-style-type: none; 
-    margin-top: 0.2em;
-}
 .custom-radio label{
     cursor: pointer;
 }

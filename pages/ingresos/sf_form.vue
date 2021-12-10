@@ -10,7 +10,7 @@
 
             <div class="row">
                 <div class="col-8 block">
-                    <sfMainForm></sfMainForm>
+                    <sfMainForm ref="mainForm"></sfMainForm>
                 </div>
 
                 <div class="col-4 block">
@@ -92,7 +92,7 @@ export default {
                 index: '',
                 partNumber: '',
                 partName: '',
-                amount: 0,
+                total: 0,
                 type: ''
             },
         }
@@ -100,10 +100,9 @@ export default {
     mounted() {
         // if has project code / block projectNumber / get projectFullData
         if( this.$nuxt.$route.query.code ){
-            this.formType= 'Edición'
-            // let code = this.$nuxt.$route.query.code;
-            // console.log('test',code);
-            // this.getProjectData( code );
+            this.formType = 'Edición'
+            let code = this.$nuxt.$route.query.code;
+            this.getProjectData( code );
         }
 
         this.incomeData['year'] = localStorage.getItem('year');
@@ -124,7 +123,7 @@ export default {
                 this.partForm = {
                     index: index,
                     type: type,
-                    amount: formObj['amount'],
+                    amount: formObj['total'],
                     partNumber: formObj['partNumber'],
                     partName: formObj['partName']
                 }
@@ -139,7 +138,6 @@ export default {
         },
 
         movePartToSF( partObj, index = null, type = 'create' ){
-            // console.log(partObj, index, type);
 
             // check if partObj.partNumber is already in the group
             let isIn = false;
@@ -155,7 +153,7 @@ export default {
                 }
             });
 
-            
+            partObj.total = partObj.amount;
             if( isIn === false ){  //if is not, add new part
                 if( type == 'create') {
                     (this.sfPartList).push( partObj );
@@ -221,12 +219,12 @@ export default {
                 body: JSON.stringify(dataObject)
             });
 
+            // console.log(await res);
             this.showLoader('Guardando S.F.');
             const resData = await res.json();                
             this.hideLoader();
 
-            if( res.status === 200 ){
-                
+            if( res.status === 200 ){                
                 this.$refs.toast.makeToast('success', `S.F guardada exitosamente`);
                 setTimeout(function(){
                     window.open(redirectUrl, "_blank");
@@ -235,6 +233,45 @@ export default {
                 
             } else {
                 this.$refs.toast.makeToast('error', `No se pudo guardar, intenta nuevamente`);
+            }
+        },
+
+        //update methods 
+        async getProjectData( id ){
+            const res = await fetch(`${process.env.apiUrl}/incomes/getSF/${id}`);
+            this.showLoader('Guardando S.F.');
+            const resData = await res.json();                
+            this.hideLoader();
+
+            if( res.status === 200 ){                
+                console.log(resData.results);
+                // set income values 
+                this.incomeData.account= resData.results.account;
+                this.incomeData.concept= resData.results.concept;
+                this.incomeData.elabDate= resData.results.elabDate;
+                this.incomeData.month= resData.results.month;
+                this.incomeData.obs= resData.results.obs;
+                this.incomeData.opType= resData.results.opType;
+                this.incomeData.projectNumber= resData.results.projectNumber;
+                this.incomeData.sfId= resData.results.sfId;
+                this.incomeData.sfNum= resData.results.sfNum;
+                this.incomeData.sign= resData.results.signName;
+                this.incomeData.type= resData.results.type;
+
+                this.incomeData.sfAddData.isrR= resData.results.sfData.isrRC;
+                this.incomeData.sfAddData.ivaR= resData.results.sfData.ivaRC;
+                this.incomeData.sfAddData.ivaT= resData.results.sfData.ivaTC;
+                this.incomeData.sfAddData.sfPrintType= resData.results.sfData.sfPrintType;
+                this.incomeData.sfAddData.sfTaxType= resData.results.sfData.sfTaxType;
+                this.incomeData.sfAddData.taxConfig[0] = (resData.results.sfData.taxConfig[0] == '1');
+                this.incomeData.sfAddData.taxConfig[1] = (resData.results.sfData.taxConfig[1] == '1');
+                this.incomeData.sfAddData.taxConfig[2] = (resData.results.sfData.taxConfig[2] == '1');
+
+                this.sfPartList = resData.results.partList
+
+                 this.$refs.mainForm.getMonthParts();
+            } else {
+                this.$refs.toast.makeToast('error', `Error al buscar la S.F. (${id}), intenta nuevamente`);
             }
         }
     },
@@ -249,6 +286,7 @@ export default {
         prevTotal: function(){
             let sumTotal = 0
             this.prevSF.forEach(sf => {
+                if( sf.sfId != this.incomeData.sfId )
                 sumTotal += parseFloat(sf.requested);
             });
             return sumTotal;
@@ -256,7 +294,7 @@ export default {
         totalParts: function(){
             let total = 0;
             this.sfPartList.map( (elm) => {
-                total += parseFloat(elm.amount);
+                total += parseFloat(elm.total);
             })
             this.incomeData['requested'] = total;
             return total;
