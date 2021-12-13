@@ -5,8 +5,7 @@
         <div class="col-12 accountTitle">{{ (account == 1)? "CUENTA DE LA COORDINACIÓN" : "CUENTA DEL INSTITUTO" }}</div>
 
         <div class="col-12">
-          <table class="sfTable" v-for="sf in accountList" :key="sf.sfId">            
-            <thead>
+          <table class="sfTable" v-for="sf in accountList" :key="sf.sfId"> 
               <tr>
                 <th>S.F. #</th>
                 <th>S.F. ID</th>
@@ -15,48 +14,49 @@
                 <th>SOLICITADO</th>
                 <th v-for="num1 in 5" :key="num1">CAP {{num1}}000</th>    
                 <th>FECHA ELAB.</th>            
-                <th> ACCION / + INFO </th>
+                <th rowspan="4">
+                  IMPRIMIR S.F. <br><br>
+                  <button class="plusBtn saveBtn" v-b-tooltip.hover title="Imprimir S.F." alt="Imprimir S.F." @click="$router.push(`ingresos/sf_impresion?code=${sf.sfId}`)">
+                    <i class="fas fa-print"></i>
+                  </button> <br>
+                </th>
               </tr>
-            </thead>
-            <tbody>
               <tr>
-                <td rowspan="3">{{sf.sfNum}}</td>
+                <td>{{sf.sfNum}}</td>
                 <td rowspan="3">{{sf.sfId}}</td>
                 <td rowspan="3" class="conceptCell">{{sf.concept}}</td>
                 <td>{{ (sf.type == 'ing')? 'Ingreso' : 'Reintegro' }}</td>
                 <td>${{moneyFormat(sf.requested)}}</td>
                 <td v-for="num1 in 5" :key="num1">${{moneyFormat(sf.data[0][`cap${num1}`])}}</td>
                 <td >{{sf.elabDate}}</td>
-                <td rowspan="3" class="btnContainer">
-                  <button class="plusBtn saveBtn" v-b-tooltip.hover title="Modificar S.F." alt="Modificar S.F." @click=" $router.push(`/ingresos/sf_form?code=${sf.sfId}`) ">
-                    <i class="far fa-edit"></i>
-                  </button>
-
-                  <button class="plusBtn saveBtn" v-b-tooltip.hover title="Imprimir S.F." alt="Imprimir S.F." @click="$router.push(`/ingresos/sf_print?code=${sf.sfId}`)">
-                    <i class="fas fa-print"></i>
-                  </button> <br>
-
-                  <button class="plusBtn infoBtn" v-b-tooltip.hover title="Validaciones" alt="Validaciones">
-                    <i class="fas fa-hand-holding-usd"></i>
-                  </button>
-
-                  <button class="plusBtn warningBtn" v-b-tooltip.hover title="Comprobaciones" alt="Comprobaciones">
-                    <i class="fas fa-clipboard-check"></i>
-                  </button>
-                </td>
               </tr>  
               <tr>
-                <th rowspan="2">VALIDACIONES</th>
+                <th rowspan="2">
+                  MODIFICAR <br>
+                  <button class="plusBtn saveBtn" v-b-tooltip.hover title="Modificar S.F." alt="Modificar S.F." @click=" $router.push(`ingresos/sf_formulario?code=${sf.sfId}`)">
+                    <i class="far fa-edit"></i> 
+                  </button>
+                </th>
+                <th rowspan="2">
+                  VALIDACIONES <br>
+                  <button class="plusBtn infoBtn" v-b-tooltip.hover title="Validaciones" alt="Validaciones" @click=" $router.push(`ingresos/sf_validacion?code=${sf.sfId}`)">
+                    <i class="fas fa-hand-holding-usd"></i>
+                  </button>
+                </th>
                 <th>VALIDADO</th>
                 <th>POR VALIDAR</th>
                 <th>% VALIDACIÓN</th>
                 
-                <th rowspan="2">COMPROBACIONES</th>
+                <th rowspan="2">
+                  COMPROBACIONES <br>
+                  <button class="plusBtn warningBtn" v-b-tooltip.hover title="Comprobaciones" alt="Comprobaciones">
+                    <i class="fas fa-clipboard-check"></i>
+                  </button>
+                </th>
                 <th>COMPROBADO</th>
                 <th>POR COMPROBAR</th>
                 <th>% COMPROBACIÓN</th>
               </tr>
-
               <tr>
                 <td>${{moneyFormat(sf.ministered)}}</td>
                 <td>${{moneyFormat(sf.requested - sf.ministered)}}</td>
@@ -65,8 +65,7 @@
                 <td>${{moneyFormat(sf.checked)}}</td>
                 <td>${{moneyFormat(sf.ministered - sf.checked)}}</td>
                 <td>{{ (sf.ministered != 0)? ((sf.checked * 100) / sf.ministered) : 0 }}%</td>
-              </tr>
-            </tbody>        
+              </tr>    
           </table>
         </div>
 
@@ -123,10 +122,12 @@ export default {
   }
 
   table.sfTable{
-    max-width: 100%;
+    table-layout: fixed;
+    width: 100%;
     word-wrap: break-word; 
     margin-bottom: 0.5em;
     text-align: center;
+    font-size: 0.9em;
   }
   table.sfTable th{
     padding: 0.5em 0.5em;
@@ -145,11 +146,7 @@ export default {
   }
   
   table.sfTable .conceptCell{
-    font-size: 0.7em;
-    width: 14.2%
-  }
-  table.sfTable .btnContainer{
-    padding: 0 1em;
+    font-size: 0.8em;
     width: 14.2%
   }
 
@@ -166,7 +163,7 @@ export default {
     letter-spacing: 1.3px;
   }
   .plusBtn i{
-    font-size: 1.5em;
+    font-size: 2em;
   }
   .plusBtn:active {
     position:relative;

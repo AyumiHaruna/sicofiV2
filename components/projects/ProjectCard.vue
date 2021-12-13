@@ -22,10 +22,9 @@
                                     <i class="far fa-caret-square-down" v-if="!active[index]"></i> 
                                     <i class="far fa-caret-square-up" v-if="active[index]"></i> 
                                 </button>
-                                <NuxtLink :to="`/proyectos/form?code=${project.projectNumber}`">
+                                <NuxtLink :to="`/proyectos/formulario?code=${project.projectNumber}`">
                                     <button class="actionBtn saveBtn" v-b-tooltip.hover title="Modificar" v-if="actions" href="/"><i class="fas fa-pen"></i></button>
                                 </NuxtLink>
-                                <!-- <button class="actionBtn closeBtn" v-b-tooltip.hover title="Eliminar" v-if="actions" ><i class="far fa-trash-alt"></i></button> -->
                             </div>
                         </div>
                     </div>

@@ -1,5 +1,4 @@
 export const state = () => ({
-    baseUrl: 'sicofi_test',
     isLoading: 0,
     accountType: ["Coordinación", "Instituto"],
     monthList: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]

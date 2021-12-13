@@ -206,7 +206,7 @@ export default {
             } else if( this.formType == 'Edición'){
                 fetchUrl = `${process.env.apiUrl}/incomes/update`;
             }
-            let redirectUrl = `ingresos/sf_print?code=${this.incomeData.sfId}`;
+            let redirectUrl = `ingresos/sf_impresion?code=${this.incomeData.sfId}`;
 
             const dataObject = this.incomeData;
             dataObject['partList'] = this.sfPartList;
@@ -228,7 +228,7 @@ export default {
                 this.$refs.toast.makeToast('success', `S.F guardada exitosamente`);
                 setTimeout(function(){
                     window.open(redirectUrl, "_blank");
-                    // window.location.href = `${this.$store.state.baseUrl}/ingresos/sf_list`;                       
+                    window.location.href = `ingresos`;                       
                     // this.$router.push(redirectUrl);
                 }, 1000);
                 
@@ -245,7 +245,7 @@ export default {
             this.hideLoader();
 
             if( res.status === 200 ){                
-                console.log(resData.results);
+                // console.log(resData.results);
                 // set income values 
                 this.incomeData.account= resData.results.account;
                 this.incomeData.concept= resData.results.concept;

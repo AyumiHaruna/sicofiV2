@@ -6,6 +6,7 @@
                 <div class="col-8 top_header">
                     <h1>Lista de Proyectos</h1>
                 </div>
+                
                 <div class="col-4 top_header">
                     <b-form-select ref="project" name="project" v-model="selectedProject" >
                         <b-form-select-option value="">-- Todos los proyectos -- </b-form-select-option>

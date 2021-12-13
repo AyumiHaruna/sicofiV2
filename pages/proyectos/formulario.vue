@@ -97,13 +97,10 @@ export default {
                     this.blocked = true;
                     this.projectData = resData.data[0];
                 } else {    //if data has error
-                    this.$refs.toast.makeToast('error', `${resData.message} / redireccionando...`);
-                    setTimeout( ()=>{
-                        this.$router.push('/proyectos/lista');        
-                    }, 4000);        
+                    this.$refs.toast.makeToast('error', `Error al buscar el Poryecto (${id}), intenta nuevamente`);
                 }                            
             } else {
-                this.$refs.toast.makeToast('error', `Ocurrió un problema, intente nuevamente`);
+                this.$refs.toast.makeToast('error', `Ocurrió un problema, intenta nuevamente`);
             }
         },
 
