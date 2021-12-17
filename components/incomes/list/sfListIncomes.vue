@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-12 sfBlock">
       <div class="row">
-        <div class="col-12 accountTitle">{{ (account == 1)? "CUENTA DE LA COORDINACIÓN" : "CUENTA DEL INSTITUTO" }}</div>
+        <div class="col-12 accountTitle"><label> {{ (account == 1)? "CUENTA DE LA COORDINACIÓN" : "CUENTA DEL INSTITUTO" }} </label></div>
 
         <div class="col-12">
           <table class="sfTable" v-for="sf in accountList" :key="sf.sfId"> 
@@ -16,9 +16,11 @@
                 <th>FECHA ELAB.</th>            
                 <th rowspan="4">
                   IMPRIMIR S.F. <br><br>
-                  <button class="plusBtn saveBtn" v-b-tooltip.hover title="Imprimir S.F." alt="Imprimir S.F." @click="$router.push(`ingresos/sf_impresion?code=${sf.sfId}`)">
-                    <i class="fas fa-print"></i>
-                  </button> <br>
+                  <nuxt-link :to="`/ingresos/sf_impresion?code=${sf.sfId}`">
+                    <button class="plusBtn saveBtn" v-b-tooltip.hover title="Imprimir S.F." alt="Imprimir S.F.">
+                      <i class="fas fa-print"></i>
+                    </button>
+                  </nuxt-link>
                 </th>
               </tr>
               <tr>
@@ -33,15 +35,19 @@
               <tr>
                 <th rowspan="2">
                   MODIFICAR <br>
-                  <button class="plusBtn saveBtn" v-b-tooltip.hover title="Modificar S.F." alt="Modificar S.F." @click=" $router.push(`ingresos/sf_formulario?code=${sf.sfId}`)">
-                    <i class="far fa-edit"></i> 
-                  </button>
+                  <nuxt-link :to="`/ingresos/sf_formulario?code=${sf.sfId}`">
+                    <button class="plusBtn saveBtn" v-b-tooltip.hover title="Modificar S.F." alt="Modificar S.F.">
+                      <i class="far fa-edit"></i> 
+                    </button>
+                  </nuxt-link>
                 </th>
                 <th rowspan="2">
                   VALIDACIONES <br>
-                  <button class="plusBtn infoBtn" v-b-tooltip.hover title="Validaciones" alt="Validaciones" @click=" $router.push(`ingresos/sf_validacion?code=${sf.sfId}`)">
-                    <i class="fas fa-hand-holding-usd"></i>
-                  </button>
+                  <nuxt-link :to="`/ingresos/sf_validacion?code=${sf.sfId}`">
+                    <button class="plusBtn infoBtn" v-b-tooltip.hover title="Validaciones" alt="Validaciones">
+                      <i class="fas fa-hand-holding-usd"></i>
+                    </button>
+                  </nuxt-link>
                 </th>
                 <th>VALIDADO</th>
                 <th>POR VALIDAR</th>
@@ -49,9 +55,11 @@
                 
                 <th rowspan="2">
                   COMPROBACIONES <br>
-                  <button class="plusBtn warningBtn" v-b-tooltip.hover title="Comprobaciones" alt="Comprobaciones">
-                    <i class="fas fa-clipboard-check"></i>
-                  </button>
+                  <nuxt-link :to="`/ingresos/sf_comprobaciones?code=${sf.sfId}`">
+                    <button class="plusBtn warningBtn" v-b-tooltip.hover title="Comprobaciones" alt="Comprobaciones">
+                      <i class="fas fa-clipboard-check"></i>
+                    </button>
+                  </nuxt-link>
                 </th>
                 <th>COMPROBADO</th>
                 <th>POR COMPROBAR</th>
@@ -60,11 +68,11 @@
               <tr>
                 <td>${{moneyFormat(sf.ministered)}}</td>
                 <td>${{moneyFormat(sf.requested - sf.ministered)}}</td>
-                <td>{{ (sf.requested != 0)? ((sf.ministered * 100) / sf.requested) : 0 }}%</td>
+                <td>{{ ((sf.requested != 0)? ((sf.ministered * 100) / sf.requested) : 0).toFixed(2) }}%</td>
 
                 <td>${{moneyFormat(sf.checked)}}</td>
                 <td>${{moneyFormat(sf.ministered - sf.checked)}}</td>
-                <td>{{ (sf.ministered != 0)? ((sf.checked * 100) / sf.ministered) : 0 }}%</td>
+                <td>{{ ((sf.ministered != 0)? ((sf.checked * 100) / sf.ministered) : 0).toFixed(2) }}%</td>
               </tr>    
           </table>
         </div>
@@ -132,17 +140,18 @@ export default {
   table.sfTable th{
     padding: 0.5em 0.5em;
     background-color: #111;
-    font-size: 0.6em;
+    font-size: 0.7em;
     letter-spacing: 1.3px;
     border: solid 1px #000;
   }
-  table.sfTable tbody tr:nth-child(odd){
+  table.sfTable tr{
     background-color: #565656;
   }
-  table.sfTable tbody td{
+  table.sfTable td{
     font-size: 0.8em;
     width: 7.14%;
     border: solid 1px #000;
+    padding: 0.5em;
   }
   
   table.sfTable .conceptCell{
@@ -163,7 +172,7 @@ export default {
     letter-spacing: 1.3px;
   }
   .plusBtn i{
-    font-size: 2em;
+    font-size: 1.8em !important;
   }
   .plusBtn:active {
     position:relative;

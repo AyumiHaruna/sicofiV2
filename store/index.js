@@ -1,4 +1,5 @@
 export const state = () => ({
+    lastSF: '',
     isLoading: 0,
     accountType: ["Coordinación", "Instituto"],
     monthList: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
@@ -7,7 +8,10 @@ export const state = () => ({
 export const mutations = {
     setIsLoading( state, payload ){
         state.isLoading = payload;
-    }
+    },
+    setLastSF( state, payload){
+        state.lastSF = payload
+    },
 }
 
 export const actions = {
@@ -15,5 +19,9 @@ export const actions = {
     setIsLoading({commit}, value){
     //   console.log('isLoading is changing to: ' + value);
       commit( 'setIsLoading', value );
+    },
+
+    setLastSF({commit}, value){
+        commit('setLastSF', value);
     }
 }

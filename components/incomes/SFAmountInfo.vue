@@ -1,0 +1,49 @@
+<template>
+    <table class="amountInfo">
+        <tr>
+            <th></th>
+            <th v-for="num in 5" :key="num">CAP {{num}}000</th>
+        </tr>
+        <tr>
+            <th>SOLICITADO</th>
+            <td v-for="num in 5" :key="num">${{moneyFormat(income.sfData[`cap${num}`])}}</td>
+        </tr>
+        <tr>
+            <th>VALIDADO</th>
+            <td v-for="num in 5" :key="num">${{moneyFormat(ministered[num-1])}}</td>
+        </tr>
+        <tr>
+            <th>COMPROBADO</th>
+            <td v-for="num in 5" :key="num">${{moneyFormat(0)}}</td>
+        </tr>
+        <tr>
+            <th>POR COMPROBAR</th>
+            <td v-for="num in 5" :key="num">${{moneyFormat(0)}}</td>
+        </tr>
+    </table>
+</template>
+
+<script>
+import GlobalFunctions from '@/mixins/GlobalFunctions';
+
+export default {
+    name: 'SFAmountInfo',
+    props: [ "income" ],
+    mixins: [ GlobalFunctions ],
+    computed: {
+        ministered: function(){
+            let minis = [0,0,0,0,0];
+                (this.income.validations).forEach(elm => {
+                    for (let i = 0; i < 5; i++) {
+                        minis[i] += parseFloat(elm[`cap${i+1}`]);
+                    }
+                });
+            return minis;
+        }
+    }
+}
+</script>
+
+<style>
+
+</style>

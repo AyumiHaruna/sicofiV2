@@ -37,12 +37,12 @@
 </template>
 
 <script>
-import sfMainForm from '@/components/incomes/sfMainForm.vue';
-import sfTotalForm from '@/components/incomes/sfTotalForm.vue';
-import sfPartListForm from '@/components/incomes/sfPartListForm.vue';
-import proPartListForm from '@/components/incomes/proPartListForm.vue';
-import prevsfList from '@/components/incomes/prevsfList.vue';
-import sfUpdPartForm from '@/components/incomes/sfUpdPartForm.vue';
+import sfMainForm from '@/components/incomes/create/sfMainForm.vue';
+import sfTotalForm from '@/components/incomes/create/sfTotalForm.vue';
+import sfPartListForm from '@/components/incomes/create/sfPartListForm.vue';
+import proPartListForm from '@/components/incomes/create/proPartListForm.vue';
+import prevsfList from '@/components/incomes/create/prevsfList.vue';
+import sfUpdPartForm from '@/components/incomes/create/sfUpdPartForm.vue';
 
 import Toast from '@/components/general/Toast.vue';
 

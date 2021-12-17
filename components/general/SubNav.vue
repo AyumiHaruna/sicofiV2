@@ -8,18 +8,14 @@
                 </li>
             </NuxtLink>
         
-            <NuxtLink :to="`/${page}`" v-for="(page, index) in urlCollection" :key="page" 
-                :class="(index >= (urlCollection.length) - 1)? 'hidden' : '' "
-            >
-                <li>
-                    {{page}}                
+            <NuxtLink :to="`/${page.currentUrl}`" v-for="(page, index) in urlCollection" :key="index" >
+                <li :style="(index == urlCollection.length - 1 )? 'border-radius: 0 50px 50px 0; padding-right: 15px; font-weight:normal; color:#fff; background:orange; cursor:default;'  : ''"
+                    :class="(page.urlName == '')? 'hidden' : ''"
+                >
+                    <!-- :style="(index == urlCollection.length )? 'border-radius: 0 50px 50px 0; padding-right: 15px; background:orange; cursor:default;'  : ''" -->
+                    {{ ((page.urlName).split("?"))[0] }}
                 </li>
             </NuxtLink>
-            
-            <li style="border-radius: 0 50px 50px 0; padding-right: 15px; background:orange;" 
-                :class="(urlCollection[0] == '')? 'hidden' : ''">
-                {{ urlCollection[ urlCollection.length -1] }}
-            </li>
         </ul>
     </div>
 </template>
@@ -29,18 +25,38 @@ export default {
     name: "SubNav",
     data() {
         return {
-            urlCollection: [],
+            urlCollection: '',
         }
     },
     methods: {
         getUrl(){
+            //reset url collection array
             this.urlCollection = [];
-            let currentRoute = (this.$route.path).split('/');
-            currentRoute.forEach( (elm, index) => {
-                if( index != 0 ){
-                    (this.urlCollection).push(elm);
+
+            //get array of pages
+            let currentRoute = (this.$route.fullPath).split('/');
+            currentRoute.shift();
+            
+
+            for (let i = 0; i < currentRoute.length; i++) {
+                let url = '';
+                for (let j = 0; j <= i; j++) {
+                    url += currentRoute[j];
+                    if( currentRoute[i] == 'sf_comprobaciones' && currentRoute[j] == 'sf_comprobaciones' ){
+                        // let currentComp = ((localStorage.getItem('lastSF')).split('%2'))[0];
+                        url += `?code=${localStorage.getItem('lastSF')}`;
+                        console.log(url);
+                    }
+                    if( j != currentRoute.length -1 ){
+                        url += '/';
+                    }
                 }
-            });
+                // if(i != currentRoute.length - 1){
+                    this.urlCollection.push({urlName: currentRoute[i], currentUrl: url});
+                // }
+            }
+            console.log(this.urlCollection);
+            console.log( (this.urlCollection).length );
         }
     },
     mounted() {

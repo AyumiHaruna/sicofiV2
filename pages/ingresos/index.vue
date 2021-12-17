@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import sfListProyect from '@/components/incomes/sfListProyect.vue'
+import sfListProyect from '@/components/incomes/list/sfListProyect.vue'
 
 import Toast from '@/components/general/Toast.vue';
 

@@ -24,8 +24,11 @@
             </tr>
           </table>
 
-          <!-- sf cap ammount table  -->
-          <table class="amountInfo">            
+          <!-- sf cap ammount table VALIDACION -->
+          <table class="amountInfo" v-if="type == 'validacion'">            
+            <tr>
+              <th colspan="5">SOLICITADO POR CAPÍTULO</th>
+            </tr>
             <tr>
               <th v-for="num in 5" :key="num">CAP. {{num}}000</th>
             </tr>
@@ -35,7 +38,7 @@
             </tr>
 
             <tr>
-              <th>SOLICITADO</th>
+              <th>TOTAL SOLICITADO</th>
               <th>VALIDADO</th>
               <th>POR VALIDAR</th>
               <th>% VALIDACIÓN</th>
@@ -48,9 +51,45 @@
               <td>${{ moneyFormat(income.requested - income.ministered) }}</td>
               <td>{{ ((income.ministered * 100) / income.requested).toFixed(2) }} % </td>
               <td>
-                <button class="plusBtn infoBtn" v-b-tooltip.hover title="Validaciones" alt="Validaciones" @click="$parent.openform('create')">
+                <button class="plusBtn infoBtn" v-b-tooltip.hover title="Añadir Validación" alt="Añadir Validación" @click="$parent.openform('create')">
                   <i class="fas fa-hand-holding-usd"></i>
                 </button>
+              </td>
+            </tr>
+          </table>
+
+          <!-- sf cap ammount table COMPROBACION -->
+          <table class="amountInfo" v-if="type == 'comprobacion'">
+            <tr>
+              <th colspan="5">VALIDADO POR CAPÍTULO</th>
+            </tr>
+            <tr>
+              <th v-for="num in 5" :key="num">CAP. {{num}}000</th>
+            </tr>
+
+            <tr>
+              <td v-for="cap in 5" :key="cap">${{moneyFormat($parent.valCap[cap -1])}}</td>
+            </tr>
+
+            <tr>
+              <th>TOTAL VALIDADO</th>
+              <th>COMPROBADO</th>
+              <th>POR COMPROBAR</th>
+              <th>% COMPROBACIÓN</th>
+              <th>AÑADIR COMPROBACIÓN</th>
+            </tr>
+
+            <tr>
+              <td>${{moneyFormat(income.ministered)}}</td>
+              <td>${{moneyFormat(income.checked)}}</td>
+              <td>${{ moneyFormat(income.ministered - income.checked) }}</td>
+              <td>{{ ((income.checked * 100) / income.ministered).toFixed(2) }} % </td>
+              <td>
+                <nuxt-link :to="`/ingresos/sf_comprobaciones/sf_comprobaciones_formulario?code=${income.sfId}`">
+                  <button class="plusBtn warningBtn" v-b-tooltip.hover title="Añadir Comprobación" alt="Añadir Comprobación">
+                    <i class="fas fa-clipboard-check"></i>
+                  </button>
+                </nuxt-link>
               </td>
             </tr>
           </table>
@@ -66,7 +105,7 @@ import GlobalFunctions from '@/mixins/GlobalFunctions'
 
 export default {
   name: 'SfMainInfo',
-  props: [ 'income' ],
+  props: [ 'income', 'type' ],
   mixins: [ GlobalFunctions ],
   computed: {
     opType: function(){
@@ -106,22 +145,24 @@ export default {
     width: 100%;
     text-align: center;
     border-collapse: collapse;
-    font-size: 1em;
+    font-size: 0.9em;
+    margin-bottom: 2em;
   }
   table.incomeInfo th {
     border: 1px solid #555555;
     padding: 0.5em 1em;
     font-size: 0.9em;
   }
-  table.incomeInfo tbody td {
+  table.incomeInfo td {
     font-size: 0.9em;
     color: #FFFFFF;
-    padding: 0em 0em;
+    padding: 0.5em 1em;
+    background: #685584;
   }
-  table.incomeInfo td:nth-child(even) {
-    background: #4D396A;
+  table.incomeInfo th {
+    background: #322446;
   }
-  table.incomeInfo thead {
+  /* table.incomeInfo thead {
     background: #685584;
     border-bottom: 2px solid #6E02BA;
   }
@@ -134,7 +175,7 @@ export default {
   }
   table.incomeInfo thead th:first-child {
     border-left: none;
-  }
+  } */
 
 
   table.amountInfo{
@@ -143,7 +184,7 @@ export default {
     word-wrap: break-word; 
     margin-bottom: 0.5em;
     text-align: center;
-    font-size: 1em;
+    font-size: 0.9em;
   }
   table.amountInfo th{
     padding: 0.5em 0.5em;
@@ -159,6 +200,7 @@ export default {
     font-size: 0.9em;
     width: 7.14%;
     border: solid 1px #000;
+    padding: 1em !important;
   }
   
   table.amountInfo .conceptCell{

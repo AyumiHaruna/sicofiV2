@@ -41,7 +41,7 @@
                         <label for="depDate">FECHA DE DEPÓSITO</label>
                     </div>
                     <div class="col-3">
-                        <input type="input" name="autNum" v-model="$parent.formData.authNum" maxlength="15">
+                        <input type="input" name="autNum" v-model.trim="$parent.formData.authNum" maxlength="15">
                         <label for="autNum">FOLIO DE AUTORIZACIÓN</label>
                     </div>
                     <div class="col-3">

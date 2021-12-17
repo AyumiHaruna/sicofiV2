@@ -10,6 +10,7 @@
                           <tr>
                             <th>#</th>
                             <th>FECHA DEPÓSITO</th>
+                            <th>FOLIO AUTORIZACIÓN</th>
                             <th>TOTAL</th>
                             <th v-for="num in 5" :key="num"> CAP {{num}}000</th>
                             <th>OBSERVACIONES</th>
@@ -20,6 +21,7 @@
                           <tr v-for="(val, index) in $parent.income.validations" :key="val.id">
                             <td :data-id="val.id">{{index + 1}}</td>
                             <td>{{val.depDate}}</td>
+                            <td>{{val.authNum}}</td>
                             <td>${{moneyFormat(val.total)}}</td>
                             <td v-for="num in 5" :key="num">${{moneyFormat(val[`cap${num}`])}}</td>
                             <td>{{val.obs}}</td>
@@ -74,7 +76,7 @@ table.valTable {
     width: 100%;
     text-align: center;
     border-collapse: collapse;
-    font-size: 1em;
+    font-size: 0.9em;
 }
 table.valTable td, table.valTable th {
     border: 1px solid #555555;

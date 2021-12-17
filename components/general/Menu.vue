@@ -13,12 +13,12 @@
                     <!-- Right aligned nav items -->
                     <b-navbar-nav v-if="isLoged">
                         <b-nav-item-dropdown text="Proyectos" right>
-                            <b-dropdown-item> <nuxt-link to="/proyectos/form"> Alta de proyectos </nuxt-link>  </b-dropdown-item>
+                            <b-dropdown-item> <nuxt-link to="/proyectos/formulario"> Alta de proyectos </nuxt-link>  </b-dropdown-item>
                             <b-dropdown-item> <nuxt-link to="/proyectos"> Lista de proyectos </nuxt-link>  </b-dropdown-item>
                         </b-nav-item-dropdown>
 
                         <b-nav-item-dropdown text="Ingresos" right>
-                            <b-dropdown-item> <nuxt-link to="/ingresos/sf_form"> Alta de S.F. </nuxt-link>  </b-dropdown-item>
+                            <b-dropdown-item> <nuxt-link to="/ingresos/sf_formulario"> Alta de S.F. </nuxt-link>  </b-dropdown-item>
                             <b-dropdown-item> <nuxt-link to="/ingresos"> Lista de S.F. </nuxt-link>  </b-dropdown-item>
                         </b-nav-item-dropdown>
                     </b-navbar-nav>

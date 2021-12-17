@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import sfListIncomes from '@/components/incomes/sfListIncomes.vue'
+import sfListIncomes from '@/components/incomes/list/sfListIncomes.vue'
 
 import GlobalFunctions from '@/mixins/GlobalFunctions';
 

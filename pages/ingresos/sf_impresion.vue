@@ -22,8 +22,8 @@
 </template>
 
 <script>
-import sfPrintCommon from '@/components/incomes/sfPrintCommon.vue';
-import sfPrintServ from '@/components/incomes/sfPrintServ.vue';
+import sfPrintCommon from '~/components/incomes/printing/sfPrintCommon.vue';
+import sfPrintServ from '~/components/incomes/printing/sfPrintServ.vue';
 
 import Toast from '@/components/general/Toast.vue';
 

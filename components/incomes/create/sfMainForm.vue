@@ -340,6 +340,7 @@ table.taxData tbody td {
     font-weight: bold;
     color: #FFFFFF;
     letter-spacing: 1.1px;
+    padding: 0.5em;
 }
 table.taxData td:nth-child(even) {
     background: #1C7C80;

@@ -8,7 +8,7 @@
                 </div>
             </div>
 
-            <SfMainInfo :income="income" v-if="income != ''"></SfMainInfo>
+            <SfMainInfo :income="income" type="validacion" v-if="income != ''"></SfMainInfo>
 
             <SFValList :valList='income.validations' v-if="income != ''"></SFValList>
 
@@ -21,8 +21,8 @@
 
 <script>
 import SfMainInfo from '@/components/incomes/SfMainInfo.vue';
-import SFValList from '@/components/incomes/SFValList';
-import sfValForm from '@/components/incomes/sfValForm.vue'
+import SFValList from '@/components/incomes/validation/SFValList';
+import sfValForm from '~/components/incomes/validation/sfValForm.vue'
 
 import Toast from '@/components/general/Toast.vue';
 
