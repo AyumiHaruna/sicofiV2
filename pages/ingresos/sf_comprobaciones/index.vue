@@ -10,7 +10,7 @@
 
           <SfMainInfo :income="income" type="comprobacion" v-if="income != ''"></SfMainInfo>
 
-          <!-- <SFCompList v-if="income != ''"></SFCompList> -->
+          <SFCompList :income="income" v-if="income != ''"></SFCompList>
 
           <Toast ref="toast"></Toast>    
       </div>

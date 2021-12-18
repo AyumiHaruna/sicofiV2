@@ -26,16 +26,21 @@
             <label>CONCEPTO</label>
         </div>
         <div class="col-3">
-            <input type="text">
+            <input type="text" :value="`C - ${$parent.formData.cover}`" class="blockedField" readonly>
             <label for="">CARATULA</label>
         </div>
         <div class="col-3">
-            <select v-model="$parent.formData['transfer']">
-                <option v-for="(val, index) in $parent.income.validations" :key="val.id" :selected="index == 0">
+            <select v-model="$parent.formData['transfer']" ref="transfer" name="transfer">
+                <option 
+                    v-for="(val, index) in $parent.income.validations" 
+                    :key="val.id" 
+                    :selected="index == 0"
+                    :value="val.authNum"
+                >
                     {{val.authNum}}
                 </option>
             </select>
-            <label>TRANSFERENCIA</label>
+            <label for="transfer">TRANSFERENCIA</label>
         </div>
 
         <div class="col-3">
@@ -49,7 +54,7 @@
         <div class="col-6 text-right">
             <button class="actionBtn saveBtn" @click="validateForm()"> 
                 <i class="far fa-save"></i>
-                GUARDAR COMPROBACIÓN
+                {{ ($parent.urlType === 'create')? 'GUARDAR' : 'ACTUALIZAR' }} COMPROBACIÓN
             </button>
         </div>
     </div>
@@ -62,12 +67,15 @@ export default {
     mixins: [ GlobalFunctions ],
     methods: {
         validateForm(){
+            // test transfer
+            if( !this.$parent.formData['transfer'] ){ this.$refs.transfer.focus(); this.$parent.$refs.toast.makeToast('warning', `Favor de elegir el "# de transferencia"`); return  }
             // test elab date 
             if( !this.$parent.formData['elabDate'] ){ this.$refs.elabDate.focus(); this.$parent.$refs.toast.makeToast('warning', `Favor de capturar "Fecha de elaboración"`); return  }
+            
             // asign total to formData 
-            this.$parent.partForm['total'] = this.$parent.compTotal;
+            this.$parent.formData['total'] = this.$parent.compTotal;
             // test total
-            if( this.$parent.partForm['total'] <= 0 ){ this.$parent.$refs.toast.makeToast('warning', `Debes capturar almenos una partida`); return  }
+            if( this.$parent.formData['total'] <= 0 ){ this.$parent.$refs.toast.makeToast('warning', `Debes capturar almenos una partida`); return  }
 
             this.$parent.saveComp();
         }

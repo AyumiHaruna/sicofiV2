@@ -40,6 +40,7 @@ export default {
   mixins: [ GlobalFunctions ],
   data() {
     return {
+      updId: null,
       urlType: 'create',
       sfId: '',
       income: '',
@@ -61,7 +62,7 @@ export default {
     }
   },
   mounted() {
-    // get url code, if isnt exists redirect
+    // get url code, if not exists redirect
     if( this.$nuxt.$route.query.code ){
         this.sfId = this.$nuxt.$route.query.code;
         this.getSFInfo( this.sfId );
@@ -72,13 +73,28 @@ export default {
         }, 2000)
     }
 
+    // if url id exists, then is an update form config
+    if( this.$nuxt.$route.query.id ){
+      this.updId = this.$nuxt.$route.query.id;
+      this.urlType = 'update';
+    }
+
     // set current date
     let current = new Date();
     current = current.getFullYear()+'-'+(current.getMonth()+1)+'-'+current.getDate();
     //set current date 
     this.currentDate = current;
-    //auto set current date as elabDate
-    this.formData.elabDate = this.currentDate;
+
+    //if urlType = create - auto set current date as elabDate
+    if(this.urlType === 'create'){  
+      // auto set elabDate
+      this.formData.elabDate = this.currentDate; 
+      // get and set last cover # + 1
+      this.getLastCover();
+    } else if (this.urlType === 'update'){
+      // get checking data
+      this.getCheckingData( this.updId );
+    }
   },
   methods: {
     async getSFInfo( sfId ){
@@ -93,6 +109,7 @@ export default {
     async saveComp() {
       //prepare Data
       let sendObj = {
+        updId: this.updId,
         sfId: this.sfId,
         cover: this.formData.cover,
         transfer: this.formData.transfer,
@@ -101,12 +118,13 @@ export default {
         type: (this.compTotal == this.income.requested) ? 1 : 0,
         updDate: this.currentDate,
         obs: '',
+        name: localStorage.getItem('name'),
         year: localStorage.getItem('year'),
-        partList: this.compPartList
+        partList: this.compPartList,
+        caps: this.capTotal,
       };
 
       let url;
-
       if( this.urlType === 'create' ) {
         url = `${process.env.apiUrl}/incomes/comp/create`;
       } else if ( this.urlType === 'update' ){
@@ -132,6 +150,31 @@ export default {
           this.$refs.toast.makeToast('error', `No se pudo guardar, intenta nuevamente`);
       }
 
+    },
+    async getLastCover(){
+      // get last cover number 
+      const res = await fetch(`${process.env.apiUrl}/incomes/compLastCover/${this.sfId}`);
+      const resData = await res.json();  
+      if( res.status === 200 ){                
+          this.formData.cover = resData.results + 1;
+      } else {
+          this.$refs.toast.makeToast('error', `Error al obtener el último # de carátula, intenta nuevamente`);
+      }
+    },
+    async getCheckingData( checkId ){
+      const res = await fetch(`${process.env.apiUrl}/incomes/checkInfo/${checkId}`);
+      if( await res.status === 200 ){
+        const resData = await res.json();
+        this.formData = {
+          cover: resData.results.cover,
+          elabDate: resData.results.elabDate,
+          total: resData.results.checked,
+          transfer: resData.results.transfer,
+        }
+        this.compPartList = resData.results.checkList;
+      } else {
+        this.$refs.toast.makeToast('error', `Error al buscar la comprobación, intenta nuevamente`);
+      }
     },
 
     openForm(type, id=null){
@@ -177,11 +220,20 @@ export default {
   },
   computed: {
     compTotal: function() {
-      let total = 0
+      let total = 0;
       this.compPartList.forEach(elm => {
         total += parseFloat( elm.total );
       });
       return total;
+    },
+
+    capTotal: function() {
+      let caps = [0,0,0,0,0];
+      this.compPartList.forEach(elm => {
+        // total += parseFloat( elm.total );
+        caps[ parseInt((elm.partNumber).charAt(0)) - 1 ] += parseFloat(elm.total); 
+      });
+      return caps;
     }
   }
 }

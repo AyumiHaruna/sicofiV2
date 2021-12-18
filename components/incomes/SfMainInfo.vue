@@ -61,25 +61,37 @@
           <!-- sf cap ammount table COMPROBACION -->
           <table class="amountInfo" v-if="type == 'comprobacion'">
             <tr>
-              <th colspan="5">VALIDADO POR CAPÍTULO</th>
+                <th></th>
+                <th v-for="num in 5" :key="num">CAP {{num}}000</th>
             </tr>
             <tr>
-              <th v-for="num in 5" :key="num">CAP. {{num}}000</th>
+                <th>SOLICITADO</th>
+                <td v-for="num in 5" :key="num">${{moneyFormat(income.sfData[`cap${num}`])}}</td>
             </tr>
-
             <tr>
-              <td v-for="cap in 5" :key="cap">${{moneyFormat($parent.valCap[cap -1])}}</td>
+                <th>VALIDADO</th>
+                <td v-for="num in 5" :key="num">${{moneyFormat(ministered[num-1])}}</td>
             </tr>
-
             <tr>
+                <th>COMPROBADO</th>
+                <td v-for="num in 5" :key="num">${{moneyFormat(checkings[num-1])}}</td>
+            </tr>
+            <tr>
+                <th>POR COMPROBAR</th>
+                <td v-for="num in 5" :key="num">${{moneyFormat( ministered[num-1] - checkings[num-1] )}}</td>
+            </tr>
+            
+            <tr>
+              <th></th>
               <th>TOTAL VALIDADO</th>
-              <th>COMPROBADO</th>
-              <th>POR COMPROBAR</th>
+              <th>TOTAL COMPROBADO</th>
+              <th>TOTAL POR COMPROBAR</th>
               <th>% COMPROBACIÓN</th>
               <th>AÑADIR COMPROBACIÓN</th>
             </tr>
 
             <tr>
+              <th></th>
               <td>${{moneyFormat(income.ministered)}}</td>
               <td>${{moneyFormat(income.checked)}}</td>
               <td>${{ moneyFormat(income.ministered - income.checked) }}</td>
@@ -134,6 +146,26 @@ export default {
             break;
       }
     },
+
+    ministered: function(){
+      let minis = [0,0,0,0,0];
+          (this.income.validations).forEach(elm => {
+            for (let i = 0; i < 5; i++) {
+              minis[i] += parseFloat(elm[`cap${i+1}`]);
+            }
+          });
+      return minis;
+    },
+
+    checkings: function() {
+      let capsCheck = [0,0,0,0,0];
+        (this.income.checkings).forEach(elm => {
+          for (let i = 0; i < 5; i++) {
+            capsCheck[i] += parseFloat(elm[`cap${i+1}`]);
+          }
+        });
+      return capsCheck;
+    }
   }
 }
 </script>
@@ -162,51 +194,36 @@ export default {
   table.incomeInfo th {
     background: #322446;
   }
-  /* table.incomeInfo thead {
-    background: #685584;
-    border-bottom: 2px solid #6E02BA;
-  }
-  table.incomeInfo thead th {
-    font-weight: bold;
-    color: #F6F6F6;
-    text-align: center;
-    border-left: 2px solid #433755;
-    font-size: 0.9em;
-  }
-  table.incomeInfo thead th:first-child {
-    border-left: none;
-  } */
 
 
-  table.amountInfo{
-    table-layout: fixed;
-    width: 100%;
-    word-wrap: break-word; 
-    margin-bottom: 0.5em;
-    text-align: center;
-    font-size: 0.9em;
+  table.amountInfo {
+      border: 0px solid #555555;
+      background-color: #555555;
+      width: 100%;
+      text-align: center;
+      border-collapse: collapse;
   }
-  table.amountInfo th{
-    padding: 0.5em 0.5em;
-    background-color: #111;
-    font-size: 0.8em;
-    letter-spacing: 1.3px;
-    border: solid 1px #000;
+  table.amountInfo td, table.amountInfo th {
+      border: 1px solid #555555;
+      padding: 0.5em 0.5em;
   }
-  table.amountInfo tr{
-    background-color: #565656;
+  table.amountInfo td {
+      font-size: 0.75em;
+      font-weight: bold;
+      color: #FFFFFF;
+      letter-spacing: 1.1px;
   }
-  table.amountInfo td{
-    font-size: 0.9em;
-    width: 7.14%;
-    border: solid 1px #000;
-    padding: 1em !important;
+  table.amountInfo tr {
+      background: #1C7C80;
   }
-  
-  table.amountInfo .conceptCell{
-    font-size: 0.8em;
-    width: 14.2%
+  table.amountInfo th {
+      background: #16B8B8;
+      border-bottom: 1px solid #1C7C80;
+      font-size: 0.85em;
+      font-weight: bold;
+      color: #000;
   }
+
 
   .plusBtn{        
     border: solid 0px #fff;
