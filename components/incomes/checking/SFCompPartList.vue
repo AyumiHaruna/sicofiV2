@@ -4,11 +4,11 @@
             <div class="row block">
                 <div class="col-12 panel">
                     <div class="row">
-                        <div class="col-12">
-                            <label> LISTA DE PARTIDAS SOLICITADAS EN LA S.F.</label>
+                        <div class="col-12 sectionTitle">
+                            LISTA DE PARTIDAS SOLICITADAS EN LA S.F.
                         </div>
                         <div class="col-12">
-                            <table>
+                            <table class="secondLvl">
                                 <tr>
                                     <th>#</th>
                                     <th>PARTIDA</th>
@@ -20,7 +20,7 @@
                                     <td>{{part.partNumber}} - {{part.partName}}</td>
                                     <td>${{moneyFormat(part.total)}}</td>
                                     <td>
-                                        <button class="actionBtn infoBtn"   @click="$parent.openForm('add', index)"> 
+                                        <button class="miniBtn infoBtn"   @click="$parent.openForm('add', index)"> 
                                             <i class="fas fa-chevron-right"></i>
                                         </button>
                                     </td>
@@ -36,17 +36,17 @@
             <div class="row block">
                 <div class="col-12 panel">
                     <div class="row">
-                        <div class="col-6">
-                            <label> LISTA DE PARTIDAS EN LA CARÁTULA DE COMPROBACIÓN</label>
+                        <div class="col-6 sectionTitle">
+                            LISTA DE PARTIDAS EN LA CARÁTULA DE COMPROBACIÓN
                         </div>
-                        <div class="col-6">
+                        <div class="col-6 text-right">
                             <button class="actionBtn infoBtn" @click="$parent.openForm('create')"> 
                                 <i class="fas fa-puzzle-piece"></i>
                                 AÑADIR PARTIDA
                             </button>
                         </div>
                         <div class="col-12">
-                            <table>
+                            <table class="secondLvl">
                                 <tr>
                                     <th>#</th>
                                     <th>PARTIDA</th>
@@ -60,7 +60,7 @@
                                     <td>{{part.notes}}</td>
                                     <td>{{moneyFormat(part.total)}}</td>
                                     <td>
-                                        <button class="actionBtn closeBtn"  @click="$parent.quitFromList(index)"> 
+                                        <button class="miniBtn closeBtn"  @click="$parent.quitFromList(index)"> 
                                             <i class="far fa-trash-alt"></i>
                                         </button>
                                     </td>

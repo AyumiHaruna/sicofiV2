@@ -1,7 +1,7 @@
 <template>
   <div class="row panel">
-      <div class="col-5 title">
-        PARTIDAS EN LA S.F.
+      <div class="col-5 sectionTitle">
+        PARTIDAS EN S.F.
       </div>
       <div class="col-7 text-right">
         <button class="actionBtn infoBtn" @click.prevent="$parent.showPartForm()"> 
@@ -10,24 +10,20 @@
         </button>
       </div>
       <div class="col-12">
-        <table class="partData">
-          <thead>
-            <tr>
-              <th>Partida</th>
-              <th>Monto</th>
-              <th>Acciones</th>
-            </tr>            
-          </thead>
-          <tbody>
-            <tr v-for="(part, index) in $parent.sfPartList" :key="index">
-              <td>{{part.partNumber}} - {{part.partName}}</td>
-              <td>${{ moneyFormat(part.total) }}</td>
-              <td class="actionCell">
-                  <button class="update" v-b-tooltip.hover title="Modificar" @click="$parent.showPartForm( 'update', part, index )"><i class="fas fa-edit"></i></button>
-                  <button class="delete" v-b-tooltip.hover title="Eliminar" @click="askForDelete(index)"><i class="fas fa-trash-alt"></i></button>
-              </td>
-            </tr>
-          </tbody>
+        <table class="secondLvl">
+          <tr>
+            <th>PARTIDAS</th>
+            <th>MONTO</th>
+            <th>ACCIONES</th>
+          </tr>            
+          <tr v-for="(part, index) in $parent.sfPartList" :key="index">
+            <td>{{part.partNumber}} - {{part.partName}}</td>
+            <td>${{ moneyFormat(part.total) }}</td>
+            <td class="actionCell">
+                <button class="miniBtn saveBtn" v-b-tooltip.hover title="Modificar" @click="$parent.showPartForm( 'update', part, index )"><i class="fas fa-pen"></i></button>
+                <button class="miniBtn closeBtn" v-b-tooltip.hover title="Eliminar" @click="askForDelete(index)"><i class="fas fa-trash-alt"></i></button>
+            </td>
+          </tr>
         </table>
       </div>
   </div>
@@ -60,7 +56,7 @@ export default {
 </script>
 
 <style>
-  table.partData {
+  /* table.partData {
       border: 0px solid #550652;
       background-color: #411438;
       width: 100%;
@@ -106,5 +102,5 @@ export default {
   }
   table.partData button:hover{
     background-color: #802779;
-  }
+  } */
 </style>

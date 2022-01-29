@@ -1,159 +1,163 @@
 <template>
     <form>
         <div class="row">
-            <div class="col-12 panel">
+            <div class="col-12 panel sfMainForm">
                 <div class="row">
-                    <div class="col-12 title">
-                        DATOS GENERALES
-                    </div>
-
-                    <div class="col-12 formBody">
+                    <div class="col-12 bordered">
                         <div class="row">
-                            <div class="col-9">
-                                <b-form-select ref="projectNumber" v-model="$parent.incomeData['projectNumber']" 
-                                    @change="getMonthParts" :disabled="$parent.formType !== 'Alta'"
-                                    :class="($parent.formType !== 'Alta')?'blockedField':''"
-                                >
-                                    <b-form-select-option value="">- Elige un proyecto -</b-form-select-option>
-                                    <b-form-select-option :value="project.projectNumber" v-for="(project, index) in projectsList" :key="index">
-                                        {{ project.projectNumber }} - {{ project.projectName}}
-                                    </b-form-select-option>
-                                </b-form-select>
-                                <label for="">PROYECTO</label>
-                            </div>
-                            <div class="col-3">
-                                <b-form-select ref="account" v-model="$parent.incomeData['account']" @change="getMonthParts"
-                                :disabled="$parent.formType !== 'Alta'" :class="($parent.formType !== 'Alta')?'blockedField':''"
-                                >
-                                    <b-form-select-option value="">- Elige una cuenta -</b-form-select-option>
-                                    <b-form-select-option value="1">Coordinación</b-form-select-option>
-                                    <b-form-select-option value="2">Instituto</b-form-select-option>
-                                </b-form-select>
-                                <label for="">CUENTA</label>
+                            <div class="col-12 sectionTitle">
+                                DATOS GENERALES
                             </div>
 
-                            <div class="col-9">
-                                <input type="text" v-model.trim="$parent.incomeData['concept']" />
-                                <label for="">CONCEPTO</label>
-                            </div>
-                            <div class="col-3">
-                                <b-form-select ref="month" v-model="$parent.incomeData['month']" @change="getMonthParts"
-                                    :disabled="$parent.formType !== 'Alta'"
-                                    :class="($parent.formType !== 'Alta')?'blockedField':''"
-                                >
-                                    <b-form-select-option value="">- Elige un mes -</b-form-select-option>
-                                    <b-form-select-option :value="(index+1)" v-for="(month, index) in $store.state.monthList" :key="month">{{ month }}</b-form-select-option>
-                                </b-form-select>
-                                <label for="">MES</label>
-                            </div>
-
-                            <div class="col-6">
-                                <input type="date" v-model="$parent.incomeData['elabDate']">
-                                <label for="">FECHA DE ELABORACIÓN</label>
-                            </div>
-                            <div class="col-3">
-                                <b-form-select v-model="$parent.incomeData['opType']" 
-                                    :disabled="$parent.formType !== 'Alta'"
-                                    :class="($parent.formType !== 'Alta')?'blockedField':''"
-                                >
-                                    <b-form-select-option value="">- Eliga el tipo de operación -</b-form-select-option>
-                                    <b-form-select-option value="gba">Gasto Básico</b-form-select-option>
-                                    <b-form-select-option value="gop">Gastos Operación</b-form-select-option>
-                                    <b-form-select-option value="inv">Inversión</b-form-select-option>
-                                    <b-form-select-option value="pro">Recursos Fiscales</b-form-select-option>
-                                    <b-form-select-option value="gad">Gastos Administración</b-form-select-option>
-                                    <b-form-select-option value="ter">Con aportación de terceros</b-form-select-option>
-                                </b-form-select>
-                                <label for="">TIPO DE OPERACIÓN</label>
-                            </div>
-                            <div class="col-3">
-                                <input type="text" class="blockedField" v-model="folioSF" readonly />
-                                <label for="">FOLIO DE S.F.</label>
-                            </div>
-
-                            <div class="col-6">  
-                                <input type="text" list="suggestions" v-model="$parent.incomeData.sign" @input="changeToUpper()">
-                                    <datalist id="suggestions">
-                                        <option v-for="(suggest, index) in suggestions" :key="index">{{suggest.name}}</option>
-                                    </datalist>
-                                <label>A FAVOR DE: </label>
-                            </div>
-
-                            <div class="col-6">
-                                 <b-form-textarea
-                                    rows="3"
-                                    max-rows="6"
-                                    v-model.trim="$parent.incomeData['obs']"
-                                >
-                                </b-form-textarea>
-                                <label for="">OBSERVACIONES</label>
-                            </div>  
-
-                            <div class="col-2">
-                                <label>TIPO DE S.F.</label>
-                                <b-form-group v-slot="{ ariaDescribedby }">
-                                    <b-form-radio v-model="$parent.incomeData.sfAddData['sfPrintType']" :aria-describedby="ariaDescribedby" value="pro">PROYECTOS</b-form-radio>
-                                    <b-form-radio v-model="$parent.incomeData.sfAddData['sfPrintType']" :aria-describedby="ariaDescribedby" value="ser">SERVICIOS</b-form-radio>
-                                </b-form-group>                                
-                            </div> 
-
-                            <div class="col-10" v-if="($parent.incomeData.sfAddData['sfPrintType'] === 'ser')">
+                            <div class="col-12 formBody">
                                 <div class="row">
+                                    <div class="col-9">
+                                        <select ref="projectNumber" v-model="$parent.incomeData['projectNumber']" 
+                                            @change="getMonthParts" :disabled="$parent.formType !== 'Alta'"
+                                            :class="($parent.formType !== 'Alta')?'blockedField':''"
+                                        >
+                                            <option value="">- Elige un proyecto -</option>
+                                            <option :value="project.projectNumber" v-for="(project, index) in projectsList" :key="index">
+                                                {{ project.projectNumber }} - {{ project.projectName}}
+                                            </option>
+                                        </select>
+                                        <label for="">PROYECTO</label>
+                                    </div>
                                     <div class="col-3">
-                                        <b-form-select v-model="$parent.incomeData.sfAddData['sfTaxType']" @change="setTax()">
-                                            <b-form-select-option value="pro">Profesionales</b-form-select-option>
-                                            <b-form-select-option value="tec">Técnicos</b-form-select-option>
-                                            <b-form-select-option value="lra">Lista de raya</b-form-select-option>
-                                        </b-form-select>
-                                        <label for="">TIPO DE SERVICIOS</label>
+                                        <select ref="account" v-model="$parent.incomeData['account']" @change="getMonthParts"
+                                        :disabled="$parent.formType !== 'Alta'" :class="($parent.formType !== 'Alta')?'blockedField':''"
+                                        >
+                                            <option value="">- Elige una cuenta -</option>
+                                            <option value="1">Coordinación</option>
+                                            <option value="2">Instituto</option>
+                                        </select>
+                                        <label for="">CUENTA</label>
                                     </div>
-                                    <div class="col-3 text-center">
-                                        <b-form-input type="number" min="0.00" max="100" v-model="$parent.incomeData.sfAddData.ivaT"></b-form-input>
-                                        <b-form-checkbox v-model="$parent.incomeData.sfAddData.taxConfig[0]" size="sm"></b-form-checkbox>
-                                        <label>IVA (Tra)</label>
-                                    </div>
-                                    <div class="col-3 text-center">
-                                        <b-form-input type="number" min="0.00" max="100" v-model="$parent.incomeData.sfAddData.ivaR"></b-form-input>
-                                        <b-form-checkbox v-model="$parent.incomeData.sfAddData.taxConfig[1]" size="sm"></b-form-checkbox>
-                                        <label>IVA (Ret)</label>
-                                    </div>
-                                    <div class="col-3 text-center">
-                                        <b-form-input type="number" min="0.00" max="100" v-model="$parent.incomeData.sfAddData.isrR"></b-form-input>
-                                        <b-form-checkbox v-model="$parent.incomeData.sfAddData.taxConfig[2]" size="sm"></b-form-checkbox>
-                                        <label>ISR (Ret)</label>
-                                    </div>
-                                </div>
 
-                                <div class="row">
-                                    <table class="taxData">
-                                        <thead>
-                                            <tr>
-                                                <th>Autorizado</th>
-                                                <th>IVA</th>
-                                                <th>Subtotal</th>
-                                                <th>IVA (Ret)</th>
-                                                <th>ISR (Ret)</th>
-                                                <th>Retenciones</th>
-                                                <th>Total</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>$ {{moneyFormat($parent.totalParts)}}</td>
-                                                <td>$ {{moneyFormat($parent.ivaTra)}}</td>
-                                                <td>$ {{moneyFormat( $parent.totalParts + $parent.ivaTra )}}</td>
-                                                <td>$ {{moneyFormat($parent.ivaRet)}}</td>
-                                                <td>$ {{moneyFormat($parent.isrRet)}}</td>
-                                                <td>$ {{moneyFormat( $parent.ivaRet + $parent.isrRet )}}</td>
-                                                <td>$ {{moneyFormat( $parent.totalParts + $parent.ivaTra - $parent.ivaRet - $parent.isrRet )}}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                    <div class="col-9">
+                                        <input type="text" v-model.trim="$parent.incomeData['concept']" />
+                                        <label for="">CONCEPTO</label>
+                                    </div>
+                                    <div class="col-3">
+                                        <select ref="month" v-model="$parent.incomeData['month']" @change="getMonthParts"
+                                            :disabled="$parent.formType !== 'Alta'"
+                                            :class="($parent.formType !== 'Alta')?'blockedField':''"
+                                        >
+                                            <option value="">- Elige un mes -</option>
+                                            <option :value="(index+1)" v-for="(month, index) in $store.state.monthList" :key="month">{{ month }}</option>
+                                        </select>
+                                        <label for="">MES</label>
+                                    </div>
+
+                                    <div class="col-6">
+                                        <input type="date" v-model="$parent.incomeData['elabDate']">
+                                        <label for="">FECHA DE ELABORACIÓN</label>
+                                    </div>
+                                    <div class="col-3">
+                                        <select v-model="$parent.incomeData['opType']" 
+                                            :disabled="$parent.formType !== 'Alta'"
+                                            :class="($parent.formType !== 'Alta')?'blockedField':''"
+                                        >
+                                            <option value="">- Eliga el tipo de operación -</option>
+                                            <option value="gba">Gasto Básico</option>
+                                            <option value="gop">Gastos Operación</option>
+                                            <option value="inv">Inversión</option>
+                                            <option value="pro">Recursos Fiscales</option>
+                                            <option value="gad">Gastos Administración</option>
+                                            <option value="ter">Con aportación de terceros</option>
+                                        </select>
+                                        <label for="">TIPO DE OPERACIÓN</label>
+                                    </div>
+                                    <div class="col-3">
+                                        <input type="text" class="blockedField" v-model="folioSF" readonly />
+                                        <label for="">FOLIO DE S.F.</label>
+                                    </div>
+
+                                    <div class="col-6">  
+                                        <input type="text" list="suggestions" v-model="$parent.incomeData.sign" @input="changeToUpper()">
+                                            <datalist id="suggestions">
+                                                <option v-for="(suggest, index) in suggestions" :key="index">{{suggest.name}}</option>
+                                            </datalist>
+                                        <label>A FAVOR DE: </label>
+                                    </div>
+
+                                    <div class="col-6">
+                                        <textarea
+                                            rows="3"
+                                            max-rows="6"
+                                            v-model.trim="$parent.incomeData['obs']"
+                                        >
+                                        </textarea>
+                                        <label for="">OBSERVACIONES</label>
+                                    </div>  
+
+                                    <div class="col-2">
+                                        <label>TIPO DE S.F.</label>
+                                        <b-form-group v-slot="{ ariaDescribedby }">
+                                            <b-form-radio v-model="$parent.incomeData.sfAddData['sfPrintType']" :aria-describedby="ariaDescribedby" value="pro">PROYECTOS</b-form-radio>
+                                            <b-form-radio v-model="$parent.incomeData.sfAddData['sfPrintType']" :aria-describedby="ariaDescribedby" value="ser">SERVICIOS</b-form-radio>
+                                        </b-form-group>                                
+                                    </div> 
+
+                                    <div class="col-10" v-if="($parent.incomeData.sfAddData['sfPrintType'] === 'ser')">
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <select v-model="$parent.incomeData.sfAddData['sfTaxType']" @change="setTax()">
+                                                    <option value="pro">Profesionales</option>
+                                                    <option value="tec">Técnicos</option>
+                                                    <option value="lra">Lista de raya</option>
+                                                </select>
+                                                <label for="">TIPO DE SERVICIOS</label>
+                                            </div>
+                                            <div class="col-3 text-center">
+                                                <input type="number" min="0.00" max="100" v-model="$parent.incomeData.sfAddData.ivaT" />
+                                                <b-form-checkbox v-model="$parent.incomeData.sfAddData.taxConfig[0]" size="sm"></b-form-checkbox>
+                                                <label>IVA (Tra)</label>
+                                            </div>
+                                            <div class="col-3 text-center">
+                                                <input type="number" min="0.00" max="100" v-model="$parent.incomeData.sfAddData.ivaR" />
+                                                <b-form-checkbox v-model="$parent.incomeData.sfAddData.taxConfig[1]" size="sm"></b-form-checkbox>
+                                                <label>IVA (Ret)</label>
+                                            </div>
+                                            <div class="col-3 text-center">
+                                                <input type="number" min="0.00" max="100" v-model="$parent.incomeData.sfAddData.isrR" />
+                                                <b-form-checkbox v-model="$parent.incomeData.sfAddData.taxConfig[2]" size="sm"></b-form-checkbox>
+                                                <label>ISR (Ret)</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <table class="secondLvl">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Autorizado</th>
+                                                        <th>IVA</th>
+                                                        <th>Subtotal</th>
+                                                        <th>IVA (Ret)</th>
+                                                        <th>ISR (Ret)</th>
+                                                        <th>Retenciones</th>
+                                                        <th>Total</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>$ {{moneyFormat($parent.totalParts)}}</td>
+                                                        <td>$ {{moneyFormat($parent.ivaTra)}}</td>
+                                                        <td>$ {{moneyFormat( $parent.totalParts + $parent.ivaTra )}}</td>
+                                                        <td>$ {{moneyFormat($parent.ivaRet)}}</td>
+                                                        <td>$ {{moneyFormat($parent.isrRet)}}</td>
+                                                        <td>$ {{moneyFormat( $parent.ivaRet + $parent.isrRet )}}</td>
+                                                        <td>$ {{moneyFormat( $parent.totalParts + $parent.ivaTra - $parent.ivaRet - $parent.isrRet )}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    
                                 </div>
-                            </div>
-                            
+                            </div>     
                         </div>
-                    </div>     
+                    </div>
                 </div>                 
             </div>
         </div>
@@ -179,10 +183,26 @@ export default {
                 pro: [true, true, true],
                 tec: [true, true, false],
                 lra: [false, false, false]
-            }
+            },
+
+            dataObject: {
+                year: '',
+                id: '',
+                fullAccess: 0,
+                projectList: []
+            },
         }
     },
     mounted() {
+        if(process.client){
+            this.dataObject.year = localStorage.getItem('year');
+            this.dataObject.id = localStorage.getItem('id');
+            this.dataObject.fullAccess = localStorage.getItem('fullAccess');
+            if(this.dataObject.fullAccess == 0){
+                this.dataObject.projectList = localStorage.getItem('projectList');
+            }
+        }
+        
         this.year = localStorage.getItem('year');
         this.getProjectsList( this.year );
         this.getPeopleList();
@@ -193,9 +213,13 @@ export default {
     },
     methods: {
         async getProjectsList( year ) {
-            // get projects list
-            const res = await fetch(`${process.env.apiUrl}/projects/simple_list/${year}`);
-            
+            const res = await fetch(`${process.env.apiUrl}/projects/simple_list`, {
+                method: 'post',
+                headers: {
+                    'content-type': 'application/json'
+                },
+                body: JSON.stringify(this.dataObject)
+            });
             if( res.status === 200 ){
                 const resData = await res.json();
                 if( resData.status === 200 ){
@@ -287,7 +311,6 @@ export default {
         },
         
         changeToUpper() {
-            console.log('changing');
             this.$parent.incomeData['sign'] = (this.$parent.incomeData['sign']).toUpperCase();
         },
 
@@ -320,47 +343,10 @@ export default {
 </script>
 
 <style>
-.custom-radio label{
+.sfMainForm {
+    font-size: 0.2em;
+}
+.sfMainForm .custom-radio label{
     cursor: pointer;
-}
-
-table.taxData {
-    border: 0px solid #555555;
-    background-color: #555555;
-    width: 100%;
-    text-align: center;
-    border-collapse: collapse;
-}
-table.taxData td, table.taxData th {
-    border: 1px solid #555555;
-    padding: 0.5em 0.5em;
-}
-table.taxData tbody td {
-    font-size: 0.7em;
-    font-weight: bold;
-    color: #FFFFFF;
-    letter-spacing: 1.1px;
-    padding: 0.5em;
-}
-table.taxData td:nth-child(even) {
-    background: #1C7C80;
-}
-table.taxData thead {
-    background: #16B8B8;
-    border-bottom: 10px solid #1C7C80;
-}
-table.taxData th {
-    font-size: 0.9em;
-    font-weight: bold;
-    color: #FFFDD5;
-}
-table.taxData thead th {
-    font-weight: bold;
-    color: #333333;
-    text-align: center;
-    border-left: 2px solid #1C7C80;
-}
-table.taxData thead th:first-child {
-    border-left: none;
 }
 </style>

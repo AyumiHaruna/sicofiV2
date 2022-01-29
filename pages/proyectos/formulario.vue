@@ -3,15 +3,15 @@
         <div class="col-12">
 
             <div class="row">
-                <div class="col-12 m-4 text-center">
-                    <h3>Formulario de proyectos</h3>
+                <div class="col-6 pageTitle">
+                    Formulario de proyectos
                 </div>
             </div>
 
             <ProjectForm v-model="projectData" :blocked="blocked"/>
-    
+
             <ProjectAccounts :accounts="projectData.accounts" />
-       
+           
             <transition name="fade">
                 <PartForm v-model="partListData"  v-if="partFormShown" />
             </transition>
@@ -19,7 +19,7 @@
                        
 
             <Toast ref="toast"></Toast>         
-            
+            <LogTest ref="logTest" /> 
         </div>
          
     </div>
@@ -30,11 +30,12 @@ import ProjectForm from '@/components/projects/ProjectForm.vue';
 import ProjectAccounts from '@/components/projects/ProjectAccounts.vue';
 import PartForm from '@/components/projects/PartForm.vue';
 
+import LogTest from '@/components/general/LogTest.vue'
 import Toast from '@/components/general/Toast.vue';
 
 export default {
     name: 'project-form',
-    components: { ProjectForm, ProjectAccounts, PartForm, Toast },
+    components: { ProjectForm, ProjectAccounts, PartForm, Toast, LogTest },
     data() {
         return {
             projectData: {
@@ -71,6 +72,9 @@ export default {
         }
     },
     mounted() {
+        this.$refs.logTest.hasSesion();
+        this.$refs.logTest.hasLevel( 2 )
+
         // set current working year 
         if(process.client){
             this.projectData.year = localStorage.getItem('year');
@@ -138,10 +142,5 @@ export default {
 </script>
 
 <style>
-.fade-enter-active, .fade-leave-active {
-  transition: all .3s;
-}
-.fade-enter, .fade-leave-to{
-  opacity: 0;
-}
+    
 </style>

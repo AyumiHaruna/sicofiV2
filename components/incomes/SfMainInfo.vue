@@ -1,12 +1,14 @@
 <template>
-  <div class="row block">
+  <div class="row block sfMainInfo">
     <div class="col-12 panel">
       
       <div class="row">
-
+        <div class="col-12 sectionTitle">
+          DATOS DE LA SOLICITUD DE FONDOS
+        </div>
         <div class="col-12">
           <!-- sf main info table  -->
-          <table class="incomeInfo">
+          <table class="firstLvl">
             <tr>              
               <th>S.F. ID</th>
               <th>CONCEPTO</th>
@@ -25,33 +27,40 @@
           </table>
 
           <!-- sf cap ammount table VALIDACION -->
-          <table class="amountInfo" v-if="type == 'validacion'">            
+          <table class="firstLvl" v-if="type == 'validacion'">
             <tr>
-              <th colspan="5">SOLICITADO POR CAPÍTULO</th>
+              <th></th>
+              <th v-for="num in 5" :key="num">CAP {{num}}000</th>
             </tr>
             <tr>
-              <th v-for="num in 5" :key="num">CAP. {{num}}000</th>
+                <th>SOLICITADO</th>
+                <td v-for="num in 5" :key="num">${{moneyFormat(income.sfData[`cap${num}`])}}</td>
             </tr>
-
             <tr>
-              <td v-for="cap in 5" :key="cap">${{moneyFormat(income.sfData[`cap${cap}`])}}</td>
-            </tr>
-
-            <tr>
-              <th>TOTAL SOLICITADO</th>
               <th>VALIDADO</th>
-              <th>POR VALIDAR</th>
+              <td v-for="num in 5" :key="num">${{moneyFormat(ministered[num-1])}}</td>
+            </tr>
+            <tr>
+                <th>POR VALIDAR</th>
+                <td v-for="num in 5" :key="num">${{moneyFormat( income.sfData[`cap${num}`] - ministered[num-1] )}}</td>
+            </tr>
+            <tr>
+              <th></th>
+              <th>TOTAL SOLICITADO</th>
+              <th>TOTAL VALIDADO</th>
+              <th>TOTAL POR VALIDAR</th>
               <th>% VALIDACIÓN</th>
-              <th>AÑADIR VALIDACIÓN</th>
+              <th>AÑADIR VALIDACION</th>
             </tr>
 
             <tr>
+              <th></th>
               <td>${{moneyFormat(income.requested)}}</td>
               <td>${{moneyFormat(income.ministered)}}</td>
               <td>${{ moneyFormat(income.requested - income.ministered) }}</td>
               <td>{{ ((income.ministered * 100) / income.requested).toFixed(2) }} % </td>
               <td>
-                <button class="plusBtn infoBtn" v-b-tooltip.hover title="Añadir Validación" alt="Añadir Validación" @click="$parent.openform('create')">
+                <button class="miniBtn infoBtn" v-b-tooltip.hover title="Añadir Validación" alt="Añadir Validación" @click="$parent.openform('create')">
                   <i class="fas fa-hand-holding-usd"></i>
                 </button>
               </td>
@@ -59,7 +68,7 @@
           </table>
 
           <!-- sf cap ammount table COMPROBACION -->
-          <table class="amountInfo" v-if="type == 'comprobacion'">
+          <table class="firstLvl" v-if="type == 'comprobacion'">
             <tr>
                 <th></th>
                 <th v-for="num in 5" :key="num">CAP {{num}}000</th>
@@ -98,7 +107,7 @@
               <td>{{ ((income.checked * 100) / income.ministered).toFixed(2) }} % </td>
               <td>
                 <nuxt-link :to="`/ingresos/sf_comprobaciones/sf_comprobaciones_formulario?code=${income.sfId}`">
-                  <button class="plusBtn warningBtn" v-b-tooltip.hover title="Añadir Comprobación" alt="Añadir Comprobación">
+                  <button class="miniBtn infoBtn" v-b-tooltip.hover title="Añadir Comprobación" alt="Añadir Comprobación">
                     <i class="fas fa-clipboard-check"></i>
                   </button>
                 </nuxt-link>
@@ -171,77 +180,7 @@ export default {
 </script>
 
 <style>
-  table.incomeInfo {
-    border: 0px solid #170655;
-    background-color: #261441;
-    width: 100%;
-    text-align: center;
-    border-collapse: collapse;
-    font-size: 0.9em;
-    margin-bottom: 2em;
+  .sfMainInfo .firstLvl tr th{
+    border: solid 1px #b6b6b6;
   }
-  table.incomeInfo th {
-    border: 1px solid #555555;
-    padding: 0.5em 1em;
-    font-size: 0.9em;
-  }
-  table.incomeInfo td {
-    font-size: 0.9em;
-    color: #FFFFFF;
-    padding: 0.5em 1em;
-    background: #685584;
-  }
-  table.incomeInfo th {
-    background: #322446;
-  }
-
-
-  table.amountInfo {
-      border: 0px solid #555555;
-      background-color: #555555;
-      width: 100%;
-      text-align: center;
-      border-collapse: collapse;
-  }
-  table.amountInfo td, table.amountInfo th {
-      border: 1px solid #555555;
-      padding: 0.5em 0.5em;
-  }
-  table.amountInfo td {
-      font-size: 0.75em;
-      font-weight: bold;
-      color: #FFFFFF;
-      letter-spacing: 1.1px;
-  }
-  table.amountInfo tr {
-      background: #1C7C80;
-  }
-  table.amountInfo th {
-      background: #16B8B8;
-      border-bottom: 1px solid #1C7C80;
-      font-size: 0.85em;
-      font-weight: bold;
-      color: #000;
-  }
-
-
-  .plusBtn{        
-    border: solid 0px #fff;
-    border-radius:5px;
-    display:inline-block;
-    cursor:pointer;
-    color:#ffffff;
-    font-weight: bold;
-    padding: 0.8em 1.1em;
-    text-decoration:none;
-    margin: 0.5em 1em;
-    letter-spacing: 1.3px;
-}
-.plusBtn i{
-  font-size: 1.5em;
-}
-.plusBtn:active {
-  position:relative;
-  top:1px;
-}
 </style>

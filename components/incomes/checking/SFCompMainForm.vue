@@ -1,7 +1,7 @@
 <template>       
     <div class="row">
-        <div class="col-12">
-            <label> DATOS DEL INGRESO </label>
+        <div class="col-12 sectionTitle">
+            DATOS DEL INGRESO
         </div>
 
         <div class="col-3">
@@ -17,7 +17,7 @@
             <label>TIPO DE OPERACIÓN</label>
         </div>
         <div class="col-3">
-            <input type="date" :value="$parent.income.validations[0]['depDate']" class="blockedField" readonly>
+            <input type="date" :value="(($parent.income.validations).length > 0)? $parent.income.validations[0]['depDate'] : '' " class="blockedField" readonly>
             <label>FECHA DE 1a. MINISTRACIÓN</label>
         </div>
 

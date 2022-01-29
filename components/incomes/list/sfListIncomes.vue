@@ -1,11 +1,13 @@
 <template>
   <div class="row">
-    <div class="col-12 sfBlock">
+    <div class="col-12 sfListIncomes sfBlock">
       <div class="row">
-        <div class="col-12 accountTitle"><label> {{ (account == 1)? "CUENTA DE LA COORDINACIÓN" : "CUENTA DEL INSTITUTO" }} </label></div>
+        <div class="col-12 sectionTitle">
+          {{ (account == 1)? "CUENTA DE LA COORDINACIÓN" : "CUENTA DEL INSTITUTO" }} 
+        </div>
 
         <div class="col-12">
-          <table class="sfTable" v-for="sf in accountList" :key="sf.sfId"> 
+          <table class="secondLvl" v-for="sf in accountList" :key="sf.sfId"> 
               <tr>
                 <th>S.F. #</th>
                 <th>S.F. ID</th>
@@ -16,11 +18,11 @@
                 <th>FECHA ELAB.</th>            
                 <th rowspan="4">
                   IMPRIMIR S.F. <br><br>
-                  <nuxt-link :to="`/ingresos/sf_impresion?code=${sf.sfId}`">
-                    <button class="plusBtn saveBtn" v-b-tooltip.hover title="Imprimir S.F." alt="Imprimir S.F.">
+                  <a :href="`${getApiUrl}/print/income/${sf.id}`" target="_blank">
+                    <button class="miniBtn warningBtn" v-b-tooltip.hover title="Imprimir S.F." alt="Imprimir S.F.">
                       <i class="fas fa-print"></i>
                     </button>
-                  </nuxt-link>
+                  </a>
                 </th>
               </tr>
               <tr>
@@ -36,15 +38,15 @@
                 <th rowspan="2">
                   MODIFICAR <br>
                   <nuxt-link :to="`/ingresos/sf_formulario?code=${sf.sfId}`">
-                    <button class="plusBtn saveBtn" v-b-tooltip.hover title="Modificar S.F." alt="Modificar S.F.">
-                      <i class="far fa-edit"></i> 
+                    <button class="miniBtn saveBtn" v-b-tooltip.hover title="Modificar S.F." alt="Modificar S.F.">
+                      <i class="fas fa-pen"></i>
                     </button>
                   </nuxt-link>
                 </th>
                 <th rowspan="2">
                   VALIDACIONES <br>
                   <nuxt-link :to="`/ingresos/sf_validacion?code=${sf.sfId}`">
-                    <button class="plusBtn infoBtn" v-b-tooltip.hover title="Validaciones" alt="Validaciones">
+                    <button class="miniBtn infoBtn" v-b-tooltip.hover title="Validaciones" alt="Validaciones">
                       <i class="fas fa-hand-holding-usd"></i>
                     </button>
                   </nuxt-link>
@@ -55,8 +57,8 @@
                 
                 <th rowspan="2">
                   COMPROBACIONES <br>
-                  <nuxt-link :to="`/ingresos/sf_comprobaciones?code=${sf.sfId}`">
-                    <button class="plusBtn warningBtn" v-b-tooltip.hover title="Comprobaciones" alt="Comprobaciones">
+                  <nuxt-link :to="`/ingresos/sf_comprobaciones?code=${sf.sfId}`" v-if="sf.ministered != 0">
+                    <button class="miniBtn infoBtn" v-b-tooltip.hover title="Comprobaciones" alt="Comprobaciones">
                       <i class="fas fa-clipboard-check"></i>
                     </button>
                   </nuxt-link>
@@ -96,6 +98,12 @@ export default {
       }
     },
 
+    methods: {
+      togglePanel( index ){
+        this.$set(this.visible, index, !this.visible[index])
+      },
+    },
+
     computed: {
       accountList: function(){
         return (this.sfList).filter( (elm) => {
@@ -105,78 +113,12 @@ export default {
         });
       },
     },
-
-    methods: {
-      togglePanel( index ){
-        this.$set(this.visible, index, !this.visible[index])
-      },
-    }
 }
 </script>
 
 <style>
-  .sfBlock{
-    background: #192266;
+  .sfListIncomes.sfBlock{
+    background: #363e4a;
     padding: 0.5em 1em;
   }
-
-  .accountTitle{
-    text-align: center;
-    padding: 0.5em;
-    font-weight: bold;
-    font-size: 0.85em;
-    letter-spacing: 1.5px;
-    text-decoration: underline;
-  }
-
-  table.sfTable{
-    table-layout: fixed;
-    width: 100%;
-    word-wrap: break-word; 
-    margin-bottom: 0.5em;
-    text-align: center;
-    font-size: 0.9em;
-  }
-  table.sfTable th{
-    padding: 0.5em 0.5em;
-    background-color: #111;
-    font-size: 0.7em;
-    letter-spacing: 1.3px;
-    border: solid 1px #000;
-  }
-  table.sfTable tr{
-    background-color: #565656;
-  }
-  table.sfTable td{
-    font-size: 0.8em;
-    width: 7.14%;
-    border: solid 1px #000;
-    padding: 0.5em;
-  }
-  
-  table.sfTable .conceptCell{
-    font-size: 0.8em;
-    width: 14.2%
-  }
-
-  .plusBtn{        
-    border: solid 0px #fff;
-    border-radius:5px;
-    display:inline-block;
-    cursor:pointer;
-    color:#ffffff;
-    font-weight: bold;
-    padding: 0.8em 1.1em;
-    text-decoration:none;
-    margin: 0.5em 1em;
-    letter-spacing: 1.3px;
-  }
-  .plusBtn i{
-    font-size: 1.8em !important;
-  }
-  .plusBtn:active {
-    position:relative;
-    top:1px;
-  }
-
 </style>

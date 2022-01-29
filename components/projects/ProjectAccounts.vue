@@ -1,6 +1,6 @@
 <template>
-    <div class="row projectAccounts">
-        <div class="col-12 accordion block" role="tablist"> 
+    <div class="row block projectAccounts">
+        <div class="col-12" role="tablist"> 
             <div class="panel">
                 <div v-for="(account, index) in accounts" :key="index">
                     <b-card-header header-tag="header" class="p-1" role="tab" >
@@ -15,21 +15,21 @@
                         >
                             <div class="row">
                                 <div class="col-4 account_info">
-                                    Tipo de cuenta: <strong>{{ $store.state.accountType[ account.accountType - 1 ] }}</strong> <br>
-                                    Total: <strong> ${{ moneyFormat(account.total) }}</strong>
+                                    Tipo de cuenta: <span>{{ $store.state.accountType[ account.accountType - 1 ] }}</span> <br>
+                                    Total: <span> ${{ moneyFormat(account.total) }}</span>
                                     <br>
                                     <i class="fas fa-angle-down" v-if="!collapseList[index]"></i>
                                     <i class="fas fa-angle-up" v-if="collapseList[index]"></i>
                                 </div>
                                 <div class="col-8">
-                                    <table class="headData">
+                                    <table class="firstLvl">
                                         <thead>
                                             <tr>
-                                                <th>Capítulo 1000</th>
-                                                <th>Capítulo 2000</th>
-                                                <th>Capítulo 3000</th>
-                                                <th>Capítulo 4000</th>
-                                                <th>Capítulo 5000</th>
+                                                <th>CAPÍTULO 1000</th>
+                                                <th>CAPÍTULO 2000</th>
+                                                <th>CAPÍTULO 3000</th>
+                                                <th>CAPÍTULO 4000</th>
+                                                <th>CAPÍTULO 5000</th>
                                             </tr>   
                                         </thead>
                                         <tbody>
@@ -46,51 +46,54 @@
                     </b-card-header>
 
                     <b-collapse class="accordion_body" :id="`collapse-${index}`" accordion="my-accordion" v-model="collapseList[index]" role="tabpanel">
+                        <div class="col-12 tableTitle">
+                            Desglose de capítulos por mes
+                        </div>
                         <div class="col-12 text-center">
-                            <h5>Desglose de capítulos por mes</h5>
-                            <table class="infoData">
-                                <thead>
-                                    <tr>
-                                        <th>Capítulo</th>
-                                        <th v-for="month in $store.state.monthList" :key="month">
-                                            {{ month.substring(0,3) }}
-                                        </th>
-                                    </tr>
-                                </thead>
-                                
-                                <tbody>
-                                    <tr v-for="chap in account.chapters" :key="chap.id">
-                                        <th> Cap. {{chap.chapter}}000 </th>
-                                        <td v-for="index in 12" :key="index"> 
-                                            ${{ moneyFormat(chap[`month${index}`]) }} 
-                                        </td>
-                                    </tr>
-                                </tbody>
+                            <table class="secondLvl">
+                                <tr>
+                                    <th>CAPÍTULO</th>
+                                    <th v-for="month in $store.state.monthList" :key="month">
+                                        {{ (month.substring(0,3)).toUpperCase() }}
+                                    </th>
+                                </tr>
+                            
+                                <tr v-for="chap in account.chapters" :key="chap.id">
+                                    <th> CAP. {{chap.chapter}}000 </th>
+                                    <td v-for="index in 12" :key="index"> 
+                                        ${{ moneyFormat(chap[`month${index}`]) }} 
+                                    </td>
+                                </tr>
                             </table>
                         </div>
 
                          <div class="col-12 text-center">
-                            <h5>Desglose de partidas</h5>
+                            <div class="tableTitle">
+                                Desglose de partidas
+                            </div>
                             <div class="part_list_container">
                                 <div class="part_list" v-for="part in account.parts" :key="part.id">
-                                    <table>
+                                    <table class="secondLvl">
                                         <tr>
                                             <th colspan="12"> {{part.partNumber}} - {{part.partName}} </th>
-                                            <th> Total: ${{part.total}} </th>
+                                            <th colspan="2"> TOTAL: ${{part.total}} </th>
                                         </tr>
                                         <tr>
-                                            <td v-for="month in $store.state.monthList" :key="month">
-                                                {{ month.substring(0,3) }}
-                                            </td>
-                                            <td> Acciones </td>
+                                            <th v-for="month in $store.state.monthList" :key="month">
+                                                {{ (month.substring(0,3)).toUpperCase() }}
+                                            </th>
+                                            <th>EDITAR</th>
+                                            <th>ELIMINAR</th>
                                         </tr>
                                         <tr>
                                             <td v-for="index2 in 12" :key="index2">
                                                 ${{ moneyFormat(part[`month${index2}`]) }}
                                             </td>
                                             <td>
-                                                <button class="update" v-b-tooltip.hover title="Modificar" @click="$parent.showPartForm(account.accountType, account.projectNumber, 'update', part)"><i class="fas fa-edit"></i></button>
-                                                <button class="delete" v-b-tooltip.hover title="Eliminar" @click="askForDelete(part.id)"><i class="fas fa-trash-alt"></i></button>
+                                                <button class="miniBtn saveBtn" v-b-tooltip.hover title="Modificar" @click="$parent.showPartForm(account.accountType, account.projectNumber, 'update', part)"><i class="fas fa-edit"></i></button>
+                                            </td>
+                                            <td>
+                                                <button class="miniBtn closeBtn" v-b-tooltip.hover title="Eliminar" @click="askForDelete(part.id)"><i class="fas fa-trash-alt"></i></button>
                                             </td>
                                         </tr>
                                     </table>
@@ -176,169 +179,39 @@ export default {
 </script>
 
 <style scoped>
-    .panel {
-        padding: 0;
-    }
-
-    
-    .header_button {
-        background-color: #282a57;
-        border: solid 0px #fff;
-        border-radius: 5px;
-        font-size: 0.95em;
-    }
-    .header_button:hover, .header_button:active {
-        background-color: #3D416D;
-    }
-    .btn-secondary:focus, .btn-secondary.focus {
-        background-color: #3D416D;
-        border-color: #3D416D;
-    }
-    
-    .account_info {
-        line-height: 1.5em;
-    }
-    .account_info i{
-        font-size: 1.5em;
-    }
-
-   table.headData {
-        border: 0px solid #170655;
-        background-color: #261441;
-        width: 100%;
-        text-align: center;
-        border-collapse: collapse;
-    }
-    table.headData td, table.headData th {
-        border: 1px solid #555555;
-        padding: 0.5em 1em;
-    }
-    table.headData tbody td {
-        font-weight: bold;
-        color: #FFFFFF;
-    }
-    table.headData td:nth-child(even) {
-        background: #4D396A;
-    }
-    table.headData thead {
-        background: #685584;
-        border-bottom: 2px solid #6E02BA;
-    }
-    table.headData thead th {
-        font-weight: bold;
-        color: #F6F6F6;
-        text-align: center;
-        border-left: 2px solid #433755;
-    }
-    table.headData thead th:first-child {
-        border-left: none;
-    }
-
-    .accordion_body div{
-        padding-top: 1em;
-    }
-
-    .part_list_container{
-        background-color: #272b72;
-        border-radius: 5px;
-    }
-
-    table.infoData {
-        border: 0px solid #555555;
-        background-color: #555555;
-        width: 100%;
-        text-align: center;
-        border-collapse: collapse;
-    }
-    table.infoData td, table.infoData th {
-        border: 1px solid #555555;
-        padding: 0.5em 0.5em;
-    }
-    table.infoData tbody td {
-        font-size: 0.7em;
-        font-weight: bold;
-        color: #FFFFFF;
-        letter-spacing: 1.1px;
-    }
-    table.infoData tr:nth-child(even) {
-        background: #1C7C80;
-    }
-    table.infoData thead {
-        background: #16B8B8;
-        border-bottom: 10px solid #1C7C80;
-    }
-    table.infoData th {
-        font-size: 0.9em;
-        font-weight: bold;
-        color: #FFFDD5;
-    }
-    table.infoData thead th {
-        font-weight: bold;
-        color: #333333;
-        text-align: center;
-        border-left: 2px solid #1C7C80;
-    }
-    table.infoData thead th:first-child {
-        border-left: none;
-    }
-
-    .part_list{
-        /* background: whitesmoke; */
-        color: #F6F6F6;
-        font-size: 0.8em;
-        padding: 1em;
-    }
-    .part_list table{
-        width: 100%;
-    }
-    .part_list table,
-    .part_list tr,
-    .part_list td,
-    .part_list th {
-        border: solid 1px #555;
-        padding: 0.3em;
-    }
-    .part_list button {
-        font-size: 1.8em;
-        margin: 0 0.5em;
-        background: none; 
+    .projectAccounts .header_button {
+        background-color: #363e4a;
         border: none;
-        padding: 0.1em 0.2em;
         border-radius: 5px;
+        font-size: 0.85rem;
+        margin-bottom: 0.5em;
     }
-    .part_list button:hover {
-        background-color: #3D416D;
-    }
-    .part_list button.update {
-        color: #99ccff;
-    }
-    .part_list button.delete {
-        color: #ff9999;
+    .projectAccounts .header_button:hover, .projectAccounts .header_button:active,
+    .projectAccounts .btn-secondary:focus, .projectAccounts .btn-secondary.focus {
+        background-color: #4b5768;
     }
     
-    button.add_part {
-        box-shadow: 0px 0px 5px 0px #00ccff;
-        background-color:#16b8b8;
-        border-radius:10px;
-        display:inline-block;
-        cursor:pointer;
-        color:#ffffff;
-        font-family:Arial;
-        font-size:17px;
-        padding: 0.5em;
-        text-decoration:none;
-        text-shadow:0px 1px 0px #00a6ff;
-        margin-bottom: 1em;
+    
+    .projectAccounts .account_info {
+        line-height: 1.2rem;
+        margin-top: 1em;
     }
-    button.add_part i{
-        font-size: 1.3em;
-        margin-right: 0.2em;
+    .projectAccounts .account_info span{
+        color: #c7656c;
+        font-weight: bold;
+        font-size: 1.1em;
+        letter-spacing: 1.2px;
     }
-    button.add_part:hover {
-        background-color:#05949e;
+    .projectAccounts .account_info i{
+        font-size: 2.2em;
     }
-    button.add_part:active {
-        position:relative;
-        top:1px;
+
+    .projectAccounts .tableTitle{
+        font-weight: bold;
+        text-align: right;
+        font-size: 0.85rem;
+        letter-spacing: 2px;
+        margin: 0.5rem;
+        color: #c7656c;
     }
 </style>

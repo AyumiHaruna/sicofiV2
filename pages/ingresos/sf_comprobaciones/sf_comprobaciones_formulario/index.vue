@@ -3,8 +3,8 @@
     <div class="col-12">
       
       <div class="row">
-        <div class="col-12 text-center ">
-            <h1>Formulario de Comprobación</h1>
+        <div class="col-6 pageTitle">
+            Formulario de Comprobación
         </div>
       </div>
 
@@ -21,6 +21,7 @@
       <SFCompPartForm v-show="showForm"></SFCompPartForm>
 
       <Toast ref="toast"></Toast>   
+      <LogTest ref="logTest" /> 
     </div>
   </div>
 </template>
@@ -30,13 +31,15 @@ import SFAmountInfo from '@/components/incomes/SFAmountInfo.vue'
 import SFCompMainForm from '~/components/incomes/checking/SFCompMainForm.vue'
 import SFCompPartList from '~/components/incomes/checking/SFCompPartList.vue'
 import SFCompPartForm from '@/components/incomes/checking/SFCompPartForm'
+
+import LogTest from '@/components/general/LogTest.vue'
 import Toast from '@/components/general/Toast.vue';
 
 import GlobalFunctions from '@/mixins/GlobalFunctions';
 
 export default {
   name: 'sf_comprobaciones_formulario',
-  components: { SFAmountInfo, SFCompMainForm, SFCompPartList, SFCompPartForm, Toast },
+  components: { SFAmountInfo, SFCompMainForm, SFCompPartList, SFCompPartForm, Toast, LogTest },
   mixins: [ GlobalFunctions ],
   data() {
     return {
@@ -62,6 +65,10 @@ export default {
     }
   },
   mounted() {
+    // test login data
+    this.$refs.logTest.hasSesion();
+    this.$refs.logTest.hasLevel( 2 );
+
     // get url code, if not exists redirect
     if( this.$nuxt.$route.query.code ){
         this.sfId = this.$nuxt.$route.query.code;
@@ -70,7 +77,7 @@ export default {
         this.$refs.toast.makeToast('error', `Error al buscar la S.F. intenta nuevamente`);
         setTimeout( function() {
             window.location.href = `ingresos/sf_comprobaciones?code=${localStorage.getItem('lastSF')}`;  
-        }, 2000)
+        }, 2000);
     }
 
     // if url id exists, then is an update form config
@@ -146,6 +153,7 @@ export default {
       if( res.status === 200 ){                
           this.$refs.toast.makeToast('success', `Comprobación guardada exitosamente`);  
           this.urlType = 'update';
+          this.getSFInfo( this.sfId );
       } else {
           this.$refs.toast.makeToast('error', `No se pudo guardar, intenta nuevamente`);
       }
@@ -240,27 +248,5 @@ export default {
 </script>
 
 <style>
-  table.incomeInfo {
-    border: 0px solid #170655;
-    background-color: #261441;
-    width: 100%;
-    text-align: center;
-    border-collapse: collapse;
-    font-size: 0.9em;
-    margin-bottom: 2em;
-  }
-  table.incomeInfo th {
-    border: 1px solid #555555;
-    padding: 0.5em 1em;
-    font-size: 0.9em;
-  }
-  table.incomeInfo td {
-    font-size: 0.9em;
-    color: #FFFFFF;
-    padding: 0.5em 1em;
-    background: #685584;
-  }
-  table.incomeInfo th {
-    background: #322446;
-  }
+ 
 </style>

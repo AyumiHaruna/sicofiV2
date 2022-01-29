@@ -3,36 +3,42 @@
         <div class="col-12">
             
             <div class="row">
-                <div class="col-8 top_header">
-                    <h1>Lista de Proyectos</h1>
+                <div class="col-4 pageTitle">
+                   Proyectos
+                </div>
+
+                <div class="col-4 text-center">
+                    <nuxt-link to="/proyectos/formulario">
+                        <button class="actionBtn saveBtn" v-b-tooltip.hover title="Nuevo proyecto" alt="Nuevo proyecto">
+                            <i class="fas fa-folder-plus"></i>
+                            NUEVO PROYECTO
+                        </button>
+                    </nuxt-link>                    
                 </div>
                 
-                <div class="col-4 top_header">
-                    <b-form-select ref="project" name="project" v-model="selectedProject" >
-                        <b-form-select-option value="">-- Todos los proyectos -- </b-form-select-option>
-                        <b-form-select-option :value="elm.projectNumber" v-for="(elm,index) in projectData" :key="index">    
-                            {{elm.projectNumber}} - {{elm.projectName}}
-                        </b-form-select-option>
-                    </b-form-select>
-                    <label for="project">FILTRAR PROYECTOS</label>
+                <div class="col-4 proyForm">
+                    <ProjectFilter></ProjectFilter>
                 </div>
             </div>
 
             <ProjectCard :projectData="projectData" v-model="selectedProject"/>
 
-            <Toast ref="toast"></Toast>         
+            <Toast ref="toast"></Toast>        
+            <LogTest ref="logTest" /> 
         </div>
     </div>
 </template>
 
 <script>
+import ProjectFilter from '@/components/general/ProjectFilter.vue';
 import ProjectCard from '@/components/projects/ProjectCard.vue';
 
+import LogTest from '@/components/general/LogTest.vue';
 import Toast from '@/components/general/Toast.vue';
 
 export default {
     name: 'projectList',
-    components: {   ProjectCard, Toast   },
+    components: {  ProjectFilter, ProjectCard, Toast, LogTest   },
     data() {
         return {
             projectData: [],
@@ -58,6 +64,10 @@ export default {
 
         this.getAllProjects();
     },
+    mounted() {
+        this.$refs.logTest.hasSesion();
+        this.$refs.logTest.hasLevel( 2 );
+    },
     methods: {
         async getAllProjects() {            
             const res = await fetch(`${process.env.apiUrl}/projects/list`, {
@@ -81,12 +91,13 @@ export default {
 </script>
 
 <style scoped>
-    .top_header{
+    
+    /* .top_header{
         padding: 2em;
     }
 
     input, select {
         background-color:#0f143c !important;
         font-size: 1em;
-    }
+    } */
 </style>

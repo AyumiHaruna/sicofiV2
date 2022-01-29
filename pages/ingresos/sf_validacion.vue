@@ -3,8 +3,8 @@
         <div class="col-12">
 
             <div class="row">
-                <div class="col-12">
-                    <h1>Validación de S.F.</h1>
+                <div class="col-6 pageTitle">
+                    Validación de S.F.
                 </div>
             </div>
 
@@ -15,6 +15,7 @@
             <sfValForm :income="income" v-if="income != ''"></sfValForm>
 
             <Toast ref="toast"></Toast>    
+            <LogTest ref="logTest" /> 
         </div>
     </div>
 </template>
@@ -24,13 +25,14 @@ import SfMainInfo from '@/components/incomes/SfMainInfo.vue';
 import SFValList from '@/components/incomes/validation/SFValList';
 import sfValForm from '~/components/incomes/validation/sfValForm.vue'
 
+import LogTest from '@/components/general/LogTest.vue'
 import Toast from '@/components/general/Toast.vue';
 
 import GlobalFunctions from '@/mixins/GlobalFunctions';
 
 export default {
     name: 'sf_validacion',
-    components: { SfMainInfo, SFValList, sfValForm, Toast },
+    components: { SfMainInfo, SFValList, sfValForm, Toast, LogTest },
     mixins: [ GlobalFunctions ],
     data() {
         return {
@@ -63,6 +65,10 @@ export default {
                 window.location.href = `ingresos`;  
             }, 3000)
         }        
+    },
+    mounted() {
+        this.$refs.logTest.hasSesion();
+        this.$refs.logTest.hasLevel( 2 );
     },
     methods: {
         async getSFInfo( sfId ){

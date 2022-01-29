@@ -1,8 +1,9 @@
 <template>
-    <div class="container-fluid">
+    <div class="container-fluid p-0">
+        
         <Menu />
 
-        <SubNav></SubNav>
+        <SubNav />
 
         <nuxt />
     </div>
@@ -12,8 +13,9 @@
 import Menu from '@/components/general/Menu.vue';
 import SubNav from '@/components/general/SubNav.vue';
 
+
 export default {
-    components: {Menu, SubNav},
+    components: {Menu, SubNav },
     head: {
         script: [
             {

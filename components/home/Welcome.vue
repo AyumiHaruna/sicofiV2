@@ -1,11 +1,11 @@
 <template>
   <div class="row">
-    <div class="col-12 welcome">
-      <h2>
-        Hola! {{ getUser }} 
-      </h2>
-        Estas usando los datos de <span>{{ getYear }}</span>
+    <div class="col-12 welcomeTitle">
+      Hola <span>{{ getUser }}</span>!
     </div>      
+    <div class="col-12 welcomeMsg">
+      Estas usando los datos de <span>{{ getYear }}</span>
+    </div>
   </div>
 </template>
 
@@ -23,6 +23,18 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+  .welcomeTitle{
+    text-align: center;
+    font-size: 2.5em;
+    margin-bottom: 1.2em;
+  }
+  .welcomeMsg{
+    text-align: center;
+    font-size: 1.2em;
+  }
+  span{
+    color: #c2343e;
+    font-weight: bold;
+  }
 </style>

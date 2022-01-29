@@ -3,9 +3,16 @@
         <div class="col-12 panel">
 
             <div class="row">
-                <div class="col-12"> <label>LISTA DE COMPROBACIONES</label> </div>
+                <div class="col-6">
+                    <a :href="`${getApiUrl}/print/SFgobal_comp/${income.id}`" target="_blank">
+                        <button class="actionBtn warningBtn" v-b-tooltip.hover title="Imprimir Comprobación" alt="Imprimir Comprobación">
+                            <i class="fas fa-print"></i> COMPROBACIÓN GLOBAL
+                        </button>
+                    </a>
+                </div>
+                <div class="col-6 sectionTitle">LISTA DE COMPROBACIONES</div>
                 <div class="col-12">
-                    <table class="compTable">
+                    <table class="secondLvl">
                         <thead>
                             <tr>
                                 <th>CARATULA</th>
@@ -28,25 +35,23 @@
                                 </td>
                                 <td>${{ moneyFormat(check.checked) }}</td>
                                 <td>
-                                    <nuxt-link :to="`/ingresos/sf_comprobaciones/sf_comprobaciones_formulario?code=${income.sfId}`">
-                                        <button class="plusBtn warningBtn" v-b-tooltip.hover title="Añadir Comprobación" alt="Añadir Comprobación">
-                                            <i class="fas fa-clipboard-check"></i>
+                                    <a :href="`${getApiUrl}/print/income_comp/${income.id}/${check.id}`" target="_blank">
+                                        <button class="miniBtn warningBtn" v-b-tooltip.hover title="Imprimir Comprobación" alt="Imprimir Comprobación">
+                                            <i class="fas fa-print"></i>
                                         </button>
-                                    </nuxt-link>
+                                    </a>
                                 </td>
                                 <td>
                                     <nuxt-link :to="`/ingresos/sf_comprobaciones/sf_comprobaciones_formulario?code=${income.sfId}&id=${check.id}`">
-                                        <button class="plusBtn warningBtn" v-b-tooltip.hover title="Añadir Comprobación" alt="Añadir Comprobación">
-                                            <i class="fas fa-clipboard-check"></i>
+                                        <button class="miniBtn saveBtn" v-b-tooltip.hover title="Editar Comprobación" alt="Editar Comprobación">
+                                            <i class="far fa-edit"></i>
                                         </button>
                                     </nuxt-link>
                                 </td>
                                 <td>
-                                    <nuxt-link :to="`/ingresos/sf_comprobaciones/sf_comprobaciones_formulario?code=${income.sfId}`">
-                                        <button class="plusBtn warningBtn" v-b-tooltip.hover title="Añadir Comprobación" alt="Añadir Comprobación">
-                                            <i class="fas fa-clipboard-check"></i>
-                                        </button>
-                                    </nuxt-link>
+                                    <button class="miniBtn closeBtn" v-b-tooltip.hover title="Eliminar Comprobación" alt="Eliminar Comprobación" @click="$parent.askForDelete(check.id)">
+                                        <i class="far fa-trash-alt"></i>
+                                    </button>
                                 </td>
                             </tr>
                         </tbody>
@@ -69,33 +74,4 @@ export default {
 </script>
 
 <style>
-table.compTable{
-    table-layout: fixed;
-    width: 100%;
-    word-wrap: break-word; 
-    margin-bottom: 0.5em;
-    text-align: center;
-    font-size: 0.9em;
-  }
-  table.compTable th{
-    padding: 0.5em 0.5em;
-    background-color: #111;
-    font-size: 0.8em;
-    letter-spacing: 1.3px;
-    border: solid 1px #000;
-  }
-  table.compTable tr{
-    background-color: #565656;
-  }
-  table.compTable td{
-    font-size: 0.9em;
-    width: 7.14%;
-    border: solid 1px #000;
-    padding: 1em !important;
-  }
-  
-  table.compTable .conceptCell{
-    font-size: 0.8em;
-    width: 14.2%
-  }
 </style>

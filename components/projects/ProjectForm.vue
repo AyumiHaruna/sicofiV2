@@ -1,83 +1,114 @@
 <template>
-  <form>
-      <div class="row">
-          <div class="col-8 block">
-              <div class="row panel">
-                  <div class="col-12 title">
-                      Datos del proyecto
-                  </div>
+    <form>
+        <div class="row block">
+            <div class="col-8 block">
+                <div class="row">
+                    <div class="col-12 panel">
+                        <div class="row bordered">
+                            <div class="col-12 sectionTitle">
+                                Datos del proyecto
+                            </div>
 
-                  <div class="col-3">
-                        <input type="text" ref="projectNumber" name="projectNumber" v-model="formObj.projectNumber" 
-                            maxlength="10"  @input="$emit('input', formObj)" :disabled="projBlock"
-                            :class="(projBlock)? 'blockedField' : ''" required
-                        >
-                        <label for="projectNumber">NÚMERO DE PROYECTO</label>
-                  </div>
-                  <div class="col-9">
-                        <input type="text" ref="projectName" name="projectName" v-model="formObj.projectName">
-                        <label for="projectName">NOMBRE DEL PROYECTO</label>
-                  </div>
+                            <div class="col-3">
+                                    <input type="text" ref="projectNumber" name="projectNumber" v-model="formObj.projectNumber" 
+                                        maxlength="10"  @input="$emit('input', formObj)" :disabled="projBlock"
+                                        :class="(projBlock)? 'blockedField' : ''" required
+                                    >
+                                    <label for="projectNumber"># DE PROYECTO</label>
+                            </div>
+                            <div class="col-9">
+                                    <input type="text" ref="projectName" name="projectName" v-model="formObj.projectName">
+                                    <label for="projectName">NOMBRE DEL PROYECTO</label>
+                            </div>
 
-                  <div class="col-3">
-                        <b-form-select ref="degree" name="degree" v-model="formObj.degree" >
-                            <b-form-select-option value="">Elige un título</b-form-select-option>
-                            <b-form-select-option value="Lic">Lic.</b-form-select-option>
-                            <b-form-select-option value="Ing">Ing.</b-form-select-option>
-                            <b-form-select-option value="Mtra">Mtra.</b-form-select-option>
-                            <b-form-select-option value="Mtro">Mtro.</b-form-select-option>
-                            <b-form-select-option value="Dra">Dra.</b-form-select-option>
-                            <b-form-select-option value="Dr">Dr.</b-form-select-option>
-                        </b-form-select>
-                        <label for="degree">TÍTULO DEL ENCARGADO</label>
-                  </div>
-                  <div class="col-9">
-                        <input type="text" ref="manager" name="manager" v-model="formObj.manager" maxlength="100">
-                        <label for="manager">NOMBRE DEL ENCARGADO DE PROYECTO</label>    
-                  </div>
+                            <div class="col-3">
+                                    <b-form-select ref="degree" name="degree" v-model="formObj.degree" >
+                                        <b-form-select-option value="">Elige un título</b-form-select-option>
+                                        <b-form-select-option value="Lic">Lic.</b-form-select-option>
+                                        <b-form-select-option value="Ing">Ing.</b-form-select-option>
+                                        <b-form-select-option value="Mtra">Mtra.</b-form-select-option>
+                                        <b-form-select-option value="Mtro">Mtro.</b-form-select-option>
+                                        <b-form-select-option value="Dra">Dra.</b-form-select-option>
+                                        <b-form-select-option value="Dr">Dr.</b-form-select-option>
+                                    </b-form-select>
+                                    <label for="degree">TÍTULO DEL ENCARGADO</label>
+                            </div>
+                            <div class="col-9">
+                                    <input type="text" ref="manager" name="manager" v-model="formObj.manager" maxlength="100">
+                                    <label for="manager">NOMBRE DEL ENCARGADO</label>    
+                            </div>
 
-                  <div class="col-3">
-                        <b-form-select ref="type" name="type" v-model="formObj.type">
-                            <b-form-select-option value="">Elige un tipo de proyecto</b-form-select-option>
-                            <b-form-select-option value="pro">Proyecto</b-form-select-option>
-                            <b-form-select-option value="gb">Gasto Básico</b-form-select-option>
-                            <b-form-select-option value="nom">Nómina</b-form-select-option>
-                        </b-form-select>
-                        <label for="type">TIPO DE PROYECTO</label>    
-                  </div>
-                  <div class="col-9 text-right">
-                        <button class="actionBtn saveBtn" @click.prevent="validateForm()" :disabled="isSaving"> 
-                            <i class="far fa-save"></i>
-                            GUARDAR PROYECTO
-                        </button>
-                  </div>
-              </div>
-          </div>
+                            <div class="col-3">
+                                <b-form-select ref="type" name="type" v-model="formObj.type">
+                                    <b-form-select-option value="">Elige un tipo de proyecto</b-form-select-option>
+                                    <b-form-select-option value="pro">Proyecto</b-form-select-option>
+                                    <b-form-select-option value="gb">Gasto Básico</b-form-select-option>
+                                    <b-form-select-option value="nom">Nómina</b-form-select-option>
+                                </b-form-select>
+                                <label for="type">TIPO DE PROYECTO</label>    
+                            </div>
+                            <div class="col-9 text-right">
+                                    <button class="actionBtn saveBtn" @click.prevent="validateForm()" :disabled="isSaving"> 
+                                        <i class="far fa-save"></i>
+                                        GUARDAR PROYECTO
+                                    </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
 
-          <div class="col-4 block">
-              <div class="row panel">
-                    <div class="col-12 title"> Totales </div>
-                   
-                    <div class="col-7">Total autorizado:</div>
-                    <div class="col-5">${{moneyFormat(value.totalAuth)}}</div>
-                    <div class="col-7">Total coordinación:</div>
-                    <div class="col-5">${{moneyFormat(value.coordAuth)}}</div>
-                    <div class="col-7">Total instituto:</div>
-                    <div class="col-5">${{moneyFormat(value.instAuth)}}</div>
-                    <div class="col-7">Capítulo 1000:</div>
-                    <div class="col-5">${{moneyFormat(value.cap1)}}</div>
-                    <div class="col-7">Capítulo 2000:</div>
-                    <div class="col-5">${{moneyFormat(value.cap2)}}</div>
-                    <div class="col-7">Capítulo 3000:</div>
-                    <div class="col-5">${{moneyFormat(value.cap3)}}</div>
-                    <div class="col-7">Capítulo 4000:</div>
-                    <div class="col-5">${{moneyFormat(value.cap4)}}</div>
-                    <div class="col-7">Capítulo 5000:</div>
-                    <div class="col-5">${{moneyFormat(value.cap5)}}</div>
-              </div>
-          </div>
-      </div>
-  </form>
+            <div class="col-4 block">
+                <div class="row">
+                    <div class="col-12 panel">
+                        <div class="row bordered">
+                            <div class="col-12 sectionTitle"> 
+                                Totales 
+                            </div>
+                            <div class="col-12">
+                                <table class="secondLvl">
+                                    <tr>
+                                        <th>T. Autorizado:</th>
+                                        <td>${{moneyFormat(value.totalAuth)}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>T. Coordinación:</th>
+                                        <td>${{moneyFormat(value.coordAuth)}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>T. Instituto:</th>
+                                        <td>${{moneyFormat(value.instAuth)}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Cap. 1000:</th>
+                                        <td>${{moneyFormat(value.cap1)}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Cap. 2000:</th>
+                                        <td>${{moneyFormat(value.cap2)}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Cap. 3000:</th>
+                                        <td>${{moneyFormat(value.cap3)}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Cap. 4000:</th>
+                                        <td>${{moneyFormat(value.cap4)}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Cap. 5000:</th>
+                                        <td>${{moneyFormat(value.cap5)}}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                        
+                </div>
+            </div>
+        </div>
+    </form>
 </template>
 
 <script>
@@ -177,6 +208,6 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 
 </style>

@@ -1,5 +1,5 @@
     <template>
-    <div class="subNav">
+    <div class="col-12 subNav text-right">
         <ul class="crumb2">
             
             <NuxtLink to="/">
@@ -16,6 +16,7 @@
                     {{ ((page.urlName).split("?"))[0] }}
                 </li>
             </NuxtLink>
+            
         </ul>
     </div>
 </template>
@@ -55,8 +56,8 @@ export default {
                     this.urlCollection.push({urlName: currentRoute[i], currentUrl: url});
                 // }
             }
-            console.log(this.urlCollection);
-            console.log( (this.urlCollection).length );
+            // console.log(this.urlCollection);
+            // console.log( (this.urlCollection).length );
         }
     },
     mounted() {

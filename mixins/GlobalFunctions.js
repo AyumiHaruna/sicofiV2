@@ -187,6 +187,13 @@
               return true;
             }
             
+        },
+
+        
+    },
+    computed: {
+        getApiUrl: function(){
+            return `${process.env.apiUrl}`;
         }
     }
 }

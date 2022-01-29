@@ -1,5 +1,5 @@
 <template>
-    <table class="amountInfo">
+    <table class="secondLvl">
         <tr>
             <th></th>
             <th v-for="num in 5" :key="num">CAP {{num}}000</th>

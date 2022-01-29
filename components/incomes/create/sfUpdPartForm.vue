@@ -2,29 +2,33 @@
   <form>
       <div class="row smoke">
           <div class="col-8 offset-2">
-              <div class="row partForm panel borderedPanel">
-                  <div class="col-8">
-                        <b-form-select ref="part" v-model="$parent.partForm['partNumber']" @change="getPartName">
-                            <b-form-select-option value="">- Elige una partida -</b-form-select-option>
-                            <b-form-select-option :value="part.partNumber" v-for="(part, index) in partList" :key="index">
-                                {{part.partNumber}} - {{part.partName}}
-                            </b-form-select-option>
-                        </b-form-select>
-                        <label for="selectedChapter">PARTIDA</label>
-                  </div>
-                  <div class="col-4">
-                        <input type="text" ref="amount" v-model="$parent.partForm['amount']" />
-                        <label for="total">MONTO ($)</label>
-                  </div>
-                  <div class="col-12 text-right">
-                        <button class="actionBtn closeBtn" @click.prevent="$parent.hidePartForm()">
-                            <i class="fas fa-times"></i>
-                            CANCELAR
-                        </button>
-                        <button class="actionBtn infoBtn" @click.prevent="validateForm()"> 
-                            <i class="fas fa-puzzle-piece"></i>
-                            {{ ($parent.partForm['type'] === 'create') ? 'AÑADIR' : 'EDITAR' }} PARTIDA
-                        </button>
+              <div class="row partForm panel">
+                  <div class="col-12 bordered">
+                    <div class="row">
+                        <div class="col-8">
+                                <b-form-select ref="part" v-model="$parent.partForm['partNumber']" @change="getPartName">
+                                    <b-form-select-option value="">- Elige una partida -</b-form-select-option>
+                                    <b-form-select-option :value="part.partNumber" v-for="(part, index) in partList" :key="index">
+                                        {{part.partNumber}} - {{part.partName}}
+                                    </b-form-select-option>
+                                </b-form-select>
+                                <label for="selectedChapter">PARTIDA</label>
+                        </div>
+                        <div class="col-4">
+                                <input type="text" ref="amount" v-model="$parent.partForm['amount']" />
+                                <label for="total">MONTO ($)</label>
+                        </div>
+                        <div class="col-12 text-right">
+                                <button class="actionBtn closeBtn" @click.prevent="$parent.hidePartForm()">
+                                    <i class="fas fa-times"></i>
+                                    CANCELAR
+                                </button>
+                                <button class="actionBtn infoBtn" @click.prevent="validateForm()"> 
+                                    <i class="fas fa-puzzle-piece"></i>
+                                    {{ ($parent.partForm['type'] === 'create') ? 'AÑADIR' : 'EDITAR' }} PARTIDA
+                                </button>
+                        </div>
+                    </div>
                   </div>
               </div>
           </div>
@@ -82,22 +86,7 @@ export default {
 </script>
 
 <style>
-    .smoke {
-        background-color: rgba(0,0,0,0.5);
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100vh;
-        z-index: 2;
-    }
-
     .partForm {
-        margin-top: 15em;
-        padding: 2em;
-    }
-
-    .title{
-        margin-bottom: 1.5em;
+        margin-top: 10em;
     }
 </style>

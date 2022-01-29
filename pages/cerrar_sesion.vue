@@ -1,29 +1,31 @@
 <template>
-    <div>
-        <h2>Cerrando Sessión</h2>
-        <Loader v-if="$store.state.isLoading" />
-    </div>  
+    <div class="row">
+        <div class="col-12">
+
+        </div>
+    </div>
 </template>
 
 <script>
 import Loader from '../components/general/Loader.vue';
+import GlobalFunctions from '@/mixins/GlobalFunctions';
 
 export default {
     name: 'cerrar_sesion',
-    components: {
-        Loader
-    },
-    created() {
-        this.$store.dispatch('setIsLoading', true);           
+    components: { Loader },
+    mixins: [ GlobalFunctions ],
+    mounted() {
+        
+        this.showLoader('Cerrando sesión');
 
         setTimeout( ()=>{
-            this.$store.dispatch('setIsLoading', false);    
             if(process.client){
                 localStorage.clear();
             }            
-            this.$router.push('/');        
-            // window.location.href = "/";
-        }, 1500);        
+            this.hideLoader();
+            // this.$router.push('/');        
+            window.location.href = "/";
+        }, 2000);        
     }
 }
 </script>

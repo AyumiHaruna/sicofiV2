@@ -3,8 +3,8 @@
         <div class="col-12 block">
             
             <div class="row">
-                <div class="col-12 m-4 text-center">
-                    <h3>Formulario de Solicitudes de Fondos ({{formType}})</h3>
+                <div class="col-12 pageTitle">
+                    Formulario de Solicitudes de Fondos ({{formType}})
                 </div>
             </div>
 
@@ -33,6 +33,7 @@
         </div>
 
         <Toast ref="toast"></Toast>     
+        <LogTest ref="logTest" /> 
     </div>
 </template>
 
@@ -44,13 +45,14 @@ import proPartListForm from '@/components/incomes/create/proPartListForm.vue';
 import prevsfList from '@/components/incomes/create/prevsfList.vue';
 import sfUpdPartForm from '@/components/incomes/create/sfUpdPartForm.vue';
 
+import LogTest from '@/components/general/LogTest.vue'
 import Toast from '@/components/general/Toast.vue';
 
 import GlobalFunctions from '@/mixins/GlobalFunctions';
 
 export default {
     name: 'sf_form',
-    components: {   sfMainForm, sfTotalForm, proPartListForm, sfPartListForm, prevsfList, sfUpdPartForm, Toast   },
+    components: {   sfMainForm, sfTotalForm, proPartListForm, sfPartListForm, prevsfList, sfUpdPartForm, Toast, LogTest   },
     mixins: [ GlobalFunctions ],
     data() {
         return {
@@ -98,6 +100,9 @@ export default {
         }
     },
     mounted() {
+        this.$refs.logTest.hasSesion();
+        this.$refs.logTest.hasLevel( 2 )
+        
         // if has project code / block projectNumber / get projectFullData
         if( this.$nuxt.$route.query.code ){
             this.formType = 'Edición'
@@ -326,9 +331,4 @@ export default {
 </script>
 
 <style>
-    .panel .title{
-        font-size: 1em;
-        letter-spacing: 1.2px;
-        margin-bottom: 1em;
-    }
 </style>

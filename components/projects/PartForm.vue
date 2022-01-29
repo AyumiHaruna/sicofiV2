@@ -3,61 +3,66 @@
         
         <div class="row smoke">
             <div class="col-10 offset-1">
-                <div class="row partForm panel borderedPanel">
-                    <div class="col-12">
-                        <input type="hidden" ref="selectedId" v-model="formObj.selectedId" />
-                        <input type="hidden" ref="selectedAccount" v-model="formObj.selectedAccount" />
-                    </div>
-
-                    <div class="col-12 title">
-                        <h4>Formulario de partidas</h4>
-                    </div>
-
-                    <div class="col-3">
-                        <b-form-select ref="selectedChapter" name="selectedChapter" v-model="formObj.selectedChapter">
-                            <b-form-select-option value="">Elige un capítulo</b-form-select-option>
-                            <b-form-select-option :value="index" v-for="index in 5" :key="index">
-                                Cap. {{index}}000
-                            </b-form-select-option>
-                        </b-form-select>
-                        <label for="selectedChapter">CAPÍTULO</label>
-                    </div>
-                    <div class="col-7">
-                        <b-form-select ref="selectedPart" name="selectedPart" v-model="formObj.selectedPart">
-                            <b-form-select-option value="">Elige una partida</b-form-select-option>
-                            <b-form-select-option :value="part.partNumber" v-for="part in filterPartList" :key="part.partNumber">
-                                {{part.partNumber}} - {{part.partName}}
-                            </b-form-select-option>                                                        
-                        </b-form-select>
-                        <label for="selectedPart">PARTIDA</label>
-                    </div>             
-                    
-                    <div class="col-2">
-                        <input type="text" name="total" class="blockedField" v-model="partTotal" disabled />
-                        <label for="total">TOTAL ($)</label>
-                    </div>
-
-                    <div class="col-12">
+                <div class="row partForm panel">
+                    <div class="col-12 bordered">
                         <div class="row">
-                            <div class="col-2" v-for="month, index in $store.state.monthList" :key="index">
-                                <input type="number" :name="`month${index}`" v-model="formObj.months[index]" min="0" /> 
-                                <label :for="`month${index}`"> {{ (month.substring(0,3)).toUpperCase() }} </label>
+                            <div class="col-12">
+                                <input type="hidden" ref="selectedId" v-model="formObj.selectedId" />
+                                <input type="hidden" ref="selectedAccount" v-model="formObj.selectedAccount" />
+                            </div>
+
+                            <div class="col-12 sectionTitle">
+                                Formulario de partidas
+                            </div>
+
+                            <div class="col-3">
+                                <b-form-select ref="selectedChapter" name="selectedChapter" v-model="formObj.selectedChapter">
+                                    <b-form-select-option value="">Elige un capítulo</b-form-select-option>
+                                    <b-form-select-option :value="index" v-for="index in 5" :key="index">
+                                        Cap. {{index}}000
+                                    </b-form-select-option>
+                                </b-form-select>
+                                <label for="selectedChapter">CAPÍTULO</label>
+                            </div>
+                            <div class="col-7">
+                                <b-form-select ref="selectedPart" name="selectedPart" v-model="formObj.selectedPart">
+                                    <b-form-select-option value="">Elige una partida</b-form-select-option>
+                                    <b-form-select-option :value="part.partNumber" v-for="part in filterPartList" :key="part.partNumber">
+                                        {{part.partNumber}} - {{part.partName}}
+                                    </b-form-select-option>                                                        
+                                </b-form-select>
+                                <label for="selectedPart">PARTIDA</label>
+                            </div>             
+                            
+                            <div class="col-2">
+                                <input type="text" name="total" class="blockedField" v-model="partTotal" disabled />
+                                <label for="total">TOTAL ($)</label>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-2" v-for="month, index in $store.state.monthList" :key="index">
+                                        <input type="number" :name="`month${index}`" v-model="formObj.months[index]" min="0" /> 
+                                        <label :for="`month${index}`"> {{ (month.substring(0,3)).toUpperCase() }} </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 text-right">
+                                <button class="actionBtn closeBtn" @click.prevent="$parent.closePartForm">
+                                    <i class="fas fa-times"></i>
+                                    CANCELAR
+                                </button>
+
+                                <button class="actionBtn saveBtn" @click.prevent="validateForm()" :disabled="isSaving">
+                                    <i class="fas fa-save"></i>
+                                    <span v-if="formObj.formType === 'create'">AÑADIR</span>
+                                    <span v-if="formObj.formType === 'update'">ACTUALIZAR</span> 
+                                    PARTIDA
+                                </button>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="col-12 text-right">
-                        <button class="actionBtn closeBtn" @click.prevent="$parent.closePartForm">
-                            <i class="fas fa-times"></i>
-                            CANCELAR
-                        </button>
-
-                        <button class="actionBtn saveBtn" @click.prevent="validateForm()" :disabled="isSaving">
-                            <i class="fas fa-save"></i>
-                            <span v-if="formObj.formType === 'create'">AÑADIR</span>
-                            <span v-if="formObj.formType === 'update'">ACTUALIZAR</span> 
-                            PARTIDA
-                        </button>
+                        
                     </div>
                 </div>
             </div>
@@ -203,23 +208,8 @@ export default {
 </script>
 
 <style>
-    .smoke {
-        background-color: rgba(0,0,0,0.5);
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100vh;
-        z-index: 2;
-    }
-
     .partForm {
-        margin-top: 15em;
+        margin-top: 10em;
         padding: 2em;
-    }
-
-    .title{
-        margin-bottom: 1.5em;
-    }
-    
+    }    
 </style>
