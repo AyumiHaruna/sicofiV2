@@ -15,54 +15,67 @@
                 <th>OPERACIÓN</th>
                 <th>SOLICITADO</th>
                 <th v-for="num1 in 5" :key="num1">CAP {{num1}}000</th>    
-                <th>FECHA ELAB.</th>            
-                <th rowspan="4">
+                <th>FECHA ELAB.</th>       
+
+
+                <th rowspan="4" v-if="sf.type == 'ing'">
                   IMPRIMIR S.F. <br><br>
                   <a :href="`${getApiUrl}/print/income/${sf.id}`" target="_blank">
                     <button class="miniBtn warningBtn" v-b-tooltip.hover title="Imprimir S.F." alt="Imprimir S.F.">
                       <i class="fas fa-print"></i>
                     </button>
                   </a>
+                </th>   
+                <th rowspan="4" v-else>
+                  ELIMINAR REINTEGRO 
+                    <button class="miniBtn closeBtn" v-b-tooltip.hover title="Eliminar reintegro" alt="Eliminar reintegro" @click="askForDelete(sf.sfId)">
+                      <i class="far fa-trash-alt"></i>
+                    </button>
                 </th>
+
               </tr>
               <tr>
                 <td>{{sf.sfNum}}</td>
                 <td rowspan="3">{{sf.sfId}}</td>
                 <td rowspan="3" class="conceptCell">{{sf.concept}}</td>
-                <td>{{ (sf.type == 'ing')? 'Ingreso' : 'Reintegro' }}</td>
+                <td :class="(sf.type=='ing')? 'green' : 'yellow'">{{ (sf.type == 'ing')? 'Ingreso' : 'Reintegro' }}</td>
                 <td>${{moneyFormat(sf.requested)}}</td>
                 <td v-for="num1 in 5" :key="num1">${{moneyFormat(sf.data[0][`cap${num1}`])}}</td>
                 <td >{{sf.elabDate}}</td>
               </tr>  
               <tr>
-                <th rowspan="2">
+
+                <th rowspan="2" v-if="sf.type == 'ing'">
                   MODIFICAR <br>
                   <nuxt-link :to="`/ingresos/sf_formulario?code=${sf.sfId}`">
                     <button class="miniBtn saveBtn" v-b-tooltip.hover title="Modificar S.F." alt="Modificar S.F.">
                       <i class="fas fa-pen"></i>
                     </button>
                   </nuxt-link>
-                </th>
-                <th rowspan="2">
+                </th> <th rowspan="2" v-else></th>
+
+                <th rowspan="2" v-if="sf.type == 'ing'">
                   VALIDACIONES <br>
                   <nuxt-link :to="`/ingresos/sf_validacion?code=${sf.sfId}`">
                     <button class="miniBtn infoBtn" v-b-tooltip.hover title="Validaciones" alt="Validaciones">
                       <i class="fas fa-hand-holding-usd"></i>
                     </button>
                   </nuxt-link>
-                </th>
+                </th> <th rowspan="2" v-else></th>
+
                 <th>VALIDADO</th>
                 <th>POR VALIDAR</th>
                 <th>% VALIDACIÓN</th>
                 
-                <th rowspan="2">
+                <th rowspan="2" v-if="sf.type == 'ing'">
                   COMPROBACIONES <br>
                   <nuxt-link :to="`/ingresos/sf_comprobaciones?code=${sf.sfId}`" v-if="sf.ministered != 0">
                     <button class="miniBtn infoBtn" v-b-tooltip.hover title="Comprobaciones" alt="Comprobaciones">
                       <i class="fas fa-clipboard-check"></i>
                     </button>
                   </nuxt-link>
-                </th>
+                </th> <th rowspan="2" v-else></th>
+                
                 <th>COMPROBADO</th>
                 <th>POR COMPROBAR</th>
                 <th>% COMPROBACIÓN</th>
@@ -75,7 +88,7 @@
                 <td>${{moneyFormat(sf.checked)}}</td>
                 <td>${{moneyFormat(sf.ministered - sf.checked)}}</td>
                 <td>{{ ((sf.ministered != 0)? ((sf.checked * 100) / sf.ministered) : 0).toFixed(2) }}%</td>
-              </tr>    
+              </tr>
           </table>
         </div>
 
@@ -102,6 +115,22 @@ export default {
       togglePanel( index ){
         this.$set(this.visible, index, !this.visible[index])
       },
+
+      askForDelete( index ) {
+        this.$swal.fire({
+            title: 'Deseas eliminar éste reintegro!?',
+            type: 'question',
+            showCancelButton: true,
+            showConfirmButton: true,                
+            cancelButtonText: 'Cancelar',
+            confirmButtonText: 'Aceptar',
+            reverseButtons: true
+        }).then((result) => {
+          if (result.value) {
+            this.$parent.$parent.$parent.deleteRei( index );
+          }
+        });
+      }
     },
 
     computed: {

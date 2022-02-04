@@ -11,7 +11,7 @@
                             </div>
 
                             <div class="col-5">
-                                <input type="text" name="user" v-model="$parent.userForm.user" :class="($parent.userForm.id)? 'blockedField' : ''" :readonly="($parent.userForm.id)">
+                                <input type="text" name="user" v-model="$parent.userForm.user" >
                                 <label for="user">USUARIO</label>
                             </div>
                             <div class="col-5">

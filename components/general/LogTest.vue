@@ -8,7 +8,6 @@ export default {
     methods: {
         // test if user has session
         hasSesion() {
-            console.log('logtest');
             if( !localStorage.getItem('user') ){
                 alert( 'No se encontró una sesión activa!, se te redireccionará al Inicio');
                 window.location.href = "/";

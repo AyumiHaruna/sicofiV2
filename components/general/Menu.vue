@@ -28,7 +28,8 @@
 
                         <b-nav-item-dropdown text="Administrador" right v-if="level <= 1"> 
                             <b-dropdown-item><nuxt-link to="/usuarios"> Usuarios </nuxt-link></b-dropdown-item>
-                            <b-dropdown-item><nuxt-link to="/nombre"> Nombres </nuxt-link></b-dropdown-item>
+                            <b-dropdown-item><nuxt-link to="/nombres"> Nombres </nuxt-link></b-dropdown-item>
+                            <b-dropdown-item><nuxt-link to="/other"> Otros </nuxt-link></b-dropdown-item>
                         </b-nav-item-dropdown>
                     </b-navbar-nav>
 

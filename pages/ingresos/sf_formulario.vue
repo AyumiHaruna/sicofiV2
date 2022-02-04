@@ -211,7 +211,7 @@ export default {
             } else if( this.formType == 'Edición'){
                 fetchUrl = `${process.env.apiUrl}/incomes/update`;
             }
-            let redirectUrl = `ingresos/sf_impresion?code=${this.incomeData.sfId}`;
+            // let redirectUrl = `${this.getApiUrl}/print/income/${this.incomeData.id}`;
 
             const dataObject = this.incomeData;
             dataObject['partList'] = this.sfPartList;
@@ -231,11 +231,11 @@ export default {
 
             if( res.status === 200 ){                
                 this.$refs.toast.makeToast('success', `S.F guardada exitosamente`);
-                setTimeout(function(){
-                    window.open(redirectUrl, "_blank");
-                    window.location.href = `ingresos`;                       
-                    // this.$router.push(redirectUrl);
-                }, 1000);
+                // setTimeout(function(){
+                //     window.open(redirectUrl, "_blank");
+                //     window.location.href = `ingresos`;                       
+                //     // this.$router.push(redirectUrl);
+                // }, 1000);
                 
             } else {
                 this.$refs.toast.makeToast('error', `No se pudo guardar, intenta nuevamente`);

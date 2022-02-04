@@ -1,6 +1,6 @@
 <template>
     <form @submit.prevent="$parent.handleSubmit">
-        <div class="row">
+        <div class="row indexForm">
             <div class="col-12 sectionTitle">
                 INICIAR SESIÓN
             </div>
@@ -15,7 +15,7 @@
             </div>
             <div class="col-12">
                 <select name="year" v-model="$parent.year" required>
-                    <option v-for="year in $store.state.activeYears" :value="year" :key="year">{{year}}</option>
+                    <option v-for="year in $parent.activeYears" :value="year.year" :key="year.year">{{year.year}}</option>
                 </select>
                 <label for="year">¿CON QUE AÑO DESEAS TRABAJAR?</label>
             </div>
@@ -42,5 +42,9 @@ export default {
     input, select, textarea {
         text-align: center;
         margin-top: 0.5em;
+    }
+    .indexForm{
+        position: relative;
+        z-index: 9;
     }
 </style>

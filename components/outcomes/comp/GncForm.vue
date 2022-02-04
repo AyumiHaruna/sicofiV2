@@ -19,11 +19,11 @@
             </div>
         </div>
         <div class="col-12 text-right">
-            <a :href="`${getApiUrl}/print/recibo_gnc/${$parent.outcome.id}`" target="_blank">
-                <button class="actionBtn warningBtn"> 
+            <!-- <a :href="`${getApiUrl}/print/recibo_gnc/${$parent.outcome.id}`" target="_blank"> -->
+                <button class="actionBtn warningBtn" @click="testGncData()"> 
                     <i class="fas fa-file-invoice-dollar"></i> IMPRIMIR RECIVO GNC
                 </button>
-            </a>
+            <!-- </a> -->
         </div>
     </div>
 </template>
@@ -81,6 +81,19 @@ export default {
         },
         changeToUpper() {
             this.$parent.outcome['gncName'] = (this.$parent.outcome['gncName']).toUpperCase();
+        },
+        testGncData() {
+            // test gncName
+            if( this.$parent.outcome.gncName == '' ) {  this.$parent.$refs.toast.makeToast('error', `El nombre del solicitante de GNC no existe`); return;}
+            // test gncLocation
+            if( this.$parent.outcome.gncLocation == '' ) {  this.$parent.$refs.toast.makeToast('error', `La locación del recibo GNC no existe`); return;}
+
+            // update data
+            this.updateGncData();
+            
+            setTimeout(()=>{
+                window.open(`${this.getApiUrl}/print/recibo_gnc/${this.$parent.outcome.id}`, '_blank');
+            }, 1500);
         },
     }
 }

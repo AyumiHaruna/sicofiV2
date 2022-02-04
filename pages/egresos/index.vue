@@ -8,16 +8,41 @@
         </div>
 
         <div class="col-4 text-center">
+          <div class="row">
+
+            <div class="col-6">
+              <input type="number" v-model="printForm.start" @keypress="isNumber($event)">
+              <label for="starPrint">IMPRIMIR DESDE </label>        
+            </div>
+            <div class="col-6">
+              <input type="number" v-model="printForm.end" @keypress="isNumber($event)">
+              <label for="endPrint">HASTA</label> 
+            </div>
+
+            <div class="col-6 text-center">
+              <button class="actionBtn warningBtn" v-b-tooltip.hover title="Imprimir en grupo" alt="Imprimir en grupo" @click="validatePrint('poliza')">
+                <i class="fas fa-print"></i>
+                POLIZAS IMP. EN GRUPO
+              </button>
+            </div>
+
+            <div class="col-6 text-center">
+              <button class="actionBtn warningBtn" v-b-tooltip.hover title="Imprimir en grupo" alt="Imprimir en grupo" @click="validatePrint('cheque')">
+                <i class="fas fa-money-check-alt"></i>
+                CHEQUES IMP. EN GRUPO
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-4 proyForm">
+          <ProjectFilter></ProjectFilter>
           <nuxt-link to="/egresos/formulario">
               <button class="actionBtn saveBtn" v-b-tooltip.hover title="Nuevo proyecto" alt="Nuevo proyecto">
                   <i class="fas fa-folder-plus"></i>
                   NUEVO EGRESO
               </button>
           </nuxt-link>                    
-        </div>
-
-        <div class="col-4 proyForm">
-          <ProjectFilter></ProjectFilter>
         </div>
       </div>
 
@@ -46,7 +71,11 @@ export default {
     data() {
       return {
         projectList: {},
-        selectedProject: ''
+        selectedProject: '',
+        printForm: {
+          start: '',
+          end: ''
+        }
       }
     },
     mounted() {
@@ -116,6 +145,15 @@ export default {
         } else {
           this.$refs.toast.makeToast('error', `Error al cancelar el egreso, intenta nuevamente`);
         }
+      },
+
+      validatePrint( type ) {
+        //test startNumber 
+        if( this.printForm.start == '' ){ this.$refs.toast.makeToast('warning', `Para imprimir por grupo captura el "Numero inicial"`); return  }
+        //test startNumber 
+        if( this.printForm.end == '' ){ this.$refs.toast.makeToast('warning', `Para imprimir por grupo captura el "Numero final"`); return  }
+
+        window.open(`${this.getApiUrl}/print/${type}/${this.printForm.start}/${this.printForm.end}`, '_blank');
       }
     }
 }

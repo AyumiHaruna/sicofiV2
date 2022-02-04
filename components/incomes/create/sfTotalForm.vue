@@ -33,7 +33,7 @@
                             <div class="col-12 text-right">
                                     <button class="actionBtn saveBtn" @click.prevent="$parent.validateFullForm()"> 
                                         <i class="far fa-save"></i>
-                                        GUARDAR S.F / IMPRIMIR
+                                        GUARDAR S.F
                                     </button>
                             </div>
                         </div>

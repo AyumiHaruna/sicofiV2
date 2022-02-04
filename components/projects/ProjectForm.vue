@@ -34,7 +34,7 @@
                                     <label for="degree">TÍTULO DEL ENCARGADO</label>
                             </div>
                             <div class="col-9">
-                                    <input type="text" ref="manager" name="manager" v-model="formObj.manager" maxlength="100">
+                                    <input type="text" ref="manager" name="manager" v-model="formObj.manager" maxlength="100"  @input="changeToUpper()">
                                     <label for="manager">NOMBRE DEL ENCARGADO</label>    
                             </div>
 
@@ -204,6 +204,11 @@ export default {
             //enable submit button 
             this.isSaving = false;
         },
+
+        changeToUpper() {
+            this.formObj.manager = (this.formObj.manager).toUpperCase();
+        },
+        
     }
 }
 </script>

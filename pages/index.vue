@@ -46,6 +46,7 @@ export default {
       user: '',
       password: '',
       year: '',
+      activeYears: [],
     }
   },
   mounted() {
@@ -54,8 +55,23 @@ export default {
               this.sessionStart = 1;
         }
     }
+
+    this.getActiveYears();
   },
   methods: {
+    async getActiveYears(){
+      const res = await fetch( `${process.env.apiUrl}/getActiveYears` );
+
+      const resData = await res.json();
+
+      // if is a success data
+      if(resData.status === 200) {
+        this.activeYears = resData.results;
+      } else {    //show error message
+        this.$refs.toast.makeToast('error', `No se pudo cargar la lista de años activos, intenta nuevamente`);
+      }   
+    },
+
     async handleSubmit() {            
       // create form object
       const formData = [{
@@ -106,7 +122,7 @@ export default {
 
       // this.$router.push('/')
       this.$router.go();
-    }
+    },
   },      
 
   

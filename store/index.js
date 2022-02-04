@@ -1,5 +1,4 @@
 export const state = () => ({
-    activeYears: ['2020', '2022'],
     lastSF: '',
     accountType: ["Coordinación", "Instituto"],
     monthList: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
