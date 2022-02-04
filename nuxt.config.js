@@ -51,12 +51,12 @@ export default {
   },
 
   router: {
-    base: '/sicofi_test/'
+    base: '/sicofi2/'
   },
 
   // Enviroment variables
   env: {
-    apiUrl: process.env.BASE_URL || 'http://192.168.0.8:8080/sicofi_api/public'
-    // apiUrl: process.env.BASE_URL || 'http://172.26.26.126/sicofi_api/public'
+    // apiUrl: process.env.BASE_URL || 'http://192.168.0.8:8080/sicofi_api/public'
+    apiUrl: process.env.BASE_URL || 'http://172.26.26.126/sicofi_api/public'
   },
 }

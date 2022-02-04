@@ -160,7 +160,6 @@ export default {
             if( res.status === 200 ){
                 //convert response to json
                 const resData = await res.json();
-                // console.log(resData);
                 // send success message 
                 this.$parent.$refs.toast.makeToast('success', `La partida se eliminó exitosamente`);
 

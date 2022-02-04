@@ -103,11 +103,9 @@ export default {
       } else {    //show error message
         this.$refs.toast.makeToast('error', `No se pudo iniciar sesión, intenta nuevamente`);
       }   
-      // console.log(resData);
     },
 
     createSession( data ){
-      console.log(data);
       localStorage.setItem('id', data.id);
       localStorage.setItem('user', data.user); 
       localStorage.setItem('name', data.name); 

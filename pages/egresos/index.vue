@@ -108,7 +108,6 @@ export default {
           })
         });
 
-        // console.log(await res);
         this.showLoader('Actualizando Status');
         await res;                
         this.hideLoader();
@@ -134,7 +133,6 @@ export default {
           })
         });
 
-        // console.log(await res);
         this.showLoader('Cancelando Egreso');
         await res;                
         this.hideLoader();

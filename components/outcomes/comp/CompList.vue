@@ -51,7 +51,6 @@ export default {
                 reverseButtons: true
             }).then((result) => {
                 if (result.value) {
-                    console.log('ask', id);
                     this.$parent.deleteComp(id);
                 }
             });

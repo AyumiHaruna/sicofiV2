@@ -185,7 +185,6 @@ export default {
         })
       });
 
-      // console.log( await res);
 
       if( await res.status === 200 ){
         const resData = await res.json();

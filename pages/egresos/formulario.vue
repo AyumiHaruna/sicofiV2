@@ -201,14 +201,12 @@ export default {
         if( await res.status === 200){
           const resData = await res.json();
           if( resData.status === 200 ){
-            console.log(resData.results);
             this.outcome = resData.results;
             this.outcome.sign = resData.results['name'];
           }
         } else {
           this.$parent.$refs.toast.makeToast('error', `Ocurrió un problema al buscar los datos del egreso, intente nuevamente`);
         }
-        console.log('id', id);
       }
     },
 

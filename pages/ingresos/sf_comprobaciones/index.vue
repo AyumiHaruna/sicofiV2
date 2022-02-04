@@ -54,7 +54,6 @@ export default {
         this.$refs.logTest.hasLevel( 2 );
         
         // save last visited SF for subNav
-        // console.log(this.sfId);
         localStorage.setItem('lastSF', (this.sfId).replace('/', '') );
 
         // set current date
@@ -65,7 +64,6 @@ export default {
     },
     methods: {
         async getSFInfo( sfId ){
-            console.log('getting incomes info');
             const res = await fetch(`${process.env.apiUrl}/incomes/getSF/${sfId}`);
             if( await res.status === 200 ){
                 const resData = await res.json();
@@ -76,7 +74,6 @@ export default {
         },
 
         async deleteComp( id ){
-            console.log('delteComp');
             const res = await fetch(`${process.env.apiUrl}/incomes/comp/delete`, {
                 method: 'POST',
                 headers: {

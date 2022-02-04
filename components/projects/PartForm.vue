@@ -120,7 +120,6 @@ export default {
         this.getPartsList();
     },
     updated() {
-        // console.log('value', this.$attrs.value);
         this.formObj = this.$attrs.value
     },
     methods: {
@@ -183,12 +182,10 @@ export default {
                 body: JSON.stringify(dataObject)
             });
 
-            // console.log( await res );
             // if api response is ok 
             if( res.status === 200 ){
                 //convert response to json
                 const resData = await res.json();
-                // console.log(resData);
                 if( resData.action === 'created') {
                     // send success message 
                     this.$parent.$refs.toast.makeToast('success', `La partida se añadió exitosamente`);

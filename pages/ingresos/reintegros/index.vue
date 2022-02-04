@@ -92,7 +92,6 @@ export default {
                 body: JSON.stringify(this.incomeData)                
             });
 
-            // console.log(await res);
             this.showLoader('Guardando S.F.');
             const resData = await res.json();                
             this.hideLoader();

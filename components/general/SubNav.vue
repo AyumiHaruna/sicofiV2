@@ -46,7 +46,6 @@ export default {
                     if( currentRoute[i] == 'sf_comprobaciones' && currentRoute[j] == 'sf_comprobaciones' ){
                         // let currentComp = ((localStorage.getItem('lastSF')).split('%2'))[0];
                         url += `?code=${localStorage.getItem('lastSF')}`;
-                        console.log(url);
                     }
                     if( j != currentRoute.length -1 ){
                         url += '/';
@@ -56,8 +55,6 @@ export default {
                     this.urlCollection.push({urlName: currentRoute[i], currentUrl: url});
                 // }
             }
-            // console.log(this.urlCollection);
-            // console.log( (this.urlCollection).length );
         }
     },
     mounted() {

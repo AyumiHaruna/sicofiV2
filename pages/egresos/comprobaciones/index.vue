@@ -172,7 +172,6 @@ export default {
                 })
             });
             
-            // console.log( await res );
             this.showLoader('Modificando GNC');
             const resData = await res.json();                          
             this.hideLoader();

@@ -88,7 +88,6 @@ export default {
                     active: true
                 };
             } else {
-                console.log(id);
                 this.userForm = {
                     id: this.users[id]['id'],
                     user: this.users[id]['user'],

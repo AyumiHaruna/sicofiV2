@@ -184,7 +184,6 @@ export default {
             if( res.status === 200 ){
                 //convert response to json
                 const resData = await res.json();
-                // console.log(resData);
                 if( resData.action === 'created') {
                     //disable project number field
                     this.blockedField = true;

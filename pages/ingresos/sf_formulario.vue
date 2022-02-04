@@ -224,7 +224,6 @@ export default {
                 body: JSON.stringify(dataObject)
             });
 
-            // console.log(await res);
             this.showLoader('Guardando S.F.');
             const resData = await res.json();                
             this.hideLoader();
@@ -249,8 +248,7 @@ export default {
             const resData = await res.json();                
             this.hideLoader();
 
-            if( res.status === 200 ){                
-                // console.log(resData.results);
+            if( res.status === 200 ){           
                 // set income values 
                 this.incomeData.account= resData.results.account;
                 this.incomeData.concept= resData.results.concept;
@@ -308,7 +306,6 @@ export default {
         substraction: function(){
             return (this.totalBudget -  this.prevTotal - this.totalParts);
             // return this.totalBudget - this.prevTotal
-            console.log( this.totalBudget, this.prevTotal, this.totalParts);
         },
 
         ivaTra(){

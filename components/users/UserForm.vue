@@ -125,7 +125,6 @@ export default {
             if( await res.status === 200){
                 //convert response to json
                 const resData = await res.json();
-                // console.log(resData);
                 this.$parent.projectList = resData.results;
             } else {
                 this.$refs.toast.makeToast('error', `No se encontró la lista de proyectos, intente nuevamente`);

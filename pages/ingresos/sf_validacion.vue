@@ -98,7 +98,6 @@ export default {
                         submitURL = `${process.env.apiUrl}/incomes/sfVal_delete`;
                         errMsg = 'eliminada';
                         postObj = {id: this.valId, sfId: this.sfId};
-                        console.log(postObj);
                     break;
             
                 default:

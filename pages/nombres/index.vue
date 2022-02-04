@@ -59,7 +59,6 @@ export default {
       async getNameList() {
         const res = await fetch(`${process.env.apiUrl}/names/list`);
 
-        // console.log( await res );
         if( await res.status === 200){
           const resData = await res.json();
           this.people = resData.results;
@@ -80,8 +79,6 @@ export default {
         this.showLoader('Guardando S.F.');
         await res;                
         this.hideLoader();
-
-        console.log(res);
 
         if( await res.status === 200){
             // //convert response to json
