@@ -16,8 +16,9 @@
                 <b-collapse id="nav-collapse" is-nav>
                     <!-- Right aligned nav items -->
                     <b-navbar-nav v-if="isLoged">
-                        <b-nav-item-dropdown text="Reportes" right v-if="isLoged"> 
-                            <b-dropdown-item> <i class="fas fa-hard-hat"></i> En construcción </b-dropdown-item>
+                        <b-nav-item-dropdown text="Reportes" right v-if="level <= 3"> 
+                            <b-dropdown-item> <i class="fas fa-hard-hat"></i> En construcción </b-dropdown-item>                            
+                            <b-dropdown-item><nuxt-link to="/proyectos/reporte"> Reporte de Proyectos </nuxt-link></b-dropdown-item>
                         </b-nav-item-dropdown>
 
                         <b-nav-item-dropdown text="Formularios" right v-if="level <= 2"> 

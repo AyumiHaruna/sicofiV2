@@ -50,9 +50,9 @@
                         </td>
                         <td>{{outcome.elabDate}}</td>
                         <td>${{moneyFormat(outcome.total)}}</td>
-                        <td>${{moneyFormat(0)}}</td>
-                        <td>${{moneyFormat(0)}}</td>
-                        <td>%{{0}}</td>
+                        <td>${{moneyFormat( getComp(outcome.comp) )}}</td>
+                        <td>${{moneyFormat( parseFloat(outcome.total) - getComp(outcome.comp) )}}</td>
+                        <td>%{{ ((getComp(outcome.comp) * 100) / outcome.total).toFixed(2) }}</td>
                     </tr>
 
                     <tr>
@@ -121,6 +121,13 @@ export default {
             }
             });
         },
+        getComp( compList ){
+            let total = 0; 
+            compList.forEach(elm => {
+                total += parseFloat( elm.total )
+            });
+            return total;
+        }
     }
 }
 </script>

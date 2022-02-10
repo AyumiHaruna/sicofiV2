@@ -189,6 +189,7 @@ export default {
 
         if( res.status === 200 ){
           this.type = 'Editar';
+          this.outcomeId = resData.results;
           this.$refs.toast.makeToast('success', `Egreso guardada exitosamente`);
         } else {
           this.$refs.toast.makeToast('error', `Error al guardar el egreso, intenta nuevamente`);

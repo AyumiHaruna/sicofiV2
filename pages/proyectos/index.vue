@@ -90,14 +90,5 @@ export default {
 }
 </script>
 
-<style scoped>
-    
-    /* .top_header{
-        padding: 2em;
-    }
-
-    input, select {
-        background-color:#0f143c !important;
-        font-size: 1em;
-    } */
+<style>
 </style>
