@@ -96,7 +96,7 @@ export default {
                     level: this.users[id]['level'],
                     mail: this.users[id]['mail'],
                     fullAccess: this.users[id]['fullAccess'],
-                    projectList: this.users[id]['projectList'],
+                    projectList: ( this.users[id]['projectList'] != undefined )? this.users[id]['projectList']: [],
                     active: this.users[id]['active']
                 };
             }

@@ -3,11 +3,11 @@
         <div class="col-12">
 
             <div class="row">
-                <div class="col-4 pageTitle">
+                <div class="col-6 pageTitle">
                     Reporte de proyectos
                 </div>
 
-                <div class="col-4 offset-4">
+                <div class="col-4 offset-2">
                     <ProjectFilter></ProjectFilter>
                 </div>
             </div>

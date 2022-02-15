@@ -97,7 +97,7 @@ export default {
             this.hideLoader();
 
             if( res.status === 200 ){                
-                this.$refs.toast.makeToast('success', `S.F guardada exitosamente`);                
+                this.$refs.toast.makeToast('success', `Reintegro guardada exitosamente`);                
                 setTimeout(function(){
                     window.location.href = `ingresos`;
                 }, 1500);

@@ -155,10 +155,10 @@ export default {
             //test mail
             if( this.$parent.userForm.mail == '' ){ this.$parent.$refs.toast.makeToast('warning', `Favor de capturar un correo"`); return  }
             
-            if( !this.$parent.userForm.fullAccess ){
-                //test name
-                if( (this.$parent.userForm.projectList).length == 0 ){ this.$parent.$refs.toast.makeToast('warning', `Favor de añadir proyectos o acceso total"`); return  }
-            }
+            // if( !this.$parent.userForm.fullAccess ){
+            //     //test name
+            //     if( (this.$parent.userForm.projectList).length == 0 ){ this.$parent.$refs.toast.makeToast('warning', `Favor de añadir proyectos o acceso total"`); return  }
+            // }
 
             this.$parent.saveUser();
         },

@@ -236,3 +236,67 @@ table.secondLvl td:nth-child(odd){
 .fade-enter, .fade-leave-to{
     opacity: 0;
 }
+
+
+
+
+.vgt-global-search{
+    background: #111 !important;
+    border: none !important;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    padding: 1rem !important;
+}
+.vgt-global-search input{
+text-align: center;
+font-size: 1.2rem !important;
+color: #7c3371;
+height: 2rem;
+}
+.vgt-table {
+table-layout: fixed !important;
+overflow: hidden;
+border: 1px solid #000;
+border-radius: 0;
+}
+.vgt-table th{
+background: #111 !important;
+font-size: 0.7rem !important;
+color: #b3e6ff !important;
+word-break: break-all;
+border: 1px solid #000 !important;
+} 
+.vgt-table td{
+font-size: 0.8rem;
+word-break: break-all;
+}
+.vgt-table tr:hover{
+border: solid 2px #000;
+}
+.vgt-table tr:nth-child(even){
+background: #e9e9e9;
+}
+.vgt-wrap__footer{
+background: #111 !important;
+font-size: 0.9rem;
+}
+.vgt-wrap__footer .footer__navigation__page-info__current-entry {
+width: 40px !important;
+}
+.footer__row-count__label{
+font-size: 0.8em !important;
+}
+
+.vgt-wrap__footer .footer__row-count__select {
+font-size: 1rem !important;
+height: 2em;
+color: #7c3371 !important;
+}
+
+.vgt-wrap__footer .footer__navigation label{
+font-size: 0.85rem !important;
+}
+.vgt-wrap__footer .footer__navigation__page-btn {
+color: #b3e6ff !important;
+margin: 0 1em !important;
+}

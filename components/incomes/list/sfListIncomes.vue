@@ -40,11 +40,10 @@
                 <td rowspan="3" class="conceptCell">{{sf.concept}}</td>
                 <td :class="(sf.type=='ing')? 'green' : 'yellow'">{{ (sf.type == 'ing')? 'Ingreso' : 'Reintegro' }}</td>
                 <td>${{moneyFormat(sf.requested)}}</td>
-                <td v-for="num1 in 5" :key="num1">${{moneyFormat(sf.data[0][`cap${num1}`])}}</td>
+                <td v-for="num1 in 5" :key="num1">${{moneyFormat(sf.data[`cap${num1}`])}}</td>
                 <td >{{sf.elabDate}}</td>
               </tr>  
               <tr>
-
                 <th rowspan="2" v-if="sf.type == 'ing'">
                   MODIFICAR <br>
                   <nuxt-link :to="`/ingresos/sf_formulario?code=${sf.sfId}`">

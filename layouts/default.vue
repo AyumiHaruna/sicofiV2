@@ -13,7 +13,6 @@
 import Menu from '@/components/general/Menu.vue';
 import SubNav from '@/components/general/SubNav.vue';
 
-
 export default {
     components: {Menu, SubNav },
     head: {
