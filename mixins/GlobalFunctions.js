@@ -2,7 +2,9 @@
     methods: {
         // return one number in ammount format
         moneyFormat: (num) => {
-            if( !isNaN(num) ) {
+            if ( isNaN(num) || num == null ){
+                return '0.00';
+            } else {
                 num = parseFloat(num);
                 num = num.toFixed(2);
                 num += '';
@@ -14,10 +16,7 @@
                     x1 = x1.replace(rgx, '$1' + ',' + '$2');
                 }
                 return x1 + x2;
-            }
-            else {
-                return '0.00';
-            }            
+            }       
         },
 
         showLoader( msg ){

@@ -38,7 +38,10 @@ export default {
             currentDate: ''
         }
     },
-    created() {
+    mounted() {
+        this.$refs.logTest.hasSesion();
+        this.$refs.logTest.hasLevel( 2 );
+
         if( this.$nuxt.$route.query.code ){
             this.sfId = (this.$nuxt.$route.query.code).replace('/', '');
             this.getSFInfo( this.sfId );
@@ -47,11 +50,7 @@ export default {
             setTimeout( function() {
                 window.location.href = `ingresos`;  
             }, 3000)
-        }      
-    },
-    mounted() {
-        this.$refs.logTest.hasSesion();
-        this.$refs.logTest.hasLevel( 2 );
+        }  
         
         // save last visited SF for subNav
         localStorage.setItem('lastSF', (this.sfId).replace('/', '') );

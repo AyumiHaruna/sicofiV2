@@ -69,7 +69,7 @@
 
                             <div class="col-12 text-right">
                                 <button class="actionBtn closeBtn" @click.prevent="$parent.showForm = false">
-                                    <i class="far fa-save"></i>
+                                    <i class="fa-solid fa-xmark"></i>
                                     CANCELAR
                                 </button>
                                 <button class="actionBtn saveBtn" @click.prevent="validateForm()">

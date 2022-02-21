@@ -56,7 +56,7 @@
                                 </tr>
                                 <tr v-for="(part, index) in $parent.compPartList" :key="index">
                                     <td>{{index + 1}}</td>
-                                    <td>{{part.partNumber}} - {{part.partName}}</td>
+                                    <td>{{part.partNumber}} - {{ (part.obs == ''||part.obs == null)? part.partName : part.obs }}</td>
                                     <td>{{part.notes}}</td>
                                     <td>{{moneyFormat(part.total)}}</td>
                                     <td>

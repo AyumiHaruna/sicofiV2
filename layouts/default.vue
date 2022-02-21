@@ -19,7 +19,7 @@ export default {
         script: [
             {
                 hid: 'stripe', 
-                src: 'https://kit.fontawesome.com/035f9caf7c.js', 
+                src: 'https://kit.fontawesome.com/1d95830ebb.js', 
                 defer: true
             }
         ]

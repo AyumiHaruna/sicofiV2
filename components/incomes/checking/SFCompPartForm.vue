@@ -21,7 +21,11 @@
                       <input type="number" @keypress="isNumber($event)" v-model="$parent.partForm.total" ref="total" name="total">
                       <label for="total">MONTO ($)</label>
                     </div>
-                    <div class="col-12 text-right">
+                    <div class="col-6">
+                      <input type="text" v-model="$parent.partForm.obs" ref="obs" name="obs" maxlength="20">
+                      <label for="obs">OBSERVACIONES</label>
+                    </div>
+                    <div class="col-6 text-right">
                       <button class="actionBtn closeBtn" @click.prevent="$parent.hideForm()">
                           <i class="fas fa-times"></i>
                           CANCELAR

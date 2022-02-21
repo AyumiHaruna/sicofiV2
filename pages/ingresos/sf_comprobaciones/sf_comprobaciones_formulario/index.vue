@@ -53,7 +53,8 @@ export default {
         partNumber: '',
         partName: '',
         notes: '',
-        total: ''
+        total: '',
+        obs: '',
       },
       formData: {
         elabDate: '',
@@ -152,7 +153,10 @@ export default {
 
       if( res.status === 200 ){                
           this.$refs.toast.makeToast('success', `Comprobación guardada exitosamente`);  
-          this.urlType = 'update';
+          if( this.urlType = 'create' ){
+            this.updId = resData.results;
+            this.urlType = 'update';
+          }
           this.getSFInfo( this.sfId );
       } else {
           this.$refs.toast.makeToast('error', `No se pudo guardar, intenta nuevamente`);
@@ -200,7 +204,8 @@ export default {
           partNumber: this.income.partList[id]['partNumber'],
           partName: this.income.partList[id]['partName'],
           notes: '',
-          total: this.income.partList[id]['total']
+          total: this.income.partList[id]['total'],
+          obs: this.income.partList[id]['obs'],
         }
       }
       //show form

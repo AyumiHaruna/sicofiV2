@@ -55,7 +55,10 @@ export default {
             valId: '',
         }
     },
-    created() {
+    mounted() {
+        this.$refs.logTest.hasSesion();
+        this.$refs.logTest.hasLevel( 2 );
+
         if( this.$nuxt.$route.query.code ){
             this.sfId = this.$nuxt.$route.query.code;
             this.getSFInfo( this.sfId );
@@ -64,11 +67,7 @@ export default {
             setTimeout( function() {
                 window.location.href = `ingresos`;  
             }, 3000)
-        }        
-    },
-    mounted() {
-        this.$refs.logTest.hasSesion();
-        this.$refs.logTest.hasLevel( 2 );
+        }   
     },
     methods: {
         async getSFInfo( sfId ){

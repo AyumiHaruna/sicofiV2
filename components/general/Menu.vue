@@ -18,8 +18,13 @@
                     <b-navbar-nav v-if="isLoged">
                         <b-nav-item-dropdown text="Reportes" right v-if="level <= 3">                    
                             <b-dropdown-item><nuxt-link to="/proyectos/reporte"> Lista de proyectos </nuxt-link></b-dropdown-item>
+                            <b-dropdown-item><nuxt-link to="/proyectos/comp_part"> Comparativo de Partidas </nuxt-link></b-dropdown-item>
                             <b-dropdown-item> <hr> </b-dropdown-item>
                             <b-dropdown-item><nuxt-link to="/ingresos/reporte_ing"> Ingresos desglozados </nuxt-link></b-dropdown-item>
+                            <b-dropdown-item><nuxt-link to="/ingresos/reporte_ing_x_proy"> Ingresos por proyecto </nuxt-link></b-dropdown-item>
+                            <b-dropdown-item> <hr> </b-dropdown-item>
+                            <b-dropdown-item><nuxt-link to="/egresos/reporte_egr"> Egresos desglozados </nuxt-link></b-dropdown-item>
+                            <b-dropdown-item><nuxt-link to="/egresos/reporte_egr_x_proy"> Egresos por proyecto </nuxt-link></b-dropdown-item>
                         </b-nav-item-dropdown>
 
                         <b-nav-item-dropdown text="Formularios" right v-if="level <= 2"> 
