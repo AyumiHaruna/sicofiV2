@@ -16,7 +16,13 @@
                                             <tr>
                                                 <th>SOLICITADOS</th>
                                                 <td v-for="num in 5" :key="num">
-                                                    ${{moneyFormat($parent.income.sfData[`cap${num}`])}}
+                                                    ${{moneyFormat( 
+                                                        $parent.taxAmount(
+                                                            $parent.income.sfData[`cap${num}`],
+                                                            $parent.income.sfData['taxConfig'],
+                                                            $parent.income.sfData['ivaTC']
+                                                        )
+                                                    )}}
                                                 </td>
                                             </tr>
                                             <tr>
@@ -28,7 +34,13 @@
                                             <tr>
                                                 <th>POR VALIDAR</th>
                                                 <td v-for="num in 5" :key="num">
-                                                    ${{moneyFormat( $parent.income.sfData[`cap${num}`] - capVal[num-1] )}}
+                                                    ${{moneyFormat( 
+                                                        $parent.taxAmount(
+                                                            $parent.income.sfData[`cap${num}`],
+                                                            $parent.income.sfData['taxConfig'],
+                                                            $parent.income.sfData['ivaTC']
+                                                        ) - capVal[num-1] 
+                                                    )}}
                                                 </td>
                                             </tr>
                                         </table>

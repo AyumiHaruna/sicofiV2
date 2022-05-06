@@ -7,9 +7,18 @@
                     LISTA DE NOMBRES
                 </div>
 
-                <div class="col-4" v-for="(name, index) in $parent.people" :key="name.id">
+                <div class="col-6 offset-3">
                     <table class="secondLvl">
                         <tr>
+                            <th>ID</th>
+                            <th>NOMBRE</th>
+                            <th>EDITAR</th>
+                            <th>ACTIVO</th>
+                        </tr>
+                        <tr v-for="(name, index) in $parent.people" :key="name.id">
+                            <td>
+                                {{name.id}}
+                            </td>
                             <td class="nameTd" :class="(name.vip)?'vip':''">
                                 <i class="fas fa-crown" v-if="name.vip"></i>
                                 {{name.name}}

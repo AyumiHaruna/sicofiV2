@@ -18,7 +18,14 @@
                                 <tr v-for="(part, index) in $parent.income.partList" :key="part.id">
                                     <td>{{index + 1}}</td>
                                     <td>{{part.partNumber}} - {{part.partName}}</td>
-                                    <td>${{moneyFormat(part.total)}}</td>
+                                    <td>${{moneyFormat(
+                                            $parent.taxAmount(
+                                                part.total,
+                                                $parent.income.sfData.taxConfig,
+                                                $parent.income.sfData.ivaTC
+                                            )                                            
+                                        )}}
+                                    </td>
                                     <td>
                                         <button class="miniBtn infoBtn"   @click="$parent.openForm('add', index)"> 
                                             <i class="fas fa-chevron-right"></i>

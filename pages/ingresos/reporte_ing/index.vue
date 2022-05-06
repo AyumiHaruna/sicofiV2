@@ -130,7 +130,7 @@ export default {
     cap5Fn( rowObj ){  return( `$${this.moneyFormat(rowObj.cap5)}` );  },
     xMinFn( rowObj ) {
       return( `$${ this.moneyFormat(parseFloat(rowObj.requested) - parseFloat(rowObj.ministered)) }` );
-    }
+    },
   }
 }
 </script>

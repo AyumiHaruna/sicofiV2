@@ -17,6 +17,16 @@
               </div>
 
               <div class="col-3">
+                <select name="payType" v-model="$parent.outcome.payType" @change="getLastId()"
+                  :class="($parent.type=='Edición')? 'blockedField' : ''" :disabled="$parent.type=='Edición'"
+                >
+                  <option value="Cheque">Cheque</option>
+                  <option value="Transferencia">Transferencia</option>
+                  <option value="Diario">Diario</option>
+                </select>
+                <label for="payType">TIPO DE PAGO</label>
+              </div>
+              <div class="col-3">
                 <input type="text" name="checkNumber" v-model="$parent.outcome.checkNumber" @input="autoFillFoil()"
                   :class="($parent.type=='Edición')? 'blockedField' : ''" :readonly="$parent.type=='Edición'"
                 >
@@ -29,16 +39,6 @@
               <div class="col-3">
                 <input type="date" name="elabDate" v-model="$parent.outcome.elabDate">
                 <label for="elabDate">FECHA DE ELABORACIÓN</label>
-              </div>
-              <div class="col-3">
-                <select name="payType" v-model="$parent.outcome.payType" @change="getLastId()"
-                  :class="($parent.type=='Edición')? 'blockedField' : ''" :disabled="$parent.type=='Edición'"
-                >
-                  <option value="Cheque">Cheque</option>
-                  <option value="Transferencia">Transferencia</option>
-                  <option value="Diario">Diario</option>
-                </select>
-                <label for="payType">TIPO DE PAGO</label>
               </div>
               
               <div class="col-3">

@@ -23,8 +23,7 @@ export default {
                 localStorage.clear();
             }            
             this.hideLoader();
-            // this.$router.push('/');        
-            window.location.href = "/";
+            this.$router.push('/');        
         }, 2000);        
     }
 }

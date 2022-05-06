@@ -66,6 +66,18 @@ export default {
         togglePanel( index ){
             this.$set(this.visible, index, !this.visible[index])
         },
+        
+    },
+    mounted() {
+        if( this.$parent.savedProject != '' ){            
+                setTimeout(() => {
+                    (this.$parent.projectList).forEach((project, index) => {
+                    if( project.projectNumber == this.$parent.savedProject ){
+                        this.togglePanel( index );
+                    }
+                });
+            }, 2000);
+        }
     }
 }
 </script>

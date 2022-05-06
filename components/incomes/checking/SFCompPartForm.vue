@@ -22,7 +22,7 @@
                       <label for="total">MONTO ($)</label>
                     </div>
                     <div class="col-6">
-                      <input type="text" v-model="$parent.partForm.obs" ref="obs" name="obs" maxlength="20">
+                      <input type="text" v-model="$parent.partForm.obs" ref="obs" name="obs" maxlength="50">
                       <label for="obs">OBSERVACIONES</label>
                     </div>
                     <div class="col-6 text-right">

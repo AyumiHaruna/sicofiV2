@@ -6,7 +6,16 @@
         </tr>
         <tr>
             <th>SOLICITADO</th>
-            <td v-for="num in 5" :key="num">${{moneyFormat(income.sfData[`cap${num}`])}}</td>
+            <td v-for="num in 5" :key="num">
+                ${{moneyFormat(
+                    $parent.taxAmount(
+                        income.sfData[`cap${num}`],
+                        income.sfData[`taxConfig`],
+                        income.sfData[`ivaTC`]
+                    )
+                    
+                )}}
+            </td>
         </tr>
         <tr>
             <th>VALIDADO</th>

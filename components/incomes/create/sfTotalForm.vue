@@ -23,7 +23,11 @@
                                 </div>
                                 <div class="col-12">
                                         <input type="text" class="text-right green" :value="`$ ${moneyFormat($parent.totalParts)}`" readonly />
-                                        <label for="">CAPTURADO EN ESTA S.F.</label>
+                                        <label for="">CAPTURADO BRUTO EN LA S.F.</label>
+                                </div>
+                                <div class="col-12">
+                                        <input type="text" class="text-right green" :value="`$ ${moneyFormat($parent.totalNeto)}`" readonly />
+                                        <label for="">CAPTURADO NETO</label>
                                 </div>
                                 <div class="col-12">
                                         <input type="text" class="text-right" :class="($parent.substraction >= 0)? 'green' : 'red' " :value="`$ ${moneyFormat($parent.substraction)}`" readonly />

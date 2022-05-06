@@ -204,7 +204,11 @@ export default {
           partNumber: this.income.partList[id]['partNumber'],
           partName: this.income.partList[id]['partName'],
           notes: '',
-          total: this.income.partList[id]['total'],
+          total: this.taxAmount(
+              this.income.partList[id]['total'],
+              this.income.sfData['taxConfig'],
+              this.income.sfData['ivaTC']
+            ),
           obs: this.income.partList[id]['obs'],
         }
       }
@@ -230,6 +234,13 @@ export default {
           }
       });
     },
+
+    taxAmount: function(monto, config, iva) {
+        if( config[0] ){
+            monto = parseFloat(monto) + (parseFloat(monto) * parseFloat(iva));
+        }
+        return monto;
+    }
   },
   computed: {
     compTotal: function() {

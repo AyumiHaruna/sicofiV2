@@ -69,12 +69,18 @@ export default {
     components: {  ProjectFilter, sfListProyect, Toast, LogTest   },
     data() {
         return {
+            savedProject: '',
             projectList: '',
             selectedProject: '',
             printForm: {
                 start: '',
                 end: ''
             }
+        }
+    },
+    created() {
+        if( this.$nuxt.$route.query.code ){
+        this.savedProject = this.$nuxt.$route.query.code;
         }
     },
     mounted() {
@@ -102,8 +108,8 @@ export default {
         
             window.open(`${this.getApiUrl}/print/income/${this.printForm.start}/${this.printForm.end}`, '_blank');
         },
-        async deleteRei( index ) {
-            const res = await fetch(`${process.env.apiUrl}/incomes/del_return`, {
+        async deleteRow( index ) {
+            const res = await fetch(`${process.env.apiUrl}/incomes/del_income`, {
                 method: 'POST',
                 headers: {
                     'Content-type' : 'application/json'

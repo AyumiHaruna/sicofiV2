@@ -161,7 +161,9 @@ export default {
             }
         },
         async changeGNC( id, e ){           
-            const res = await fetch(`${process.env.apiUrl}/outcomes/comp/gnc`, {
+            // console.log(id);
+            // console.log(e.target.checked);
+            const res = await fetch(`${process.env.apiUrl}/outcomes/switch_gnc`, {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json'
@@ -271,14 +273,18 @@ export default {
         isGnc: function() {
             let gnc = false;
 
-            // loop outcome.comps, looking for gnc
-            if( this.outcome != '') {
-                (this.outcome.comp).forEach(comp => {
-                    if( comp.gnc ){
-                        gnc = true;
-                    }
-                });
+            // check if outcome has viatics
+            if(this.outcome.viatics == 1) {
+                // loop outcome.comps, looking for gnc
+                if( this.outcome != '') {
+                    (this.outcome.comp).forEach(comp => {
+                        if( comp.gnc ){
+                            gnc = true;
+                        }
+                    });
+                }
             }
+            
 
             return gnc;
         },

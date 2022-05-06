@@ -70,6 +70,7 @@ export default {
     mixins: [ GlobalFunctions ],
     data() {
       return {
+        savedProject: '',
         projectList: {},
         selectedProject: '',
         printForm: {
@@ -78,11 +79,18 @@ export default {
         }
       }
     },
+    created() {
+      if( this.$nuxt.$route.query.code ){
+        this.savedProject = this.$nuxt.$route.query.code;
+      }
+    },
     mounted() {
       this.$refs.logTest.hasSesion();
       this.$refs.logTest.hasLevel( 2 );
 
       this.getProjectsOut();
+
+      
     },
     methods: {
       async getProjectsOut() {

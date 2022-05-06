@@ -1,5 +1,5 @@
 <template>
-    <form>
+    
         <div class="row smoke">
             <div class="col-8 offset-2">
                 <div class="row billForm">
@@ -28,7 +28,7 @@
                                             <i class="fas fa-times"></i>
                                             CANCELAR
                                         </button>
-                                        <button class="actionBtn infoBtn" @click.prevent="validateBill()"> 
+                                        <button class="actionBtn infoBtn" @click.prevent="validateBill($event)"> 
                                             <i class="fas fa-file-invoice-dollar"></i> AÑADIR FACTURA
                                         </button>
                                     </div>
@@ -39,7 +39,7 @@
                 </div>
             </div>
         </div>
-    </form>
+    
 </template>
 
 <script>
@@ -50,6 +50,9 @@ export default {
     mixins: [ GlobalFunctions ],
     methods: {
         async testFoil(e){
+            if( this.$parent.billData.foil <= 0) {
+                return;
+            }
             // if is posible - auto fill total 
             let vTotal = null;
             let subFoil = null;
@@ -87,15 +90,26 @@ export default {
                     subId: subId,
                     year: this.$parent.outcome.year
                 })
-            });
-
-            const resData = await res.json();                          
+            });                        
 
             if( res.status === 200 ){                
+                const resData = await res.json();  
                 if( resData.results != null){   // if exists 
-                    this.$parent.billData.repeated = true,
-                    this.$parent.billData.authorize = localStorage.getItem('id');
-                    this.$parent.duplicatedNumber = resData.results; 
+                    // ask if is OK
+                    this.$swal.fire({
+                        title: `Factura duplicada en el egreso ${resData.results}`,
+                        type: 'question',
+                        showConfirmButton: true,         
+                        confirmButtonText: 'OK',
+                        reverseButtons: true
+                    }).then((result) => {
+                        if (result.value) {
+                            this.$parent.billData.repeated = true,
+                            this.$parent.billData.authorize = localStorage.getItem('id');
+                            this.$parent.duplicatedNumber = resData.results; 
+                        }
+                    });
+            
                 } else {    // if not 
                     this.$parent.billData.repeated = false,
                     this.$parent.billData.authorize = '';
@@ -105,7 +119,9 @@ export default {
             }
         },
 
-        validateBill(){
+        validateBill(e){
+            // console.log(e);
+            // e.preventDefault();
             //test compDate 
             if( !this.$parent.billData['foil'] ){ this.$refs.bill_foil.focus(); this.$parent.$refs.toast.makeToast('warning', `Favor de capturar el "Folio"`); return  }
             //test total

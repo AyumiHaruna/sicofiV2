@@ -21,7 +21,7 @@
                         <div class="col-12 text-right">
                             <button class="actionBtn saveBtn" @click="$parent.validateForm()"> 
                                 <i class="far fa-save"></i>
-                                GUARDAR
+                                {{ ($parent.type == 'Alta') ? 'CREAR' : 'MODIFICAR' }} EGRESO
                             </button>
                         </div>
                     </div>

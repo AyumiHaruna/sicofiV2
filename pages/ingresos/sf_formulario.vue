@@ -73,6 +73,7 @@ export default {
                 type: 'ing',                
                 elabDate: '',
                 requested: 0,
+                requestedNet: 0,
                 obs: '',
                 year: '',
 
@@ -195,12 +196,9 @@ export default {
             //test substraction 
             if( this.substraction < 0 ){ this.$refs.toast.makeToast('warning', `Las partidas capturadas sobrepasan lo presupuestado en el mes`); return }
 
-            // if SF print type == services
-            if( this.incomeData.sfAddData.sfPrintType == 'ser' ){
-                //test sfTaxType 
-                if( !this.incomeData.sfAddData.sfTaxType ){ this.$refs.toast.makeToast('warning', `Favor de elegir el "tipo de servicio"`); return }
-            }
-            
+            //test sfTaxType 
+            if( !this.incomeData.sfAddData.sfTaxType ){ this.$refs.toast.makeToast('warning', `Favor de elegir el "tipo de servicio"`); return }
+
             this.saveSF();
         },
 
@@ -211,10 +209,10 @@ export default {
             } else if( this.formType == 'Edición'){
                 fetchUrl = `${process.env.apiUrl}/incomes/update`;
             }
-            // let redirectUrl = `${this.getApiUrl}/print/income/${this.incomeData.id}`;
-
+        
             const dataObject = this.incomeData;
             dataObject['partList'] = this.sfPartList;
+            dataObject['requestedNet'] = this.totalNeto;
 
             const res = await fetch( fetchUrl, {
                 method: 'POST',
@@ -230,11 +228,9 @@ export default {
 
             if( res.status === 200 ){                
                 this.$refs.toast.makeToast('success', `S.F guardada exitosamente`);
-                // setTimeout(function(){
-                //     window.open(redirectUrl, "_blank");
-                //     window.location.href = `ingresos`;                       
-                //     // this.$router.push(redirectUrl);
-                // }, 1000);
+                
+                this.$router.push(`/ingresos?code=${this.incomeData.projectNumber}`);
+                window.open(`${process.env.apiUrl}/print/income/${resData.results}`, '_blank');
                 
             } else {
                 this.$refs.toast.makeToast('error', `No se pudo guardar, intenta nuevamente`);
@@ -287,6 +283,15 @@ export default {
             })
             return total;
         },
+        totalNeto: function(){
+            let total = parseFloat(this.totalParts);
+            let ivaT = (this.incomeData.sfAddData.taxConfig[0] == true)? (total * this.incomeData.sfAddData.ivaT) : 0;
+            // let ivaR = (this.incomeData.sfAddData.taxConfig[1] == true)? (total * this.incomeData.sfAddData.ivaR) : 0;
+            // let isrR = (this.incomeData.sfAddData.taxConfig[2] == true)? (total * this.incomeData.sfAddData.isrR) : 0;
+
+            // return total + ivaT - ivaR - isrR;
+            return total + ivaT;
+        },
         prevTotal: function(){
             let sumTotal = 0
             this.prevSF.forEach(sf => {
@@ -304,7 +309,7 @@ export default {
             return total;
         },
         substraction: function(){
-            return (this.totalBudget -  this.prevTotal - this.totalParts);
+            return (this.totalBudget -  this.prevTotal - this.totalNeto);
             // return this.totalBudget - this.prevTotal
         },
 

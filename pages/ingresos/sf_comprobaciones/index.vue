@@ -112,6 +112,13 @@ export default {
                     this.deleteComp(id);
                 }
             });
+        },
+
+        taxAmount: function(monto, config, iva) {
+            if( config[0] ){
+                monto = parseFloat(monto) + (parseFloat(monto) * parseFloat(iva));
+            }
+            return monto;
         }
     },
     computed: {

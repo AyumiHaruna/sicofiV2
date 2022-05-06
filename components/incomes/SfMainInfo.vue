@@ -15,6 +15,7 @@
               <th>OPERACIÓN</th>
               <th>OP. TIPO</th>
               <th>FECHA ELAB.</th>
+              <th>TIPO DE FORMATO</th>
             </tr>
             
             <tr>
@@ -23,6 +24,7 @@
               <td>{{ (income.type == 'ing') ? 'Ingreso': 'Reintegro' }}</td>
               <td>{{opType}}</td>
               <td>{{income.elabDate}}</td>
+              <td class="yellow">{{ (income.sfData.sfPrintType == 'pro')? 'Proyecto' : 'Servicios' }}</td>
             </tr>
           </table>
 
@@ -34,7 +36,13 @@
             </tr>
             <tr>
                 <th>SOLICITADO</th>
-                <td v-for="num in 5" :key="num">${{moneyFormat(income.sfData[`cap${num}`])}}</td>
+                <td v-for="num in 5" :key="num">${{moneyFormat( 
+                  $parent.taxAmount(
+                    income.sfData[`cap${num}`],
+                    income.sfData['taxConfig'],
+                    income.sfData['ivaTC']
+                  ) )}}
+                </td>
             </tr>
             <tr>
               <th>VALIDADO</th>
@@ -42,11 +50,17 @@
             </tr>
             <tr>
                 <th>POR VALIDAR</th>
-                <td v-for="num in 5" :key="num">${{moneyFormat( income.sfData[`cap${num}`] - ministered[num-1] )}}</td>
+                <td v-for="num in 5" :key="num">${{moneyFormat( 
+                  $parent.taxAmount(
+                    income.sfData[`cap${num}`],
+                    income.sfData['taxConfig'],
+                    income.sfData['ivaTC']
+                  ) - ministered[num-1] )}}
+                </td>
             </tr>
             <tr>
-              <th></th>
-              <th>TOTAL SOLICITADO</th>
+              <th>SOLICITADO BRUTO</th>
+              <th>SOLICITADO NETO</th>
               <th>TOTAL VALIDADO</th>
               <th>TOTAL POR VALIDAR</th>
               <th>% VALIDACIÓN</th>
@@ -54,7 +68,7 @@
             </tr>
 
             <tr>
-              <th></th>
+              <td>${{moneyFormat(income.sfData.total)}}</td>
               <td>${{moneyFormat(income.requested)}}</td>
               <td>${{moneyFormat(income.ministered)}}</td>
               <td>${{ moneyFormat(income.requested - income.ministered) }}</td>
@@ -75,7 +89,14 @@
             </tr>
             <tr>
                 <th>SOLICITADO</th>
-                <td v-for="num in 5" :key="num">${{moneyFormat(income.sfData[`cap${num}`])}}</td>
+                <td v-for="num in 5" :key="num">${{moneyFormat(
+                    $parent.taxAmount(
+                      income.sfData[`cap${num}`],
+                      income.sfData['taxConfig'],
+                      income.sfData['ivaTC']
+                    )
+                  )}}
+                </td>
             </tr>
             <tr>
                 <th>VALIDADO</th>
@@ -91,7 +112,7 @@
             </tr>
             
             <tr>
-              <th></th>
+              <th>TOTAL SOLICITADO</th>
               <th>TOTAL VALIDADO</th>
               <th>TOTAL COMPROBADO</th>
               <th>TOTAL POR COMPROBAR</th>
@@ -100,7 +121,7 @@
             </tr>
 
             <tr>
-              <th></th>
+              <td>${{moneyFormat(income.requested)}}</td>
               <td>${{moneyFormat(income.ministered)}}</td>
               <td>${{moneyFormat(income.checked)}}</td>
               <td>${{ moneyFormat(income.ministered - income.checked) }}</td>
@@ -174,7 +195,7 @@ export default {
           }
         });
       return capsCheck;
-    }
+    },
   }
 }
 </script>

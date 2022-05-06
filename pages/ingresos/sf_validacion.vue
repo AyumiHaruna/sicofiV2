@@ -166,6 +166,13 @@ export default {
             if( this.formData['total'] <= 0 ){ this.$refs.toast.makeToast('warning', `Aun no capturas montos para algún caítulo`); return  }
             
             this.saveValidation();
+        },
+
+        taxAmount: function(monto, config, iva) {
+            if( config[0] ){
+                monto = parseFloat(monto) + (parseFloat(monto) * parseFloat(iva));
+            }
+            return monto;
         }
     },
     computed: {

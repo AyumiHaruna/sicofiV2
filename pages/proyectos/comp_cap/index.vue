@@ -1,13 +1,13 @@
 <template>
-    <div class="row compPart">
+    <div class="row compCaps">
         <div class="col-12">
             <div class="row">
                 <div class="col-6 pageTitle">
-                    Comparativo de Partidas
+                    Comparativo de Capítulos
                 </div>
 
                 <div class="col-4 offset-2">
-                    <ProjectFilter></ProjectFilter>
+                    <!-- <ProjectFilter></ProjectFilter> -->
                 </div>                
             </div>
 
@@ -46,6 +46,12 @@
                                     <label for="instituto">CUENTA DEL INSTITUTO</label>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12 text-center warning">
+                            Los reintegros al instituto son un recurso no disponible
                         </div>
                     </div>
 
@@ -99,7 +105,7 @@ import Toast from '@/components/general/Toast.vue';
 import GlobalFunctions from '@/mixins/GlobalFunctions';
 
 export default {
-    name: 'ComparativoPartidas',
+    name: 'ComparativoCapitulos',
     components: { VueGoodTable, ProjectFilter, Toast, LogTest   },
     mixins: [ GlobalFunctions ],
     data() {
@@ -129,7 +135,7 @@ export default {
                 { label:'MINISTRADO', field: this.minFn },
                 { label:'REINTEGROS', field: this.reiFn }, 
                 { label:'EJERCIDO', field: this.outFn }, 
-                { label:'DIFERENCIA', field: this.difFn }, 
+                { label:'RECURSO DISPONIBLE', field: this.difFn }, 
             ]
         }
     },
@@ -151,7 +157,7 @@ export default {
     },
     methods: {
         async getAllProjects() {            
-            const res = await fetch(`${process.env.apiUrl}/projects/comp_parts`, {
+            const res = await fetch(`${process.env.apiUrl}/projects/comp_caps`, {
                 method: 'post',
                 headers: {
                     'content-type': 'application/json'
@@ -222,7 +228,7 @@ export default {
             let newArray = [];
 
             this.projectData.forEach(elm => {
-                console.log(elm);    
+                // console.log(elm);    
                 if( this.controlAcc[0] && elm.accountType == 1 ){
                     newArray.push(elm);
                 }
@@ -238,13 +244,21 @@ export default {
 </script>
 
 <style>
-    .compPart .bordered{
+    .compCaps .bordered{
         margin-bottom: 1em;
     }
-    .compPart .vgt-table th:nth-child(1){
+    .compCaps .warning{
+        border: solid 1px orange;
+        border-radius: 5px;
+        color: orange;
+        font-size: 1.5em;
+        padding: 0.5em;
+        margin-bottom: 1em;
+    }
+    .compCaps .vgt-table th:nth-child(1){
        width: 8% !important;
     }
-    .compPart .vgt-table th:nth-child(2){
+    .compCaps .vgt-table th:nth-child(2){
        width: 25% !important;
     }
 </style>

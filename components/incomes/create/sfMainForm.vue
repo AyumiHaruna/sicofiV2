@@ -105,7 +105,7 @@
                                                 <select v-model="$parent.incomeData.sfAddData['sfTaxType']" @change="setTax()">
                                                     <option value="pro">Profesionales</option>
                                                     <option value="tec">Técnicos</option>
-                                                    <option value="lra">Lista de raya</option>
+                                                    <option value="lra">Otros servicios</option>
                                                 </select>
                                                 <label for="">TIPO DE SERVICIOS</label>
                                             </div>

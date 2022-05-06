@@ -129,37 +129,51 @@ export default {
         
         //test ammounts
         if( this.outcome['total'] == 0 ){ this.$refs.toast.makeToast('warning', `Favor de capturar algún "Monto"`); return  }
-        //test ammount < ministered
-        if( this.outcome['total'] > this.avalibleAmounts.total ){ this.$refs.toast.makeToast('warning', `El monto capturado sobrepasa el disponible`); return  }
 
         if( this.type == 'Alta'){
-            //test if checkNumber already exists 
-            const res = await fetch(`${process.env.apiUrl}/outcomes/testCheckNumber`, {
-              method: 'POST',
-              header: {
-                'Content-type': 'application/json'
-              },
-              body: JSON.stringify({
-                checkNumber: this.outcome.checkNumber,
-                year: this.outcome.year
-              })
-            });
+          //  test if checkNumber already exists 
+          const res = await fetch(`${process.env.apiUrl}/outcomes/testCheckNumber`, {
+            method: 'POST',
+            header: {
+              'Content-type': 'application/json'
+            },
+            body: JSON.stringify({
+              checkNumber: this.outcome.checkNumber,
+              year: this.outcome.year
+            })
+          });
 
-            if( await res.status === 200 ){
-                const resData = await res.json();
-                if( resData.results ) { // already exists, stop
-                  this.$refs.toast.makeToast('error', `El número de cheque capturado ya existe, favor de cambiarlo`);
-                  return
-                } else { // not exists, save
-                  this.saveOutcome();
-                }
-            } else {
-                this.$refs.toast.makeToast('error', `Ocurrió un problema al revisar disponibilidad del numero de cheque, intente nuevamente`);
+          if( await res.status === 200 ){
+              const resData = await res.json();
+              if( resData.results ) { // already exists, stop
+                this.$refs.toast.makeToast('error', `El número de cheque capturado ya existe, favor de cambiarlo`);
                 return
+              }
+          } else {
+              this.$refs.toast.makeToast('error', `Ocurrió un problema al revisar disponibilidad del numero de cheque, intente nuevamente`);
+              return
+          }
+        }
+
+
+        //test ammount < ministered
+        if( this.outcome['total'] > this.avalibleAmounts.total ){ 
+          this.$swal.fire({
+              title: 'El monto capturado sobrepasa el disponible, capturar de todos modos!?',
+              type: 'question',
+              showCancelButton: true,
+              showConfirmButton: true,                
+              cancelButtonText: 'Cancelar',
+              confirmButtonText: 'Aceptar',
+              reverseButtons: true
+          }).then((result) => {
+            if (result.value) {
+              this.saveOutcome();
             }
-        } else {  // is type is 'Edición
+          });
+        } else {
           this.saveOutcome();
-        }        
+        }   
       },
 
       async saveOutcome() {
@@ -191,6 +205,12 @@ export default {
           this.type = 'Editar';
           this.outcomeId = resData.results;
           this.$refs.toast.makeToast('success', `Egreso guardada exitosamente`);
+
+          this.$router.push(`/egresos?code=${this.outcome.projectNumber}`);
+          // window.open(`/egresos?code=${this.outcome.projectNumber}`, '_blank');
+          window.open(`${process.env.apiUrl}/print/poliza/${this.outcomeId}`, '_blank');
+          window.open(`${process.env.apiUrl}/print/cheque/${this.outcomeId}`, '_blank');
+          
         } else {
           this.$refs.toast.makeToast('error', `Error al guardar el egreso, intenta nuevamente`);
         }
